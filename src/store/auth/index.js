@@ -1,3 +1,8 @@
+import { login, storeAuthResponse } from "@/services/authService";
+import router from "@/router";
+import { notifyError } from "@/services/notificationService";
+
+
 export default {
 	state: {
 		registration: {
@@ -49,12 +54,16 @@ export default {
 		// 	if (response.statusCode) notifyError(response.message);
 		// 	else router.push('/home');
 		// },
-		// login: async (context) => {
-		// 	var response = await login(context.getters.loginData);
-		// 	storeAuthResponse(response);
-		// 	if (response.statusCode) notifyError(response.message);
-		// 	else router.push('/home');
-		// },
+		login: async (context) => {
+			const response = await login(context.getters.loginData);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			}
+			else {
+				storeAuthResponse(response);
+				await router.push('/home');
+			}
+		},
 	},
 	getters: {
 		registrationUsername: (state) => {

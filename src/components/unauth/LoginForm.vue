@@ -71,7 +71,7 @@ export default {
 	},
 	methods: {
 		login: async function () {
-			//await this.$store.dispatch('login');
+			await this.$store.dispatch('login');
 		},
 	},
 };

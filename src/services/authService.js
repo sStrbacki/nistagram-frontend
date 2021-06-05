@@ -1,12 +1,11 @@
 import axios from 'axios';
-import api from '../api/index';
+import { api } from '../api/index';
 
 async function login(loginRequest) {
 	try {
-		let res = await axios.post(api.auth.login, loginRequest);
-		return res.data;
+		return  await axios.post(api.auth.login, loginRequest, {responseType: "text"});
 	} catch (err) {
-		return err.response.data;
+		return err.response;
 	}
 }
 async function register(registrationRequest) {
@@ -14,7 +13,7 @@ async function register(registrationRequest) {
 		let res = await axios.post(api.auth.register, registrationRequest);
 		return res.data;
 	} catch (err) {
-		return err.response.data;
+		return err.response;
 	}
 }
 async function getMyProfile() {
@@ -22,7 +21,7 @@ async function getMyProfile() {
 		let res = await axios.get(api.auth.base);
 		return res.data;
 	} catch (err) {
-		return err.response.data;
+		return err.response;
 	}
 }
 function logout() {
@@ -31,8 +30,7 @@ function logout() {
 }
 
 function storeAuthResponse(authResponse) {
-	localStorage.setItem('username', authResponse.username);
-	localStorage.setItem('jwtToken', authResponse.token);
+	localStorage.setItem('jwtToken', authResponse.headers.authorization);
 }
 
 function getUsername() {
