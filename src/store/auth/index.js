@@ -1,4 +1,4 @@
-import { login, storeAuthResponse } from "@/services/authService";
+import { login, register, storeAuthResponse } from "@/services/authService";
 import router from "@/router";
 import { notifyError } from "@/services/notificationService";
 
@@ -6,6 +6,10 @@ import { notifyError } from "@/services/notificationService";
 export default {
 	state: {
 		registration: {
+			fullName: '',
+			dateOfBirth: '',
+			gender: '',
+			phoneNumber: '',
 			username: '',
 			email: '',
 			password: '',
@@ -16,6 +20,18 @@ export default {
 		},
 	},
 	mutations: {
+		setRegistrationFullName: (state, fullName) => {
+			state.registration.fullName = fullName
+		},
+		setRegistrationDateOfBirth: (state, dateOfBirth) => {
+			state.registration.dateOfBirth = dateOfBirth;
+		},
+		setRegistrationGender: (state, gender) => {
+			state.registration.gender = gender;
+		},
+		setRegistrationPhoneNumber: (state, phoneNumber) => {
+			state.registration.phoneNumber = phoneNumber;
+		},
 		setRegistrationUsername: (state, username) => {
 			state.registration.username = username;
 		},
@@ -33,6 +49,18 @@ export default {
 		},
 	},
 	actions: {
+		setRegistrationFullName: ({ commit }, fullName) => {
+			commit('setRegistrationFullName', fullName);
+		},
+		setRegistrationDateOfBirth: ({ commit }, dateOfBirth) => {
+			commit('setRegistrationDateOfBirth', dateOfBirth);
+		},
+		setRegistrationGender: ({ commit }, gender) => {
+			commit('setRegistrationGender', gender);
+		},
+		setRegistrationPhoneNumber: ({ commit }, phoneNumber) => {
+			commit('setRegistrationPhoneNumber', phoneNumber);
+		},
 		setRegistrationUsername: ({ commit }, username) => {
 			commit('setRegistrationUsername', username);
 		},
@@ -48,24 +76,39 @@ export default {
 		setLoginPassword: ({ commit }, password) => {
 			commit('setLoginPassword', password);
 		},
-		// register: async (context) => {
-		// 	var response = await register(context.getters.registrationData);
-		// 	storeAuthResponse(response);
-		// 	if (response.statusCode) notifyError(response.message);
-		// 	else router.push('/home');
-		// },
+		register: async (context) => {
+			const response = await register(context.getters.registrationData);
+			storeAuthResponse(response);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				storeAuthResponse(response);
+				await router.push('/home');
+			}
+		},
 		login: async (context) => {
 			const response = await login(context.getters.loginData);
 			if (response.status >= 400) {
 				notifyError(response.data);
-			}
-			else {
+			} else {
 				storeAuthResponse(response);
 				await router.push('/home');
 			}
 		},
 	},
 	getters: {
+		registrationFullName: (state) => {
+			return state.registration.fullName;
+		},
+		registrationDateOfBirth: (state) => {
+			return state.registration.dateOfBirth;
+		},
+		registrationGender: (state) => {
+			return state.registration.gender;
+		},
+		setRegistrationPhoneNumber: (state) => {
+			return state.registration.phoneNumber;
+		},
 		registrationUsername: (state) => {
 			return state.registration.username;
 		},

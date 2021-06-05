@@ -3,15 +3,14 @@ import { api } from '../api/index';
 
 async function login(loginRequest) {
 	try {
-		return  await axios.post(api.auth.login, loginRequest, {responseType: "text"});
+		return await axios.post(api.auth.login, loginRequest, {responseType: 'text'});
 	} catch (err) {
 		return err.response;
 	}
 }
 async function register(registrationRequest) {
 	try {
-		let res = await axios.post(api.auth.register, registrationRequest);
-		return res.data;
+		return await axios.post(api.user.register, registrationRequest, {responseType: 'text'});
 	} catch (err) {
 		return err.response;
 	}

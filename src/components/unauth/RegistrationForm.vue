@@ -2,6 +2,66 @@
 	<v-form ref="form" v-model="valid" lazy-validation>
 		<v-row align="center" justify="center">
 			<v-col cols="6">
+        <v-row>
+          <v-col>
+            <v-text-field
+                v-model="fullName"
+                label="Full name"
+                :rules="fullNameRules"
+                required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="4">
+            <v-menu
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="dateOfBirth"
+                  label="Date of birth"
+                  prepend-icon="mdi-calendar"
+                  v-on="on"
+                  v-bind="attrs"
+                  readonly
+                  :rules="dateOfBirthRules"
+                  required
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="dateOfBirth"
+                :active-picker.sync="activePicker"
+                :max="new Date().toISOString().substr(0, 10)"
+                min="1950-01-01"
+            ></v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col cols="4">
+            <v-select
+                v-model="gender"
+                :rules="genderRules"
+                required
+                :items="[
+                    {id: 0, gender: 'Male'},
+                    {id: 1, gender: 'Female'},
+                    {id: 2, gender: 'Other'}
+                ]"
+                item-text="gender"
+                item-value="id"
+                label="Select gender"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-text-field
+            v-model="phoneNumber"
+            label="Phone number"
+            :rules="phoneNumberRules"
+            required
+        ></v-text-field>
 				<v-text-field
 					v-model="username"
 					label="Username"
@@ -55,10 +115,24 @@ export default {
 	data: function () {
 		return {
 			valid: true,
+      menu: false,
+      activePicker: null,
 			emailRules: [
 				(v) => !!v || 'Email is required',
 				(v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
 			],
+      fullNameRules: [
+        (v) => !!v || 'Full name is required'
+      ],
+      dateOfBirthRules: [
+        (v) => !!v || 'Date of birth is required'
+      ],
+      phoneNumberRules: [
+        (v) => !!v || 'Phone number is required'
+      ],
+      genderRules: [
+        (v) => ([0, 1, 2].includes(v)) || 'Gender is required'
+      ],
 			usernameRules: [
 				(v) => !!v || 'Username is required',
 				(v) =>
@@ -98,6 +172,38 @@ export default {
 				this.email !== ''
 			);
 		},
+    fullName: {
+      get() {
+        return this.$store.getters.registrationFullName;
+      },
+      set(value) {
+        this.$store.commit('setRegistrationFullName', value);
+      }
+    },
+    dateOfBirth: {
+      get() {
+        return this.$store.getters.registrationDateOfBirth;
+      },
+      set(value) {
+        this.$store.commit('setRegistrationDateOfBirth', value);
+      }
+    },
+    phoneNumber: {
+      get() {
+        return this.$store.getters.registrationPhoneNumber;
+      },
+      set(value) {
+        this.$store.commit('setRegistrationPhoneNumber', value);
+      }
+    },
+    gender: {
+      get() {
+        return this.$store.getters.registrationGender;
+      },
+      set(value) {
+        this.$store.commit('setRegistrationGender', value);
+      }
+    },
 		username: {
 			get() {
 				return this.$store.getters.registrationUsername;
@@ -123,6 +229,11 @@ export default {
 			},
 		},
 	},
+  watch: {
+    menu (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'));
+    }
+  },
 	methods: {
 		register: async function () {
 			await this.$store.dispatch('register');
