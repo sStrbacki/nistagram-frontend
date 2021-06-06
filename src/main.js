@@ -4,9 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import Notifications from "vue-notification/src";
+import interceptorsSetup from "@/axios/interceptors";
 
 Vue.config.productionTip = false
 Vue.use(Notifications);
+interceptorsSetup();
 
 new Vue({
   router,
