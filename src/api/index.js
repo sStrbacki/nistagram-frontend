@@ -5,6 +5,9 @@ export const api = {
         login: apiHost + '/api/auth',
     },
     user: {
-        register: apiHost + '/api/users/register'
+        register: apiHost + '/api/users/register',
+        profile: apiHost + '/api/users/profile',
+        preferences: apiHost + '/api/users/profile/preferences',
+        privacyData: apiHost + '/api/users/profile/privacy'
     }
 }
