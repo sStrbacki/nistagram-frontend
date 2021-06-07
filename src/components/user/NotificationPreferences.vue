@@ -8,6 +8,7 @@
         item-text="text"
         item-value="value"
         label="Get notifications when you get comments from:"
+        @change="update()"
     ></v-select>
     <v-select
         v-model="likes"
@@ -17,6 +18,7 @@
         item-text="text"
         item-value="value"
         label="Get notifications when you get likes from:"
+        @change="update()"
     ></v-select>
     <v-select
         v-model="photosOfMe"
@@ -26,26 +28,32 @@
         item-text="text"
         item-value="value"
         label="Get notifications when someone posts a photo of you from:"
+        @change="update()"
     ></v-select>
     <v-switch
         v-model="followerRequestNotificationEnabled"
         label="Get follower request notifications."
+        @change="update()"
     ></v-switch>
     <v-switch
         v-model="followRequestAcceptedNotificationEnabled"
         label="Get notifications when your follow request is accepted."
+        @change="update()"
     ></v-switch>
     <v-switch
         v-model="newFollowerNotificationEnabled"
         label="Get notifications when someone starts following you."
+        @change="update()"
     ></v-switch>
     <v-switch
         v-model="messageRequestNotificationEnabled"
         label="Get notifications on message requests."
+        @change="update()"
     ></v-switch>
     <v-switch
         v-model="messageNotificationEnabled"
         label="Get notifications on new messages."
+        @change="update()"
     ></v-switch>
   </div>
 </template>
@@ -138,6 +146,11 @@
         set(value) {
           return this.$store.commit('setMessageNotificationEnabled', value);
         }
+      }
+    },
+    methods: {
+      update() {
+        this.$store.dispatch('updateNotificationPreferences');
       }
     }
   }

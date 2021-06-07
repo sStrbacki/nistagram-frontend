@@ -25,8 +25,17 @@ async function getNotificationPreferences() {
     }
 }
 
+async function updateNotificationPreferences(notificationPreferences) {
+    try {
+        return await axios.put(api.user.preferences, notificationPreferences);
+    } catch (err) {
+        return err.response;
+    }
+}
+
 export {
     getProfile,
     updateProfile,
-    getNotificationPreferences
+    getNotificationPreferences,
+    updateNotificationPreferences
 }

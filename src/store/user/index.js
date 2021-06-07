@@ -1,4 +1,9 @@
-import {getNotificationPreferences, getProfile, updateProfile} from "@/services/userService";
+import {
+    getNotificationPreferences,
+    getProfile,
+    updateNotificationPreferences,
+    updateProfile
+} from "@/services/userService";
 import { notifyError } from "@/services/notificationService";
 
 export default {
@@ -104,6 +109,14 @@ export default {
                 notifyError(response.data);
             } else {
                 commit('setNotificationPreferences', response.data);
+            }
+        },
+        updateNotificationPreferences: async (context) => {
+            const response = await updateNotificationPreferences(context.state.notificationPreferences);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setNotificationPreferences', response.data);
             }
         }
     },
