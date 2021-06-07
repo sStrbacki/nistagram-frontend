@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-5">
     <v-select
         v-model="comment"
         :rules="commentRules"

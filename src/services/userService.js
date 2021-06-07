@@ -33,9 +33,27 @@ async function updateNotificationPreferences(notificationPreferences) {
     }
 }
 
+async function getPrivacyData() {
+    try {
+        return await axios.get(api.user.privacyData);
+    } catch (err) {
+        return err.response;
+    }
+}
+
+async function updatePrivacyData(privacyData) {
+    try {
+        return await axios.put(api.user.privacyData, privacyData);
+    } catch (err) {
+        return err.response;
+    }
+}
+
 export {
     getProfile,
     updateProfile,
     getNotificationPreferences,
-    updateNotificationPreferences
+    updateNotificationPreferences,
+    getPrivacyData,
+    updatePrivacyData
 }

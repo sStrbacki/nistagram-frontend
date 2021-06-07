@@ -1,7 +1,7 @@
 import {
-    getNotificationPreferences,
+    getNotificationPreferences, getPrivacyData,
     getProfile,
-    updateNotificationPreferences,
+    updateNotificationPreferences, updatePrivacyData,
     updateProfile
 } from "@/services/userService";
 import { notifyError } from "@/services/notificationService";
@@ -19,8 +19,9 @@ export default {
             bio: ''
         },
         privacyData: {
-            username: '',
-            password: '',
+            profilePrivate: '',
+            messagesFromNonFollowersAllowed: '',
+            taggable: ''
         },
         notificationPreferences: {
             comment: '',
@@ -84,6 +85,18 @@ export default {
         },
         setNotificationPreferences: (state, notificationPreferences) => {
             state.notificationPreferences = notificationPreferences;
+        },
+        setProfilePrivate: (state, profilePrivate) => {
+            state.privacyData.profilePrivate = profilePrivate;
+        },
+        setMessagesFromNonFollowersAllowed: (state, messagesFromNonFollowersAllowed) => {
+            state.privacyData.messagesFromNonFollowersAllowed = messagesFromNonFollowersAllowed;
+        },
+        setTaggable: (state, taggable) => {
+            state.privacyData.taggable = taggable;
+        },
+        setPrivacyData: (state, privacyData) => {
+            state.privacyData = privacyData;
         }
     },
     actions: {
@@ -118,7 +131,23 @@ export default {
             } else {
                 context.commit('setNotificationPreferences', response.data);
             }
-        }
+        },
+        getPrivacyData: async ({ commit }) => {
+            const response = await getPrivacyData();
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                commit('setPrivacyData', response.data);
+            }
+        },
+        updatePrivacyData: async (context) => {
+            const response = await updatePrivacyData(context.state.privacyData);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setPrivacyData', response.data);
+            }
+        },
     },
     getters: {
         username: (state) => {
@@ -169,6 +198,15 @@ export default {
         messageNotificationEnabled: (state) => {
             return state.notificationPreferences.messageNotificationEnabled;
         },
+        profilePrivate: (state) => {
+            return state.privacyData.profilePrivate;
+        },
+        messagesFromNonFollowersAllowed: (state) => {
+            return state.privacyData.messagesFromNonFollowersAllowed;
+        },
+        taggable: (state) => {
+            return state.privacyData.taggable;
+        }
 
     }
 }
