@@ -16,7 +16,6 @@ const routes = [
   },
   {
     path: '/profile',
-    name: 'Profile',
     component: () => import('../views/user/UserProfile'),
     children: [
       {
@@ -35,6 +34,11 @@ const routes = [
         component: () => import('../components/user/NotificationPreferences')
       }
     ]
+  },
+  {
+    path: '/:username',
+    name: 'ProfileView',
+    component: () => import ('../views/user/ProfileView')
   }
 ];
 
