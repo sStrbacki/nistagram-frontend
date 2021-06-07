@@ -37,8 +37,18 @@ const routes = [
   },
   {
     path: '/:username',
-    name: 'ProfileView',
-    component: () => import ('../views/user/ProfileView')
+    component: () => import ('../views/user/ProfileView'),
+    children: [
+      {
+        path: '',
+        name: 'ProfilePostsView',
+        component: () => import('../components/user/ProfilePostsView')
+      },
+      {
+        path: 'tagged',
+        name: 'ProfileTaggedPosts'
+      }
+    ]
   }
 ];
 

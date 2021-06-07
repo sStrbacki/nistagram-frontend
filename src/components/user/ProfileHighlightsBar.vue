@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-space-between my-5">
+  <div class="d-flex justify-space-around my-5">
     <div v-bind:key="item" v-for="item in [0, 1, 2, 3, 4]">
       <v-avatar :size="avatarHeight">
         <v-img src="https://www.hellomagazin.rs/data/images/2021-01-23/44486_ana-nikolic-printscreen-yputube_f.jpg"></v-img>
