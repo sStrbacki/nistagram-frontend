@@ -46,7 +46,8 @@ const routes = [
       },
       {
         path: 'tagged',
-        name: 'ProfileTaggedPosts'
+        name: 'ProfileTaggedPosts',
+        component: () => import('../components/user/ProfilePostsView')
       }
     ]
   }

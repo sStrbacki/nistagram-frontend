@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: 'ProfilePostsView.vue'
+    name: 'ProfilePostsView.vue',
   }
 </script>
 
