@@ -1,6 +1,6 @@
 import {
     getNotificationPreferences, getPrivacyData,
-    getProfile,
+    getProfile, getPublicData,
     updateNotificationPreferences, updatePrivacyData,
     updateProfile
 } from "@/services/userService";
@@ -32,6 +32,12 @@ export default {
             newFollowerNotificationEnabled: '',
             messageRequestNotificationEnabled: '',
             messageNotificationEnabled: ''
+        },
+        viewingProfile: {
+            username: '',
+            fullName: '',
+            bio: '',
+            website: ''
         }
     },
     mutations: {
@@ -97,6 +103,27 @@ export default {
         },
         setPrivacyData: (state, privacyData) => {
             state.privacyData = privacyData;
+        },
+        setViewingProfileUsername: (state, username) => {
+            state.viewingProfile.username = username;
+        },
+        setViewingProfileFullName: (state, fullName) => {
+            state.viewingProfile.fullName = fullName;
+        },
+        setViewingProfileBio: (state, bio) => {
+            state.viewingProfile.bio = bio;
+        },
+        setViewingProfileWebsite: (state, website) => {
+            state.viewingProfile.website = website;
+        },
+        setViewingProfile: (state, publicData) => {
+            state.viewingProfile = {
+                username: '',
+                fullName: '',
+                bio: '',
+                website: ''
+            }
+            state.viewingProfile = publicData;
         }
     },
     actions: {
@@ -148,6 +175,14 @@ export default {
                 context.commit('setPrivacyData', response.data);
             }
         },
+        getViewingProfile: async (context, username) => {
+            const response = await getPublicData(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setViewingProfile', response.data);
+            }
+        }
     },
     getters: {
         username: (state) => {
@@ -206,6 +241,18 @@ export default {
         },
         taggable: (state) => {
             return state.privacyData.taggable;
+        },
+        viewingProfileUsername: (state) => {
+            return state.viewingProfile.username;
+        },
+        viewingProfileFullName: (state) => {
+            return state.viewingProfile.fullName;
+        },
+        viewingProfileBio: (state) => {
+            return state.viewingProfile.bio;
+        },
+        viewingProfileWebsite: (state) => {
+            return state.viewingProfile.website;
         }
 
     }

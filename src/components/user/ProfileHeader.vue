@@ -7,7 +7,7 @@
     </v-col>
     <div class="d-flex flex-column">
       <v-col id="profile-username-div" class="d-flex flex-wrap justify-space-between">
-        <h2 class="d-inline mr-10 align-center">ananikolicofficial</h2>
+        <h2 class="d-inline mr-10 align-center">{{ username }}</h2>
         <v-btn rounded color="blue accent-1">Follow</v-btn>
       </v-col>
       <v-col class="d-none d-sm-flex justify-space-between" id="profile-stats-div">
@@ -16,9 +16,9 @@
         <span class="mx-1">1326 following</span>
       </v-col>
       <v-col id="personal-info-div">
-        <h4>Ana Nikolic</h4>
-        <div>#KLINKA</div>
-        <a class="text-truncate" href="www.youtube.com/playlist?list=PLwNFpCl5wj92yUGRMNf">www.youtube.com/playlist?list=PLwNFpCl5wj92yUGRMNf</a>
+        <h4>{{ fullName }}</h4>
+        <div>{{ bio }}</div>
+        <a class="text-truncate" v-bind:href="website">{{ website }}</a>
       </v-col>
     </div>
   </div>
@@ -26,7 +26,37 @@
 
 <script>
   export default {
-    name: "ProfileHeader.vue"
+    name: "ProfileHeader.vue",
+    mounted() {
+      this.$store.dispatch('getViewingProfile', this.username);
+    },
+    watch: {
+      $route () {
+        this.$store.dispatch('getViewingProfile', this.username);
+      }
+    },
+    computed: {
+      username: {
+        get() {
+          return this.$route.params.username
+        }
+      },
+      fullName: {
+        get() {
+          return this.$store.getters.viewingProfileFullName;
+        }
+      },
+      bio: {
+        get() {
+          return this.$store.getters.viewingProfileBio;
+        }
+      },
+      website: {
+        get() {
+          return this.$store.getters.viewingProfileWebsite;
+        }
+      }
+    }
   }
 </script>
 

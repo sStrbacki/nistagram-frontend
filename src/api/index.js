@@ -8,6 +8,7 @@ export const api = {
         register: apiHost + '/api/users/register',
         profile: apiHost + '/api/users/profile',
         preferences: apiHost + '/api/users/profile/preferences',
-        privacyData: apiHost + '/api/users/profile/privacy'
+        privacyData: apiHost + '/api/users/profile/privacy',
+        publicData: apiHost + '/api/users/public'
     }
 }
