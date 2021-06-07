@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-wrap justify-center">
-    <v-col id="profile-picture">
+    <v-col class="mr-8" id="profile-picture">
       <v-avatar size="160">
         <v-img src="https://www.hellomagazin.rs/data/images/2021-01-23/44486_ana-nikolic-printscreen-yputube_f.jpg"></v-img>
       </v-avatar>
