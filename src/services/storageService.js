@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 
+// TODO Env
 const firebaseConfig = {
     apiKey: "AIzaSyDWXIozK88JHLMTdDFI3bJ2GlJmxLkMPnk",
     authDomain: "xws-nistagram.firebaseapp.com",
@@ -19,6 +20,23 @@ const videoRef = firebase.storage().ref().child('videos');
 export {
     upload, getUploadUrls
 }
+
+// How to use?
+// document.getElementById('input-multiple-files-id').onchange =
+//             function (e) {
+//                 getUploadUrls(upload(e.target.files))
+//                     .then(urlPromises => {
+//                         urlPromises.forEach(urlPromise => {
+//                             urlPromise.then(url => console.log(url));
+//                         })
+//                     })
+//
+//             }
+//
+// 'upload' will return a list of Snapshot Promises. We can use those promises to wait for snapshots from the Storage.
+// Once we get the snapshot promises as an array, we should wrap them up in 'getUploadUrls' which takes as parameter
+// the output of the 'upload' function.
+// This will then return a Promise containing a list of promises, each one holding a single media URL.
 
 /**
  *  Uploads the given FileList to the Cloud Storage.
