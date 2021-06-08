@@ -15,6 +15,11 @@ const routes = [
     component: () => import('../components/unauth/RegistrationForm')
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../views/Test')
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/user/UserProfile'),
