@@ -49,11 +49,20 @@ async function updatePrivacyData(privacyData) {
     }
 }
 
+async function getPublicData(username) {
+    try {
+        return await axios.get(api.user.publicData + '/' + username);
+    } catch (err) {
+        return err.response;
+    }
+}
+
 export {
     getProfile,
     updateProfile,
     getNotificationPreferences,
     updateNotificationPreferences,
     getPrivacyData,
-    updatePrivacyData
+    updatePrivacyData,
+    getPublicData
 }
