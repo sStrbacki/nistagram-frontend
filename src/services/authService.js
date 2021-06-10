@@ -3,14 +3,18 @@ import { api } from '../api/index';
 
 async function login(loginRequest) {
 	try {
-		return await axios.post(api.auth.login, loginRequest, {responseType: 'text'});
+		return await axios.post(api.auth.login, loginRequest, {
+			responseType: 'text'
+		});
 	} catch (err) {
 		return err.response;
 	}
 }
 async function register(registrationRequest) {
 	try {
-		return await axios.post(api.user.register, registrationRequest, {responseType: 'text'});
+		return await axios.post(api.user.register, registrationRequest, {
+			responseType: 'text'
+		});
 	} catch (err) {
 		return err.response;
 	}
@@ -24,16 +28,11 @@ async function getMyProfile() {
 	}
 }
 function logout() {
-	localStorage.removeItem('username');
 	localStorage.removeItem('jwtToken');
 }
 
 function storeAuthResponse(authResponse) {
 	localStorage.setItem('jwtToken', authResponse.headers.authorization);
-}
-
-function getUsername() {
-	return localStorage.getItem('username');
 }
 
 function getJwtToken() {
@@ -48,8 +47,7 @@ export {
 	register,
 	logout,
 	storeAuthResponse,
-	getUsername,
 	getJwtToken,
 	isLogged,
-	getMyProfile,
+	getMyProfile
 };
