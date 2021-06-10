@@ -15,6 +15,8 @@ export const api = {
 	},
 	content: {
 		base: apiHost + '/api/content',
-		postBase: apiHost + '/api/content/post'
+		postBase: apiHost + '/api/content/post',
+		storyBase: apiHost + '/api/content/story',
+		mediaStory: apiHost + '/api/content/story/media'
 	}
 };

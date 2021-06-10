@@ -9,7 +9,7 @@
 import UserAppBar from '../../components/user/bars/UserAppBar.vue';
 
 export default {
-	name: 'UnauthHome',
+	name: 'UserHome',
 	components: { UserAppBar }
 };
 </script>

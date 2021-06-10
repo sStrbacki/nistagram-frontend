@@ -60,7 +60,7 @@
 import { logout } from '../../../services/authService';
 
 export default {
-	name: 'UnauthAppBar',
+	name: 'UserAppBar',
 	data() {
 		return {
 			drawer: false

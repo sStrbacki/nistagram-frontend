@@ -10,5 +10,13 @@ async function createPost(post) {
 		return err.response;
 	}
 }
+async function createStory(story) {
+	try {
+		let res = await axios.post(api.content.mediaStory, story);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
 
-export { createPost };
+export { createPost, createStory };

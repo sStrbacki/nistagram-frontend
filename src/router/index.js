@@ -79,7 +79,6 @@ const routes = [
 			},
 			{
 				path: 'settings',
-				name: 'UserProfile',
 				component: () => import('../views/user/profile/UserProfile'),
 				children: [
 					{

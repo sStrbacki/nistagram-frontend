@@ -22,12 +22,12 @@ const videoRef = firebase
 	.ref()
 	.child('videos');
 
-export { upload, getUploadUrls };
+export { uploadFiles, getUploadUrls, uploadFile, getUploadUrl };
 
 // How to use?
 // document.getElementById('input-multiple-files-id').onchange =
 //             function (e) {
-//                 getUploadUrls(upload(e.target.files))
+//                 getUploadUrls(uploadFiles(e.target.files))
 //                     .then(urlPromises => {
 //                         urlPromises.forEach(urlPromise => {
 //                             urlPromise.then(url => console.log(url));
@@ -46,11 +46,10 @@ export { upload, getUploadUrls };
  *  @see FileList Only supported argument is FileList.
  *  @return A list of promises which can be used to fetch snapshots of uploaded data.
  */
-function upload(files) {
+function uploadFiles(files) {
 	const snapshotPromises = [];
 
 	files.forEach(file => {
-		console.log('Uploading: [' + file.name + ']');
 		const ext = getExtension(file);
 
 		if (isImage(ext)) {
@@ -61,6 +60,18 @@ function upload(files) {
 	});
 
 	return snapshotPromises;
+}
+function uploadFile(file) {
+	let snapshotPromise = null;
+	const ext = getExtension(file);
+
+	if (isImage(ext)) {
+		snapshotPromise = uploadImage(file, ext);
+	} else if (isVideo(ext)) {
+		snapshotPromise = uploadVideo(file, ext);
+	} else console.error('Unrecognized file type: [' + file.name + ']');
+
+	return snapshotPromise;
 }
 
 /** Returns a promise for a list of promises, each child promise awaiting a String response */
@@ -73,6 +84,11 @@ async function getUploadUrls(snapshotPromises) {
 	}
 
 	return promises;
+}
+
+async function getUploadUrl(snapshotPromise) {
+	const snapshot = await snapshotPromise;
+	return snapshot.ref.getDownloadURL();
 }
 
 /** Uploads an image to the Cloud Storage. Returns a snapshot promise. */

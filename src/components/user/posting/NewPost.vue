@@ -36,9 +36,10 @@
 						v-model="files"
 						color="deep-purple accent-4"
 						counter
-						label="Photo(s)/Video(s)"
 						multiple
-						placeholder="Select your photos"
+						label="Photo(s)/Video(s)"
+						accept="image/*,video/*"
+						placeholder="Select your photo(s)/video(s)"
 						prepend-icon="mdi-paperclip"
 						:show-size="1000"
 					>
@@ -211,7 +212,7 @@ export default {
 	computed: {
 		isValid: {
 			get() {
-				return this.$store.getters.isDataValid;
+				return this.$store.getters.isPostDataValid;
 			}
 		},
 		tags: {

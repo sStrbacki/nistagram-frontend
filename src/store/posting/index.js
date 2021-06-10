@@ -1,9 +1,16 @@
-import { createPost } from '../../services/contentService';
-import { getUploadUrls, upload } from '../../services/storageService';
+import { createPost, createStory } from '../../services/contentService';
+import {
+	getUploadUrls,
+	uploadFiles,
+	getUploadUrl,
+	uploadFile
+} from '../../services/storageService';
 import { notifySuccess, notifyError } from '../../services/notificationService';
 
 export default {
 	state: {
+		file: null,
+		fileUrl: '',
 		files: [],
 		fileUrls: [],
 		caption: '',
@@ -12,10 +19,11 @@ export default {
 			latitude: null,
 			longitude: null
 		},
+		closeFriends: false,
 		tags: []
 	},
 	mutations: {
-		clearData: state => {
+		clearPostData: state => {
 			state.files = [];
 			state.fileUrls = [];
 			state.caption = '';
@@ -26,8 +34,22 @@ export default {
 			};
 			state.tags = [];
 		},
+		clearStoryData: state => {
+			state.file = null;
+			state.fileUrl = '';
+			state.caption = '';
+			state.location = {
+				name: '',
+				latitude: null,
+				longitude: null
+			};
+			state.tags = [];
+		},
 		setLongitude: (state, longitude) => {
 			state.location.longitude = longitude;
+		},
+		setCloseFriends: (state, value) => {
+			state.closeFriends = value;
 		},
 		setLatitude: (state, latitude) => {
 			state.location.latitude = latitude;
@@ -44,14 +66,23 @@ export default {
 		setFiles: (state, files) => {
 			state.files = files;
 		},
+		setFile: (state, file) => {
+			state.file = file;
+		},
 		clearFiles: state => {
 			state.files = [];
 		},
 		clearUrls: state => {
 			state.fileUrls = [];
 		},
+		clearUrl: state => {
+			state.fileUrl = '';
+		},
 		addUploadedUrl: (state, url) => {
 			state.fileUrls = [...state.fileUrls, url];
+		},
+		setUploadedUrl: (state, url) => {
+			state.fileUrl = url;
 		},
 		addTag: (state, tag) => {
 			state.tags = [...state.tags, tag];
@@ -65,16 +96,21 @@ export default {
 	actions: {
 		postFiles: async state => {
 			state.commit('clearUrls');
-			getUploadUrls(upload(state.getters.files)).then(urlPromises => {
+			console.log(state.getters.files);
+			getUploadUrls(uploadFiles(state.getters.files)).then(urlPromises => {
 				urlPromises.forEach(urlPromise => {
 					urlPromise.then(url => state.commit('addUploadedUrl', url));
 				});
 			});
 		},
+		postFile: async state => {
+			getUploadUrl(uploadFile(state.getters.file)).then(url => {
+				state.commit('setUploadedUrl', url);
+			});
+		},
 		createPost: async state => {
 			const post = {
 				caption: state.getters.caption,
-				location: state.getters.location,
 				mediaUrls: state.getters.fileUrls.map(fileUrl => {
 					return { url: fileUrl };
 				}),
@@ -82,10 +118,26 @@ export default {
 					return { tag: tagEntry };
 				})
 			};
+			if (state.getters.location.locationName)
+				post.location = state.getters.location;
+
 			const response = await createPost(post);
 			if (response.status >= 400) notifyError(response.data);
 			else notifySuccess('Post successfully created');
-			state.commit('clearData');
+			state.commit('clearPostData');
+		},
+		createStory: async state => {
+			const story = {
+				mediaUrl: state.getters.fileUrl,
+				caption: state.getters.caption,
+				isCloseFriends: state.getters.closeFriends
+			};
+			if (state.getters.location.locationName)
+				story.location = state.getters.location;
+			const response = await createStory(story);
+			if (response.status >= 400) notifyError(response.data);
+			else notifySuccess('Story successfully created');
+			state.commit('clearStoryData');
 		},
 		removeTag: (state, tag) => {
 			state.commit('removeTag', tag);
@@ -98,6 +150,9 @@ export default {
 		},
 		clearUrls: state => {
 			state.commit('clearUrls');
+		},
+		clearUrl: state => {
+			state.commit('clearUrl');
 		},
 		setLongitude: (state, longitude) => {
 			state.commit('setLongitude', longitude);
@@ -113,11 +168,20 @@ export default {
 		files: state => {
 			return state.files;
 		},
+		file: state => {
+			return state.file;
+		},
+		fileUrl: state => {
+			return state.fileUrl;
+		},
 		fileUrls: state => {
 			return state.fileUrls;
 		},
 		caption: state => {
 			return state.caption;
+		},
+		closeFriends: state => {
+			return state.closeFriends;
 		},
 		location: state => {
 			return state.location;
@@ -125,18 +189,12 @@ export default {
 		tags: state => {
 			return state.tags;
 		},
-		isDataValid: state => {
-			return (
-				state.caption &&
-				state.fileUrls &&
-				state.fileUrls.length !== 0 &&
-				state.location &&
-				state.location.latitude &&
-				state.location.longitude &&
-				state.location.name &&
-				state.tags &&
-				state.tags.length !== 0
-			);
+		isStoryDataValid: state => {
+			return state.caption && state.fileUrl;
+		},
+
+		isPostDataValid: state => {
+			return state.caption && state.fileUrls && state.fileUrls.length !== 0;
 		}
 	}
 };
