@@ -17,7 +17,10 @@ export const api = {
 		base: apiHost + '/api/content',
 		postBase: apiHost + '/api/content/post',
 		storyBase: apiHost + '/api/content/story',
-		mediaStory: apiHost + '/api/content/story/media'
+		mediaStory: apiHost + '/api/content/story/media',
+		postLike: apiHost + '/api/content/post/like',
+		postDislike: apiHost + '/api/content/post/dislike',
+		comment: apiHost + '/api/content/post/comment'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',

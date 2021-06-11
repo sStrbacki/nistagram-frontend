@@ -36,4 +36,37 @@ async function getStoryById(storyId) {
 	}
 }
 
-export { createPost, createStory, getPostById, getStoryById };
+async function postLike(postId) {
+	try {
+		let res = await axios.get(api.content.postLike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function postDislike(postId) {
+	try {
+		let res = await axios.get(api.content.postDislike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function comment(comment) {
+	try {
+		let res = await axios.post(api.content.comment, comment);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+export {
+	createPost,
+	createStory,
+	getPostById,
+	getStoryById,
+	postLike,
+	postDislike,
+	comment
+};

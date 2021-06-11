@@ -5,6 +5,8 @@ import {
 	fetchCloseFriendStoryFeed
 } from '../../services/feedService';
 
+import { postLike, postDislike, comment } from '../../services/contentService';
+
 import { getPostById, getStoryById } from '../../services/contentService';
 
 import { notifyError } from '../../services/notificationService';
@@ -96,6 +98,14 @@ export default {
 					else entry.storyData = response.data;
 				});
 			});
+		},
+		like: async (state, postId) => {
+			let response = await postLike(postId);
+			if (response.status >= 400) notifyError(response.data);
+		},
+		dislike: async (state, postId) => {
+			let response = await postDislike(postId);
+			if (response.status >= 400) notifyError(response.data);
 		}
 	},
 
