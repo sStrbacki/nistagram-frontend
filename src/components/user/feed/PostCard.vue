@@ -1,12 +1,12 @@
-<template>
-	<v-card class="mx-auto" min-width="344" max-width="344" v-if="data">
+<template v-if="post.postData">
+	<v-card class="mx-auto" min-width="344" max-width="344">
 		<v-img
-			v-if="!isVideo(data.mediaUrls[0])"
-			:src="data.mediaUrls[0]"
+			v-if="!isVideo(post.postData.mediaUrls[0])"
+			:src="post.postData.mediaUrls[0]"
 			height="200px"
 		>
 			<v-icon
-				v-if="data.mediaUrls.length > 1"
+				v-if="post.postData.mediaUrls.length > 1"
 				dark
 				fab
 				top
@@ -18,7 +18,7 @@
 			</v-icon>
 		</v-img>
 		<video-player v-else>
-			<source :src="data.mediaUrls[0]" />
+			<source :src="post.postData.mediaUrls[0]" />
 		</video-player>
 
 		<v-card-title>
@@ -29,7 +29,7 @@
 					</v-icon>
 				</v-col>
 				<v-col class="subtitle-2 mt-2">
-					<p>{{ data.author }}</p>
+					<p>{{ post.postData.author }}</p>
 				</v-col>
 				<v-col cols="2">
 					<v-menu bottom right open-on-hover transition="slide-x-transition">
@@ -78,7 +78,7 @@
 		<v-card-subtitle>
 			<v-row no-gutters>
 				<v-col>
-					{{ data.caption }}
+					{{ post.postData.caption }}
 				</v-col>
 				<v-col cols="1" class="mr-2">
 					<v-btn icon small color="primary">
@@ -111,7 +111,7 @@ import 'vue-md-player/dist/vue-md-player.css';
 export default {
 	name: 'PostCard',
 	props: {
-		data: Object
+		post: Object
 	},
 	components: { videoPlayer },
 	methods: {

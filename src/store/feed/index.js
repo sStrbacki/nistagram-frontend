@@ -31,6 +31,11 @@ export default {
 		},
 		setPostsLoaded: state => {
 			state.postsLoaded = true;
+		},
+		assignPostData: (state, postInfo) => {
+			state.posts.filter(post => {
+				return post.contentId == postInfo.postId;
+			})[0].postData = postInfo.postData;
 		}
 	},
 	actions: {
@@ -41,16 +46,20 @@ export default {
 				return;
 			}
 			state.commit('setPosts', response.data);
-			state.dispatch('fetchPostData');
+			await state.dispatch('fetchPostData');
 		},
 		fetchPostData: async state => {
-			state.getters.posts.forEach(async post => {
+			for (const post of state.getters.posts) {
 				let response = await getPostById(post.contentId);
 				if (response.status >= 400) notifyError(response.data);
-				else post.postData = response.data;
-			});
-			console.log(state.getters.posts);
-			state.commit('setPostsLoaded');
+				else {
+					state.commit('assignPostData', {
+						postId: post.contentId,
+						postData: response.data
+					});
+				}
+				state.commit('setPostsLoaded');
+			}
 		},
 		fetchStories: async state => {
 			let response = await fetchStoryFeed();
@@ -99,9 +108,6 @@ export default {
 		},
 		closeFriendStoryGroups: state => {
 			return state.closeFriendStoryGroups;
-		},
-		postsLoaded: state => {
-			return state.postsLoaded;
 		}
 	}
 };
