@@ -6,7 +6,6 @@ async function createPost(post) {
 		let res = await axios.post(api.content.postBase, post);
 		return res;
 	} catch (err) {
-		console.log(err);
 		return err.response;
 	}
 }
@@ -19,4 +18,22 @@ async function createStory(story) {
 	}
 }
 
-export { createPost, createStory };
+async function getPostById(postId) {
+	try {
+		let res = await axios.get(api.content.postBase + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function getStoryById(storyId) {
+	try {
+		let res = await axios.get(api.content.storyBase + '/' + storyId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+export { createPost, createStory, getPostById, getStoryById };

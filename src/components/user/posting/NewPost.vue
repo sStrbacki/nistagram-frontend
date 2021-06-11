@@ -147,18 +147,7 @@ export default {
 			selectedUser: null
 		};
 	},
-	metaInfo() {
-		return {
-			script: [
-				{
-					src: `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_PLACES_API_KEY}&libraries=places`,
-					async: true,
-					defer: true,
-					callback: () => this.mapsInit()
-				}
-			]
-		};
-	},
+
 	watch: {
 		files(val) {
 			if (val) {
@@ -300,6 +289,9 @@ export default {
 			this.$refs.postForm.reset();
 			this.$refs.postForm.resetValidation();
 		}
+	},
+	mounted() {
+		this.mapsInit();
 	}
 };
 </script>

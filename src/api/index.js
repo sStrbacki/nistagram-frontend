@@ -18,5 +18,10 @@ export const api = {
 		postBase: apiHost + '/api/content/post',
 		storyBase: apiHost + '/api/content/story',
 		mediaStory: apiHost + '/api/content/story/media'
+	},
+	feed: {
+		postFeed: apiHost + '/api/feed/posts',
+		storyFeed: apiHost + '/api/feed/stories/grouped',
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
 	}
 };
