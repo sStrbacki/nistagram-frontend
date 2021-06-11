@@ -42,6 +42,16 @@
 						<v-list class="text-h5">
 							<v-list-item class="list-item">
 								<v-list-item-icon>
+									<v-icon>mdi-share-variant</v-icon>
+								</v-list-item-icon>
+
+								<v-list-item-content>
+									<v-list-item-title>Share as a story</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+
+							<v-list-item class="list-item">
+								<v-list-item-icon>
 									<v-icon>mdi-content-save</v-icon>
 								</v-list-item-icon>
 

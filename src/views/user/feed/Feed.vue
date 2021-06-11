@@ -8,12 +8,13 @@
 					v-slot="{ toggle }"
 				>
 					<v-card
+						shaped
 						:color="'teal darken-3'"
 						class="ma-4"
 						height="150"
 						width="100"
 						outlined
-						@click="toggle"
+						@click="toggle && selectStoryGroup(storyGroup)"
 					>
 						<v-row align="center" justify="center" class="mt-4">
 							<v-icon
@@ -35,12 +36,13 @@
 					v-slot="{ toggle }"
 				>
 					<v-card
+						shaped
 						color="grey darken-1"
 						class="ma-4"
 						height="150"
 						width="100"
 						outlined
-						@click="toggle"
+						@click="toggle && selectStoryGroup(storyGroup)"
 					>
 						<v-row align="center" justify="center" class="mt-4">
 							<v-icon
@@ -61,15 +63,89 @@
 				<post-card :data="post.postData" />
 			</v-col>
 		</v-row>
+		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStoryGroup">
+			<v-slide-group class="pa-4" active-class="success" show-arrows>
+				<v-slide-item
+					v-for="entry in selectedStoryGroup.entries"
+					:key="entry.id"
+				>
+					<v-card class="ma-4" height="500" width="500">
+						<v-img
+							contain
+							v-if="!isVideo(entry.storyData.mediaUrl)"
+							:src="entry.storyData.mediaUrl"
+							height="300px"
+							aspect-ratio="1"
+						>
+						</v-img>
+						<video-player v-else>
+							<source :src="entry.storyData.mediaUrl" />
+						</video-player>
+						<v-card-title>
+							<v-row>
+								<v-col cols="1">
+									<v-icon dark>
+										mdi-account-circle
+									</v-icon>
+								</v-col>
+								<v-col class="subtitle-2 mt-2">
+									<p>{{ entry.storyData.author }}</p>
+								</v-col>
+							</v-row>
+						</v-card-title>
+						<v-card-subtitle>
+							<v-row>
+								<v-col cols="1">
+									<v-icon dark>
+										mdi-closed-caption
+									</v-icon>
+								</v-col>
+								<v-col>
+									{{ entry.storyData.caption }}
+								</v-col>
+							</v-row>
+							<v-row v-if="entry.storyData.location">
+								<v-col cols="1">
+									<v-icon dark>
+										mdi-map-marker
+									</v-icon>
+								</v-col>
+								<v-col>
+									{{ entry.storyData.location.name }}
+								</v-col>
+							</v-row>
+						</v-card-subtitle>
+					</v-card>
+				</v-slide-item>
+			</v-slide-group>
+		</v-dialog>
 	</v-container>
 </template>
 
 <script>
 import PostCard from '../../../components/user/feed/PostCard.vue';
+import { videoPlayer } from 'vue-md-player';
+import 'vue-md-player/dist/vue-md-player.css';
 
 export default {
 	name: 'Feed',
-	components: { PostCard },
+	components: { PostCard, videoPlayer },
+	data() {
+		return {
+			selectedStoryGroup: null,
+			storyDialog: false
+		};
+	},
+	methods: {
+		selectStoryGroup(storyGroup) {
+			this.selectedStoryGroup = storyGroup;
+			this.storyDialog = true;
+			console.log(storyGroup);
+		},
+		isVideo(url) {
+			return url.includes('videos');
+		}
+	},
 	computed: {
 		postsLoaded: {
 			get() {
