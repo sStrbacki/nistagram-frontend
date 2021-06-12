@@ -118,8 +118,7 @@ export default {
 					return { tag: tagEntry };
 				})
 			};
-			if (state.getters.location.locationName)
-				post.location = state.getters.location;
+			if (state.getters.location.name) post.location = state.getters.location;
 
 			const response = await createPost(post);
 			if (response.status >= 400) notifyError(response.data);
@@ -130,10 +129,9 @@ export default {
 			const story = {
 				mediaUrl: state.getters.fileUrl,
 				caption: state.getters.caption,
-				isCloseFriends: state.getters.closeFriends
+				closeFriends: state.getters.closeFriends
 			};
-			if (state.getters.location.locationName)
-				story.location = state.getters.location;
+			if (state.getters.location.name) story.location = state.getters.location;
 			const response = await createStory(story);
 			if (response.status >= 400) notifyError(response.data);
 			else notifySuccess('Story successfully created');

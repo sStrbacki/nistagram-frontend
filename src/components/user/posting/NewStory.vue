@@ -107,18 +107,6 @@ export default {
 			isLocationLoading: false
 		};
 	},
-	metaInfo() {
-		return {
-			script: [
-				{
-					src: `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_PLACES_API_KEY}&libraries=places`,
-					async: true,
-					defer: true,
-					callback: () => this.mapsInit()
-				}
-			]
-		};
-	},
 	watch: {
 		file(val) {
 			if (val) this.$store.dispatch('postFile');
@@ -213,6 +201,9 @@ export default {
 			this.$refs.storyForm.reset();
 			this.$refs.storyForm.resetValidation();
 		}
+	},
+	mounted() {
+		this.mapsInit();
 	}
 };
 </script>

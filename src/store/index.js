@@ -4,6 +4,7 @@ import authModule from './auth/index';
 import profileModule from './user/index';
 import searchModule from './search/index';
 import postingModule from './posting/index';
+import feedModule from './feed/index';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
 		auth: authModule,
 		profile: profileModule,
 		search: searchModule,
-		post: postingModule
+		post: postingModule,
+		feed: feedModule
 	}
 });
 //ZnKa&qL86A*#jt

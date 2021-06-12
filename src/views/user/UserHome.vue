@@ -10,7 +10,10 @@ import UserAppBar from '../../components/user/bars/UserAppBar.vue';
 
 export default {
 	name: 'UserHome',
-	components: { UserAppBar }
+	components: { UserAppBar },
+	mounted() {
+		this.$store.dispatch('getProfile');
+	}
 };
 </script>
 

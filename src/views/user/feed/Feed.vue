@@ -1,13 +1,18 @@
 <template>
 	<v-container>
-		<v-row class="content-wrap" align="center" justify="center">
-			<h2>My feed</h2>
-		</v-row>
+		<story-feed />
+		<post-feed />
 	</v-container>
 </template>
 
 <script>
-export default {};
+import StoryFeed from '../../../components/user/feed/StoryFeed.vue';
+import PostFeed from '../../../components/user/feed/PostFeed.vue';
+
+export default {
+	name: 'Feed',
+	components: { PostFeed, StoryFeed }
+};
 </script>
 
 <style></style>
