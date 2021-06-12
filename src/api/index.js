@@ -1,4 +1,4 @@
-export const apiHost = 'http://localhost:9090';
+export const apiHost = 'https://localhost:9090';
 
 export const api = {
 	auth: {
