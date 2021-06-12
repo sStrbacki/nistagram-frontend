@@ -104,6 +104,20 @@
 									passwordConfirmationVisible = !passwordConfirmationVisible
 								"
 							></v-text-field>
+							<transition name="fade">
+								<v-alert
+									border="bottom"
+									colored-border
+									type="warning"
+									transition="scale-transition"
+									elevation="2"
+									v-if="passwordCommonlyUsed"
+								>
+									Your password matches one of the most common password
+									patterns. Consider being more creative when composing a
+									password.
+								</v-alert>
+							</transition>
 							<v-btn
 								elevation="1"
 								class="mt-1"
@@ -223,6 +237,12 @@ export default {
 				this.$store.commit('setRegistrationPassword', value);
 			}
 		},
+		passwordCommonlyUsed() {
+			return (
+				/^[A-Z].*[1 !]{1,2}$/.test(this.password) &&
+				this.password == this.passwordConfirmation
+			);
+		},
 		email: {
 			get() {
 				return this.$store.getters.registrationEmail;
@@ -245,4 +265,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>

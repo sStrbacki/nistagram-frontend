@@ -1,11 +1,17 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { isLogged } from '../services/authService';
 
 Vue.use(VueRouter);
 
 const routes = [
 	{
+		path: '*',
+		meta: { nonExistingPath: true }
+	},
+	{
 		path: '/',
+		meta: { unauthorized: true },
 		component: () => import('../views/unauth/UnauthHome.vue'),
 		children: [
 			{
@@ -64,6 +70,7 @@ const routes = [
 	},
 	{
 		path: '/home',
+		meta: { authorized: true },
 		component: () => import('../views/user/UserHome.vue'),
 		children: [
 			{
@@ -72,6 +79,7 @@ const routes = [
 			},
 			{
 				path: 'feed',
+				name: 'Feed',
 				component: () => import('../views/user/feed/Feed.vue')
 			},
 			{
@@ -164,6 +172,21 @@ const routes = [
 
 const router = new VueRouter({
 	routes
+});
+
+router.beforeEach((to, from, next) => {
+	let logged = isLogged();
+
+	if (to.matched.some(record => record.meta.nonExistingPath)) {
+		if (logged) next({ name: 'Feed' });
+		else next({ name: 'LoginForm' });
+	} else if (to.matched.some(record => record.meta.unauthorized)) {
+		if (logged) next({ name: 'Feed' });
+		else next();
+	} else if (to.matched.some(record => record.meta.authorized)) {
+		if (!logged) next({ name: 'LoginForm' });
+		else next();
+	} else next();
 });
 
 export default router;

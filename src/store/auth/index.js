@@ -18,7 +18,7 @@ export default {
 			phoneNumber: '',
 			username: '',
 			email: '',
-			password: '',
+			password: ''
 		},
 		login: {
 			username: '',
@@ -49,7 +49,7 @@ export default {
 			state.requestPasswordReset.email = email
 		,
 		setRegistrationFullName: (state, fullName) => {
-			state.registration.fullName = fullName
+			state.registration.fullName = fullName;
 		},
 		setRegistrationDateOfBirth: (state, dateOfBirth) => {
 			state.registration.dateOfBirth = dateOfBirth;
@@ -74,7 +74,7 @@ export default {
 		},
 		setLoginPassword: (state, password) => {
 			state.login.password = password;
-		},
+		}
 	},
 	actions: {
 		setRequestPasswordResetEmail: ({commit}, email) =>
@@ -107,9 +107,8 @@ export default {
 		setLoginPassword: ({commit}, password) => {
 			commit('setLoginPassword', password);
 		},
-		register: async (context) => {
+		register: async context => {
 			const response = await register(context.getters.registrationData);
-			storeAuthResponse(response);
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
@@ -117,7 +116,7 @@ export default {
 				await router.push('/home');
 			}
 		},
-		login: async (context) => {
+		login: async context => {
 			const response = await login(context.getters.loginData);
 			if (response.status >= 400) {
 				notifyError(response.data);
@@ -165,35 +164,35 @@ export default {
 		registrationFullName: (state) => {
 			return state.registration.fullName;
 		},
-		registrationDateOfBirth: (state) => {
+		registrationDateOfBirth: state => {
 			return state.registration.dateOfBirth;
 		},
-		registrationGender: (state) => {
+		registrationGender: state => {
 			return state.registration.gender;
 		},
-		setRegistrationPhoneNumber: (state) => {
+		setRegistrationPhoneNumber: state => {
 			return state.registration.phoneNumber;
 		},
-		registrationUsername: (state) => {
+		registrationUsername: state => {
 			return state.registration.username;
 		},
-		registrationEmail: (state) => {
+		registrationEmail: state => {
 			return state.registration.email;
 		},
-		registrationPassword: (state) => {
+		registrationPassword: state => {
 			return state.registration.password;
 		},
-		loginUsername: (state) => {
+		loginUsername: state => {
 			return state.login.username;
 		},
-		loginPassword: (state) => {
+		loginPassword: state => {
 			return state.login.password;
 		},
-		loginData: (state) => {
+		loginData: state => {
 			return state.login;
 		},
-		registrationData: (state) => {
+		registrationData: state => {
 			return state.registration;
-		},
-	},
+		}
+	}
 };
