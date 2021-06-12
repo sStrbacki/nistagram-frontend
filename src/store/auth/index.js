@@ -1,7 +1,13 @@
-import { login, register, storeAuthResponse } from "@/services/authService";
+import {
+	login,
+	register,
+	storeAuthResponse,
+	requestPasswordReset,
+	resetPassword,
+	activate
+} from "@/services/authService";
 import router from "@/router";
-import { notifyError } from "@/services/notificationService";
-
+import {notifyError, notifySuccess} from "@/services/notificationService";
 
 export default {
 	state: {
@@ -18,8 +24,30 @@ export default {
 			username: '',
 			password: '',
 		},
+		requestPasswordReset: {
+			email: ''
+		},
+		passwordReset: {
+			password: '',
+			uuid: ''
+		},
+		accountActivation: {
+			uuid: ''
+		}
 	},
 	mutations: {
+		setAccountActivationUUID: (state, uuid) =>
+			state.accountActivation.uuid = uuid
+		,
+		setPasswordResetPassword: (state, password) =>
+			state.passwordReset.password = password
+		,
+		setPasswordResetUUID: (state, uuid) =>
+			state.passwordReset.uuid = uuid
+		,
+		setRequestPasswordResetEmail: (state, email) =>
+			state.requestPasswordReset.email = email
+		,
 		setRegistrationFullName: (state, fullName) => {
 			state.registration.fullName = fullName
 		},
@@ -49,6 +77,9 @@ export default {
 		},
 	},
 	actions: {
+		setRequestPasswordResetEmail: ({commit}, email) =>
+			commit('setRequestPasswordResetEmail', email)
+		,
 		setRegistrationFullName: ({ commit }, fullName) => {
 			commit('setRegistrationFullName', fullName);
 		},
@@ -73,7 +104,7 @@ export default {
 		setLoginUsername: ({ commit }, username) => {
 			commit('setLoginUsername', username);
 		},
-		setLoginPassword: ({ commit }, password) => {
+		setLoginPassword: ({commit}, password) => {
 			commit('setLoginPassword', password);
 		},
 		register: async (context) => {
@@ -95,8 +126,42 @@ export default {
 				await router.push('/home');
 			}
 		},
+		requestPasswordReset: async (context) => {
+			requestPasswordReset(context.getters.requestPasswordResetEmail)
+				.then(() =>
+					notifySuccess("Reset for " + context.getters.requestPasswordResetEmail + " requested.")
+				)
+				.catch(err => notifyError(err.response.data))
+		},
+		resetPassword: async(context) => {
+			resetPassword({
+				password: context.getters.passwordResetPassword,
+				uuid: context.getters.passwordResetUUID
+			})
+			.then(() =>
+				notifySuccess("Password successfully changed!")
+			)
+			.catch(err => notifyError(err.response.data))
+		},
+		activateAccount: async(context) => {
+			activate(context.getters.accountActivationUUID)
+				.then(() => notifySuccess("Account activated. You may now log in."))
+				.catch(err => notifyError(err.response.data));
+		}
 	},
 	getters: {
+		accountActivationUUID: (state) => {
+			return state.accountActivation.uuid;
+		},
+		passwordResetPassword: (state) => {
+			return state.passwordReset.password;
+		},
+		passwordResetUUID: (state) => {
+			return state.passwordReset.uuid;
+		},
+		requestPasswordResetEmail: (state) => {
+			return state.requestPasswordReset.email
+		},
 		registrationFullName: (state) => {
 			return state.registration.fullName;
 		},

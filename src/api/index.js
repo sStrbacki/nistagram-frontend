@@ -2,7 +2,10 @@ export const apiHost = 'http://localhost:9090';
 
 export const api = {
 	auth: {
-		login: apiHost + '/api/auth'
+		login: apiHost + '/api/auth',
+		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
+		resetPassword: apiHost + '/api/auth/reset-password',
+		accountActivation: apiHost + '/api/auth/activate'
 	},
 	user: {
 		base: apiHost + '/api/users',

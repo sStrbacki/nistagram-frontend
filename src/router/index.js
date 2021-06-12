@@ -14,9 +14,24 @@ const routes = [
 				component: () => import('../components/unauth/LoginForm.vue')
 			},
 			{
+				path: 'request-password-reset',
+				name: 'RequestPasswordReset',
+				component: () => import('../components/unauth/RequestPasswordReset')
+			},
+			{
+				path: 'password-reset/:uuid',
+				name: 'PasswordReset',
+				component: () => import('../components/unauth/PasswordReset')
+			},
+			{
 				path: 'register',
 				name: 'RegistrationForm',
 				component: () => import('../components/unauth/RegistrationForm.vue')
+			},
+			{
+				path: 'activate/:uuid',
+				name: 'AccountActivation',
+				component: () => import('../components/unauth/AccountActivation')
 			},
 			{
 				path: 'search',
