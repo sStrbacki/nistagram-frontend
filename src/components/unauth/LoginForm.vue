@@ -22,16 +22,22 @@
 						@click:append="passwordVisible = !passwordVisible"
 					></v-text-field>
 					<v-row no-gutters>
-						<v-col cols="3">
+
+            <v-col cols="3">
 							<v-btn elevation="1" :disabled="!isFormValid" @click="login">
 								Login
 							</v-btn>
 						</v-col>
-						<v-spacer></v-spacer>
-						<v-col offset="2">
+
+            <v-spacer></v-spacer>
+
+						<v-col offset="3">
 							<v-btn text to="/register" large>
 								Don't have an account?
 							</v-btn>
+              <v-btn text to="/request-password-reset" large>
+                Forgot password?
+              </v-btn>
 						</v-col>
 					</v-row>
 				</v-form>

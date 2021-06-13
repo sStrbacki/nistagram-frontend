@@ -27,6 +27,27 @@ async function getMyProfile() {
 		return err.response;
 	}
 }
+
+function requestPasswordReset(email) {
+	return axios.post(
+		api.auth.requestPasswordReset,
+		{
+			email: email
+		}
+	)
+}
+
+function resetPassword(passwordResetBundle) {
+	return axios.post(
+		api.auth.resetPassword,
+		passwordResetBundle
+	);
+}
+
+function activate(uuid) {
+	return axios.get(api.auth.accountActivation + '/' + uuid);
+}
+
 function logout() {
 	localStorage.removeItem('jwtToken');
 }
@@ -49,5 +70,8 @@ export {
 	storeAuthResponse,
 	getJwtToken,
 	isLogged,
-	getMyProfile
+	getMyProfile,
+	requestPasswordReset,
+	resetPassword,
+	activate
 };
