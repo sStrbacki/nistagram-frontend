@@ -77,18 +77,6 @@ export default {
 			});
 		}
 	},
-	metaInfo() {
-		return {
-			script: [
-				{
-					src: `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_PLACES_API_KEY}&libraries=places`,
-					async: true,
-					defer: true,
-					callback: () => this.mapsInit()
-				}
-			]
-		};
-	},
 	methods: {
 		mapsInit() {
 			this.service = new window.google.maps.places.AutocompleteService();
@@ -134,6 +122,9 @@ export default {
 				this.select(val);
 			}
 		}
+	},
+	mounted() {
+		this.mapsInit();
 	}
 };
 </script>

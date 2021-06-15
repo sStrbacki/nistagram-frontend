@@ -1,8 +1,9 @@
 <template>
 	<v-row v-if="postsLoaded">
 		<v-col v-for="post in posts" :key="post.id" cols="4">
-			<post-card :post="post" />
+			<post-card :post="post.postData" />
 		</v-col>
+		<collection-dialog />
 	</v-row>
 	<v-row align="center" justify="center" v-else>
 		<v-progress-circular :size="50" indeterminate></v-progress-circular>
@@ -11,10 +12,11 @@
 
 <script>
 import PostCard from '../../../components/user/feed/PostCard.vue';
+import CollectionDialog from '../post-collection/CollectionDialog.vue';
 
 export default {
 	name: 'PostFeed',
-	components: { PostCard },
+	components: { PostCard, CollectionDialog },
 	data() {
 		return {
 			postsLoaded: false

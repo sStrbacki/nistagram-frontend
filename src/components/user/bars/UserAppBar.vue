@@ -44,6 +44,13 @@
 						<v-list-item-title>Profile settings</v-list-item-title>
 					</v-list-item>
 
+					<v-list-item to="/home/my-collections">
+						<v-list-item-icon>
+							<v-icon>mdi-image-album</v-icon>
+						</v-list-item-icon>
+						<v-list-item-title>Post collections</v-list-item-title>
+					</v-list-item>
+
 					<v-list-item @click="signOut()">
 						<v-list-item-icon>
 							<v-icon>mdi-logout</v-icon>

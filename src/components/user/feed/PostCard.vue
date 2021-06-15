@@ -1,13 +1,13 @@
-<template v-if="post.postData">
+<template v-if="post">
 	<div>
 		<v-card class="mx-auto" min-width="344" max-width="344">
 			<v-img
-				v-if="!isVideo(post.postData.mediaUrls[0])"
-				:src="post.postData.mediaUrls[0]"
+				v-if="!isVideo(post.mediaUrls[0])"
+				:src="post.mediaUrls[0]"
 				height="200px"
 			>
 				<v-icon
-					v-if="post.postData.mediaUrls.length > 1"
+					v-if="post.mediaUrls.length > 1"
 					dark
 					fab
 					top
@@ -19,7 +19,7 @@
 				</v-icon>
 			</v-img>
 			<video-player v-else>
-				<source :src="post.postData.mediaUrls[0]" />
+				<source :src="post.mediaUrls[0]" />
 			</video-player>
 
 			<v-card-title>
@@ -30,7 +30,7 @@
 						</v-icon>
 					</v-col>
 					<v-col class="subtitle-2 mt-2">
-						<p>{{ post.postData.author }}</p>
+						<p>{{ post.author }}</p>
 					</v-col>
 					<v-col cols="2">
 						<v-menu bottom right open-on-hover transition="slide-x-transition">
@@ -51,13 +51,33 @@
 									</v-list-item-content>
 								</v-list-item>
 
-								<v-list-item class="list-item">
+								<v-list-item
+									class="list-item"
+									@click="openCollectionsDialog()"
+									v-if="mode !== 'collection'"
+								>
 									<v-list-item-icon>
 										<v-icon>mdi-content-save</v-icon>
 									</v-list-item-icon>
 
 									<v-list-item-content>
 										<v-list-item-title>Save</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+
+								<v-list-item
+									class="list-item"
+									v-else
+									@click="removePostFromCollection()"
+								>
+									<v-list-item-icon>
+										<v-icon>mdi-close</v-icon>
+									</v-list-item-icon>
+
+									<v-list-item-content>
+										<v-list-item-title
+											>Remove from this collection</v-list-item-title
+										>
 									</v-list-item-content>
 								</v-list-item>
 
@@ -79,7 +99,7 @@
 			<v-card-subtitle>
 				<v-row>
 					<v-col cols="4">
-						{{ post.postData.caption }}
+						{{ post.caption }}
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col cols="2">
@@ -109,14 +129,14 @@
 						</v-btn>
 					</v-col>
 				</v-row>
-				<v-row v-if="post.postData.location && post.postData.location.name">
+				<v-row v-if="post.location && post.location.name">
 					<v-col cols="1">
 						<v-icon dark>
 							mdi-map-marker
 						</v-icon>
 					</v-col>
 					<v-col class="subtitle-2 mt-1">
-						<p>{{ post.postData.location.name }}</p>
+						<p>{{ post.location.name }}</p>
 					</v-col>
 				</v-row>
 			</v-card-subtitle>
@@ -144,10 +164,27 @@ export default {
 		};
 	},
 	props: {
-		post: Object
+		post: Object,
+		mode: String
 	},
 	components: { videoPlayer },
 	computed: {
+		selectedPostId: {
+			get() {
+				return this.$store.getters.selectedPostId;
+			},
+			set(value) {
+				this.$store.commit('setSelectedPost', value);
+			}
+		},
+		collectionDialog: {
+			get() {
+				return this.$store.getters.collectionDialog;
+			},
+			set(value) {
+				this.$store.commit('setCollectionDialog', value);
+			}
+		},
 		likedColor() {
 			if (this.postLiked) return 'green';
 			else return 'gray';
@@ -158,8 +195,15 @@ export default {
 		}
 	},
 	methods: {
+		removePostFromCollection() {
+			this.$store.dispatch('removePostFromCollection', this.post.id);
+		},
+		openCollectionsDialog() {
+			this.selectedPostId = this.post.id;
+			this.collectionDialog = !this.collectionDialog;
+		},
 		rerouteToPostPreview() {
-			this.$router.push('post/' + this.post.contentId);
+			this.$router.push('post/' + this.post.id);
 		},
 		isVideo(url) {
 			return url.includes('videos');
@@ -173,46 +217,46 @@ export default {
 			else this.dislike();
 		},
 		async like() {
-			await this.$store.dispatch('like', this.post.contentId);
+			await this.$store.dispatch('like', this.post.id);
 			this.postLiked = true;
 			this.likeEnabled = true;
 			this.dislikeEnabled = false;
 		},
 		async removeLike() {
-			await this.$store.dispatch('deleteLike', this.post.contentId);
+			await this.$store.dispatch('deleteLike', this.post.id);
 			this.postLiked = false;
 			this.likeEnabled = true;
 			this.dislikeEnabled = true;
 		},
 		async dislike() {
-			await this.$store.dispatch('dislike', this.post.contentId);
+			await this.$store.dispatch('dislike', this.post.id);
 			this.postDisliked = true;
 			this.dislikeEnabled = true;
 			this.likeEnabled = false;
 		},
 		async removeDislike() {
-			await this.$store.dispatch('deleteLike', this.post.contentId);
+			await this.$store.dispatch('deleteLike', this.post.id);
 			this.postDisliked = false;
 			this.likeEnabled = true;
 			this.dislikeEnabled = true;
 		},
 		setLikeEnabled() {
-			if (!this.post.postData.userInteractions) {
+			if (!this.post.userInteractions) {
 				this.likeEnabled = true;
 				return;
 			}
 			this.likeEnabled = !this.postDisliked;
 		},
 		setDislikeEnabled() {
-			if (!this.post.postData.userInteractions) {
+			if (!this.post.userInteractions) {
 				this.dislikeEnabled = true;
 				return;
 			}
 			this.dislikeEnabled = !this.postLiked;
 		},
 		setPostLiked() {
-			if (!this.post.postData.userInteractions) return false;
-			this.postLiked = this.post.postData.userInteractions
+			if (!this.post.userInteractions) return false;
+			this.postLiked = this.post.userInteractions
 				.filter(interaction => {
 					return interaction.sentiment === 'LIKE';
 				})
@@ -222,8 +266,8 @@ export default {
 				.includes(this.$store.getters.username);
 		},
 		setPostDisliked() {
-			if (!this.post.postData.userInteractions) return false;
-			this.postDisliked = this.post.postData.userInteractions
+			if (!this.post.userInteractions) return false;
+			this.postDisliked = this.post.userInteractions
 				.filter(interaction => {
 					return interaction.sentiment === 'DISLIKE';
 				})

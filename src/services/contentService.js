@@ -80,7 +80,89 @@ async function comment(comment) {
 		return err.response;
 	}
 }
-
+async function createCollection(collectionName) {
+	try {
+		let res = await axios.post(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchCollections() {
+	try {
+		let res = await axios.get(api.collection.collectionBase);
+		return res;
+	} catch (err) {
+		console.log(err);
+		return err.response;
+	}
+}
+async function saveToDefaultCollection(postId) {
+	try {
+		let res = await axios.get(api.collection.saveDefault + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function saveToCustomCollection(postId, collectionName) {
+	try {
+		let res = await axios.get(
+			api.collection.collectionBase + '/' + collectionName + '/add/' + postId
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deleteCollection(collectionName) {
+	try {
+		let res = await axios.delete(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchPostsFromDefault() {
+	try {
+		let res = await axios.get(api.collection.defaultCollection);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchPostsFromCollection(collectionName) {
+	try {
+		let res = await axios.get(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deletePostFromDefaultCollection(postId) {
+	try {
+		let res = await axios.get(api.collection.unsave + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deletePostFromCustomCollection(collectionName, postId) {
+	try {
+		let res = await axios.delete(
+			api.collection.collectionBase + '/' + collectionName + '/remove/' + postId
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
 export {
 	createPost,
 	createStory,
@@ -90,5 +172,14 @@ export {
 	postDislike,
 	deleteLike,
 	deleteDislike,
-	comment
+	comment,
+	createCollection,
+	fetchCollections,
+	saveToDefaultCollection,
+	saveToCustomCollection,
+	deleteCollection,
+	fetchPostsFromCollection,
+	fetchPostsFromDefault,
+	deletePostFromCustomCollection,
+	deletePostFromDefaultCollection
 };

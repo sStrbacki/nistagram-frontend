@@ -1,4 +1,4 @@
-export const apiHost = 'https://localhost:9090';
+export const apiHost = 'http://localhost:9090';
 
 export const api = {
 	auth: {
@@ -29,5 +29,11 @@ export const api = {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
 		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+	},
+	collection: {
+		collectionBase: apiHost + '/api/content/post/collection',
+		saveDefault: apiHost + '/api/content/post/save',
+		defaultCollection: apiHost + '/api/content/post/saved',
+		unsave: apiHost + '/api/content/post/unsave'
 	}
 };
