@@ -1,17 +1,24 @@
 <template>
 	<v-row v-if="postsLoaded">
 		<v-col v-for="post in posts" :key="post.id" cols="4">
-			<post-card :post="post" />
+			<post-card :post="post.postData" />
 		</v-col>
+		<collection-dialog />
+		<reshare-dialog />
+	</v-row>
+	<v-row align="center" justify="center" v-else>
+		<v-progress-circular :size="50" indeterminate></v-progress-circular>
 	</v-row>
 </template>
 
 <script>
 import PostCard from '../../../components/user/feed/PostCard.vue';
+import CollectionDialog from '../post-collection/CollectionDialog.vue';
+import ReshareDialog from '../posting/ReshareDialog.vue';
 
 export default {
 	name: 'PostFeed',
-	components: { PostCard },
+	components: { PostCard, CollectionDialog, ReshareDialog },
 	data() {
 		return {
 			postsLoaded: false

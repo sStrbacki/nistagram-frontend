@@ -1,5 +1,10 @@
 <template>
-	<v-row class="content-wrap" align="center" justify="center">
+	<v-row
+		class="content-wrap"
+		align="center"
+		justify="center"
+		v-if="storiesLoaded"
+	>
 		<v-slide-group class="pa-4" show-arrows>
 			<v-slide-item
 				v-for="(storyGroup, index) in closeFriendStoryGroups"
@@ -63,9 +68,13 @@
 					:key="entry.id"
 				>
 					<v-card class="ma-4" height="500" width="500">
+						<post-card-small
+							:post="entry.storyData.post"
+							v-if="entry.storyData.reshare"
+						/>
 						<v-img
 							contain
-							v-if="!isVideo(entry.storyData.mediaUrl)"
+							v-else-if="!isVideo(entry.storyData.mediaUrl)"
 							:src="entry.storyData.mediaUrl"
 							height="300px"
 							aspect-ratio="1"
@@ -113,18 +122,23 @@
 			</v-slide-group>
 		</v-dialog>
 	</v-row>
+	<v-row align="center" justify="center" class="content-wrap" v-else>
+		<v-progress-circular :size="50" indeterminate></v-progress-circular>
+	</v-row>
 </template>
 
 <script>
 import { videoPlayer } from 'vue-md-player';
 import 'vue-md-player/dist/vue-md-player.css';
+import PostCardSmall from './PostCardSmall.vue';
 export default {
 	name: 'StoryFeed',
-	components: { videoPlayer },
+	components: { videoPlayer, PostCardSmall },
 	data() {
 		return {
 			selectedStoryGroup: null,
-			storyDialog: false
+			storyDialog: false,
+			storiesLoaded: false
 		};
 	},
 	methods: {
@@ -152,6 +166,7 @@ export default {
 	async mounted() {
 		await this.$store.dispatch('fetchCloseFriendStories');
 		await this.$store.dispatch('fetchStories');
+		this.storiesLoaded = true;
 	}
 };
 </script>

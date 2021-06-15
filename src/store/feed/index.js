@@ -5,7 +5,12 @@ import {
 	fetchCloseFriendStoryFeed
 } from '../../services/feedService';
 
-import { postLike, postDislike, comment } from '../../services/contentService';
+import {
+	postLike,
+	postDislike,
+	deleteDislike,
+	deleteLike
+} from '../../services/contentService';
 
 import { getPostById, getStoryById } from '../../services/contentService';
 
@@ -105,6 +110,14 @@ export default {
 		},
 		dislike: async (state, postId) => {
 			let response = await postDislike(postId);
+			if (response.status >= 400) notifyError(response.data);
+		},
+		deleteLike: async (state, postId) => {
+			let response = await deleteLike(postId);
+			if (response.status >= 400) notifyError(response.data);
+		},
+		deleteDislike: async (state, postId) => {
+			let response = await deleteDislike(postId);
 			if (response.status >= 400) notifyError(response.data);
 		}
 	},

@@ -83,6 +83,11 @@ const routes = [
 				component: () => import('../views/user/feed/Feed.vue')
 			},
 			{
+				path: 'collection/:collectionName',
+				name: 'Collection',
+				component: () => import('../views/user/post-collection/Collection.vue')
+			},
+			{
 				path: 'publish',
 				component: () => import('../views/user/posting/Publish.vue'),
 				children: [
@@ -99,6 +104,15 @@ const routes = [
 						component: () => import('../components/user/posting/NewStory.vue')
 					}
 				]
+			},
+			{
+				path: 'post/:postId',
+				component: () => import('../views/user/post/PostPreview')
+			},
+			{
+				path: 'my-collections',
+				component: () =>
+					import('../views/user/post-collection/MyCollections.vue')
 			},
 			{
 				path: 'settings',

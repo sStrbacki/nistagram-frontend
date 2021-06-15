@@ -17,6 +17,14 @@ async function createStory(story) {
 		return err.response;
 	}
 }
+async function createReshareStory(story) {
+	try {
+		let res = await axios.post(api.content.reshare, story);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
 
 async function getPostById(postId) {
 	try {
@@ -44,6 +52,7 @@ async function postLike(postId) {
 		return err.response;
 	}
 }
+
 async function postDislike(postId) {
 	try {
 		let res = await axios.get(api.content.postDislike + '/' + postId);
@@ -52,6 +61,25 @@ async function postDislike(postId) {
 		return err.response;
 	}
 }
+
+async function deleteLike(postId) {
+	try {
+		let res = await axios.delete(api.content.postLike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function deleteDislike(postId) {
+	try {
+		let res = await axios.delete(api.content.postDislike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function comment(comment) {
 	try {
 		let res = await axios.post(api.content.comment, comment);
@@ -60,13 +88,107 @@ async function comment(comment) {
 		return err.response;
 	}
 }
-
+async function createCollection(collectionName) {
+	try {
+		let res = await axios.post(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchCollections() {
+	try {
+		let res = await axios.get(api.collection.collectionBase);
+		return res;
+	} catch (err) {
+		console.log(err);
+		return err.response;
+	}
+}
+async function saveToDefaultCollection(postId) {
+	try {
+		let res = await axios.get(api.collection.saveDefault + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function saveToCustomCollection(postId, collectionName) {
+	try {
+		let res = await axios.get(
+			api.collection.collectionBase + '/' + collectionName + '/add/' + postId
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deleteCollection(collectionName) {
+	try {
+		let res = await axios.delete(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchPostsFromDefault() {
+	try {
+		let res = await axios.get(api.collection.defaultCollection);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function fetchPostsFromCollection(collectionName) {
+	try {
+		let res = await axios.get(
+			api.collection.collectionBase + '/' + collectionName
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deletePostFromDefaultCollection(postId) {
+	try {
+		let res = await axios.get(api.collection.unsave + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+async function deletePostFromCustomCollection(collectionName, postId) {
+	try {
+		let res = await axios.delete(
+			api.collection.collectionBase + '/' + collectionName + '/remove/' + postId
+		);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
 export {
 	createPost,
 	createStory,
+	createReshareStory,
 	getPostById,
 	getStoryById,
 	postLike,
 	postDislike,
-	comment
+	deleteLike,
+	deleteDislike,
+	comment,
+	createCollection,
+	fetchCollections,
+	saveToDefaultCollection,
+	saveToCustomCollection,
+	deleteCollection,
+	fetchPostsFromCollection,
+	fetchPostsFromDefault,
+	deletePostFromCustomCollection,
+	deletePostFromDefaultCollection
 };

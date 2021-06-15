@@ -1,4 +1,8 @@
-import { createPost, createStory } from '../../services/contentService';
+import {
+	createPost,
+	createReshareStory,
+	createStory
+} from '../../services/contentService';
 import {
 	getUploadUrls,
 	uploadFiles,
@@ -20,7 +24,9 @@ export default {
 			longitude: null
 		},
 		closeFriends: false,
-		tags: []
+		tags: [],
+		reshareDialog: false,
+		resharePost: null
 	},
 	mutations: {
 		clearPostData: state => {
@@ -43,7 +49,15 @@ export default {
 				latitude: null,
 				longitude: null
 			};
-			state.tags = [];
+			state.resharePost = null;
+		},
+		clearReshareStoryData: state => {
+			state.caption = '';
+			state.location = {
+				name: '',
+				latitude: null,
+				longitude: null
+			};
 		},
 		setLongitude: (state, longitude) => {
 			state.location.longitude = longitude;
@@ -91,6 +105,12 @@ export default {
 			state.tags = state.tags.filter(t => {
 				return t !== tag;
 			});
+		},
+		setReshareDialog: (state, value) => {
+			state.reshareDialog = value;
+		},
+		setResharePost: (state, value) => {
+			state.resharePost = value;
 		}
 	},
 	actions: {
@@ -136,6 +156,19 @@ export default {
 			if (response.status >= 400) notifyError(response.data);
 			else notifySuccess('Story successfully created');
 			state.commit('clearStoryData');
+		},
+		createReshareStory: async state => {
+			const story = {
+				postId: state.getters.resharePost.id,
+				mediaUrl: state.getters.fileUrl,
+				caption: state.getters.caption,
+				closeFriends: state.getters.closeFriends
+			};
+			if (state.getters.location.name) story.location = state.getters.location;
+			const response = await createReshareStory(story);
+			if (response.status >= 400) notifyError(response.data);
+			else notifySuccess('Story successfully created');
+			state.commit('clearReshareStoryData');
 		},
 		removeTag: (state, tag) => {
 			state.commit('removeTag', tag);
@@ -190,9 +223,17 @@ export default {
 		isStoryDataValid: state => {
 			return state.caption && state.fileUrl;
 		},
-
 		isPostDataValid: state => {
 			return state.caption && state.fileUrls && state.fileUrls.length !== 0;
+		},
+		isReshareDataValid: state => {
+			return state.caption && state.resharePost;
+		},
+		reshareDialog: state => {
+			return state.reshareDialog;
+		},
+		resharePost: state => {
+			return state.resharePost;
 		}
 	}
 };
