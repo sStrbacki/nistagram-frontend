@@ -1,4 +1,4 @@
-export const apiHost = 'https://localhost:9090';
+export const apiHost = 'http://localhost:9090';
 
 export const api = {
 	auth: {
@@ -23,7 +23,8 @@ export const api = {
 		mediaStory: apiHost + '/api/content/story/media',
 		postLike: apiHost + '/api/content/post/like',
 		postDislike: apiHost + '/api/content/post/dislike',
-		comment: apiHost + '/api/content/post/comment'
+		comment: apiHost + '/api/content/post/comment',
+		userPosts: apiHost + '/api/content/post/user'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',

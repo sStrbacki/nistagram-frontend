@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import ProfileHeader from '../../components/user/ProfileHeader';
-  import ProfileHighlightsBar from '../../components/user/ProfileHighlightsBar';
+  import ProfileHeader from '../../../components/user/profile/ProfileHeader';
+  import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
 
   export default {
     name: 'ProfileView.vue',

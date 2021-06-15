@@ -5,6 +5,7 @@ import {
     updateProfile
 } from "@/services/userService";
 import { notifyError } from "@/services/notificationService";
+import { getProfilePosts } from "../../services/contentService";
 
 export default {
     state: {
@@ -38,7 +39,8 @@ export default {
             fullName: '',
             bio: '',
             website: ''
-        }
+        },
+        viewingProfilePosts: []
     },
     mutations: {
         setFullName: (state, fullName) => {
@@ -124,6 +126,9 @@ export default {
                 website: ''
             }
             state.viewingProfile = publicData;
+        },
+        setViewingProfilePosts: (state, posts) => {
+            state.viewingProfilePosts = posts;
         }
     },
     actions: {
@@ -181,6 +186,14 @@ export default {
                 notifyError(response.data);
             } else {
                 context.commit('setViewingProfile', response.data);
+            }
+        },
+        getViewingProfilePosts: async (context, username) => {
+            const response = await getProfilePosts(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setViewingProfilePosts', response.data);
             }
         }
     },
@@ -253,7 +266,9 @@ export default {
         },
         viewingProfileWebsite: (state) => {
             return state.viewingProfile.website;
+        },
+        viewingProfilePosts: (state) => {
+            return state.viewingProfilePosts;
         }
-
     }
 }

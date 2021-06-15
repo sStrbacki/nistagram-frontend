@@ -61,6 +61,14 @@ async function comment(comment) {
 	}
 }
 
+async function getProfilePosts(username) {
+	try {
+		return await axios.get(api.content.userPosts + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	createPost,
 	createStory,
@@ -68,5 +76,6 @@ export {
 	getStoryById,
 	postLike,
 	postDislike,
-	comment
+	comment,
+	getProfilePosts
 };
