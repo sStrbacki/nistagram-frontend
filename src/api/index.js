@@ -30,5 +30,11 @@ export const api = {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
 		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+	},
+	graph: {
+		base: apiHost + '/api/user-graph',
+		following: apiHost + '/api/user-graph/follows',
+		pending: apiHost + '/api/user-graph/pending',
+		follow: apiHost + '/api/user-graph/followers'
 	}
 };

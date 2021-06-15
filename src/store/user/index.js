@@ -3,9 +3,10 @@ import {
     getProfile, getPublicData,
     updateNotificationPreferences, updatePrivacyData,
     updateProfile
-} from "@/services/userService";
-import { notifyError } from "@/services/notificationService";
+} from "../../services/userService";
+import { notifyError } from "../../services/notificationService";
 import { getProfilePosts } from "../../services/contentService";
+import {followProfile, isFollowingProfile, isPendingProfile, unfollowProfile} from "../../services/graphService";
 
 export default {
     state: {
@@ -40,7 +41,9 @@ export default {
             bio: '',
             website: ''
         },
-        viewingProfilePosts: []
+        viewingProfilePosts: [],
+        followingViewingProfile: null,
+        pendingViewingProfile: null
     },
     mutations: {
         setFullName: (state, fullName) => {
@@ -129,6 +132,12 @@ export default {
         },
         setViewingProfilePosts: (state, posts) => {
             state.viewingProfilePosts = posts;
+        },
+        setFollowingViewingProfile: (state, following) => {
+            state.followingViewingProfile = following;
+        },
+        setPendingViewingProfile: (state, pending) => {
+            state.pendingViewingProfile = pending;
         }
     },
     actions: {
@@ -194,6 +203,38 @@ export default {
                 notifyError(response.data);
             } else {
                 context.commit('setViewingProfilePosts', response.data);
+            }
+        },
+        getFollowingViewingProfile: async (context, username) => {
+            const response = await isFollowingProfile(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setFollowingViewingProfile', response.data.following);
+            }
+        },
+        getPendingViewingProfile: async (context, username) => {
+            const response = await isPendingProfile(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setPendingViewingProfile', response.data.pending);
+            }
+        },
+        followViewingProfile: async (context) => {
+            const response = await followProfile(context.state.viewingProfile.username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setPendingViewingProfile', true);
+            }
+        },
+        unfollowViewingProfile: async (context) => {
+            const response = await unfollowProfile(context.state.viewingProfile.username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setFollowingViewingProfile', false);
             }
         }
     },
@@ -269,6 +310,12 @@ export default {
         },
         viewingProfilePosts: (state) => {
             return state.viewingProfilePosts;
+        },
+        followingViewingProfile: (state) => {
+            return state.followingViewingProfile;
+        },
+        pendingViewingProfile: (state) => {
+            return state.pendingViewingProfile;
         }
     }
 }

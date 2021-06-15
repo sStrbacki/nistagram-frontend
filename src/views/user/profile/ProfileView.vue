@@ -24,6 +24,18 @@
         return this.$route.params.username
       }
     },
+    mounted() {
+      this.$store.dispatch('getViewingProfile', this.username);
+      this.$store.dispatch('getFollowingViewingProfile', this.username);
+      this.$store.dispatch('getPendingViewingProfile', this.username);
+    },
+    watch: {
+      $route () {
+        this.$store.dispatch('getViewingProfile', this.username);
+        this.$store.dispatch('getFollowingViewingProfile', this.username);
+        this.$store.dispatch('getPendingViewingProfile', this.username);
+      }
+    },
     methods: {
       goToPosts() {
         this.$router.push('/' + this.username);

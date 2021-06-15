@@ -1,14 +1,13 @@
 <template>
   <div class="d-flex flex-wrap justify-center">
-    <v-col class="mr-8" id="profile-picture">
-      <v-avatar size="160">
-        <v-img src="https://www.hellomagazin.rs/data/images/2021-01-23/44486_ana-nikolic-printscreen-yputube_f.jpg"></v-img>
-      </v-avatar>
-    </v-col>
     <div class="d-flex flex-column">
       <v-col id="profile-username-div" class="d-flex flex-wrap justify-space-between">
         <h2 class="d-inline mr-10 align-center">{{ username }}</h2>
-        <v-btn rounded color="blue accent-1">Follow</v-btn>
+        <div v-if="username !== currentUser && pending !== null && following !== null">
+          <v-btn rounded color="blue accent-2" v-if="following" @click="unfollow()">Unfollow</v-btn>
+          <v-btn rounded color="blue accent-1" disabled v-else-if="pending">Pending</v-btn>
+          <v-btn rounded color="blue accent-1" v-else @click="follow()">Follow</v-btn>
+        </div>
       </v-col>
       <v-col class="d-none d-sm-flex justify-space-between" id="profile-stats-div">
         <span class="mx-1">500 posts</span>
@@ -27,18 +26,23 @@
 <script>
   export default {
     name: "ProfileHeader.vue",
-    mounted() {
-      this.$store.dispatch('getViewingProfile', this.username);
-    },
-    watch: {
-      $route () {
-        this.$store.dispatch('getViewingProfile', this.username);
+    methods: {
+      unfollow() {
+        this.$store.dispatch('unfollowViewingProfile');
+      },
+      follow() {
+        this.$store.dispatch('followViewingProfile');
       }
     },
     computed: {
       username: {
         get() {
           return this.$route.params.username
+        }
+      },
+      currentUser: {
+        get() {
+          return this.$store.getters.username;
         }
       },
       fullName: {
@@ -54,6 +58,16 @@
       website: {
         get() {
           return this.$store.getters.viewingProfileWebsite;
+        }
+      },
+      following: {
+        get() {
+          return this.$store.getters.followingViewingProfile;
+        }
+      },
+      pending: {
+        get() {
+          return this.$store.getters.pendingViewingProfile;
         }
       }
     }
