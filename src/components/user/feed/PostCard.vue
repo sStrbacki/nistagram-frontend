@@ -41,7 +41,7 @@
 							</template>
 
 							<v-list class="text-h5">
-								<v-list-item class="list-item">
+								<v-list-item class="list-item" @click="openReshareDialog()">
 									<v-list-item-icon>
 										<v-icon>mdi-share-variant</v-icon>
 									</v-list-item-icon>
@@ -160,7 +160,8 @@ export default {
 			likeEnabled: false,
 			dislikeEnabled: false,
 			postLiked: false,
-			postDisliked: false
+			postDisliked: false,
+			selectedResharePost: null
 		};
 	},
 	props: {
@@ -177,12 +178,28 @@ export default {
 				this.$store.commit('setSelectedPost', value);
 			}
 		},
+		resharePost: {
+			get() {
+				return this.$store.getters.resharePost;
+			},
+			set(value) {
+				this.$store.commit('setResharePost', value);
+			}
+		},
 		collectionDialog: {
 			get() {
 				return this.$store.getters.collectionDialog;
 			},
 			set(value) {
 				this.$store.commit('setCollectionDialog', value);
+			}
+		},
+		reshareDialog: {
+			get() {
+				return this.$store.getters.reshareDialog;
+			},
+			set(value) {
+				this.$store.commit('setReshareDialog', value);
 			}
 		},
 		likedColor() {
@@ -201,6 +218,10 @@ export default {
 		openCollectionsDialog() {
 			this.selectedPostId = this.post.id;
 			this.collectionDialog = !this.collectionDialog;
+		},
+		openReshareDialog() {
+			this.resharePost = this.post;
+			this.reshareDialog = !this.reshareDialog;
 		},
 		rerouteToPostPreview() {
 			this.$router.push('post/' + this.post.id);

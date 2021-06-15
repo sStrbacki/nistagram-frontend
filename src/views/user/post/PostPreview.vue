@@ -85,7 +85,7 @@
 					</v-col>
 				</v-row>
 				<v-row class="mt-4">
-					<v-col cols="2">
+					<v-col cols="4">
 						<v-btn
 							small
 							:color="likedColor"

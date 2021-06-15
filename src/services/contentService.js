@@ -17,6 +17,14 @@ async function createStory(story) {
 		return err.response;
 	}
 }
+async function createReshareStory(story) {
+	try {
+		let res = await axios.post(api.content.reshare, story);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
 
 async function getPostById(postId) {
 	try {
@@ -166,6 +174,7 @@ async function deletePostFromCustomCollection(collectionName, postId) {
 export {
 	createPost,
 	createStory,
+	createReshareStory,
 	getPostById,
 	getStoryById,
 	postLike,

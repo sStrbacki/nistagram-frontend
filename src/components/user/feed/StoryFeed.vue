@@ -68,9 +68,13 @@
 					:key="entry.id"
 				>
 					<v-card class="ma-4" height="500" width="500">
+						<post-card-small
+							:post="entry.storyData.post"
+							v-if="entry.storyData.reshare"
+						/>
 						<v-img
 							contain
-							v-if="!isVideo(entry.storyData.mediaUrl)"
+							v-else-if="!isVideo(entry.storyData.mediaUrl)"
 							:src="entry.storyData.mediaUrl"
 							height="300px"
 							aspect-ratio="1"
@@ -126,9 +130,10 @@
 <script>
 import { videoPlayer } from 'vue-md-player';
 import 'vue-md-player/dist/vue-md-player.css';
+import PostCardSmall from './PostCardSmall.vue';
 export default {
 	name: 'StoryFeed',
-	components: { videoPlayer },
+	components: { videoPlayer, PostCardSmall },
 	data() {
 		return {
 			selectedStoryGroup: null,
