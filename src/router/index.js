@@ -101,6 +101,10 @@ const routes = [
 				]
 			},
 			{
+				path: 'post/:postId',
+				component: () => import('../views/user/post/PostPreview')
+			},
+			{
 				path: 'settings',
 				component: () => import('../views/user/profile/UserProfile'),
 				children: [

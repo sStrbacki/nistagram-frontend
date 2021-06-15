@@ -4,6 +4,9 @@
 			<post-card :post="post" />
 		</v-col>
 	</v-row>
+	<v-row align="center" justify="center" v-else>
+		<v-progress-circular :size="50" indeterminate></v-progress-circular>
+	</v-row>
 </template>
 
 <script>

@@ -19,5 +19,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
 .content-wrap {
 	margin-top: 5rem !important;
+	margin-bottom: 5rem !important;
 }
 </style>

@@ -44,6 +44,7 @@ async function postLike(postId) {
 		return err.response;
 	}
 }
+
 async function postDislike(postId) {
 	try {
 		let res = await axios.get(api.content.postDislike + '/' + postId);
@@ -52,6 +53,25 @@ async function postDislike(postId) {
 		return err.response;
 	}
 }
+
+async function deleteLike(postId) {
+	try {
+		let res = await axios.delete(api.content.postLike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function deleteDislike(postId) {
+	try {
+		let res = await axios.delete(api.content.postDislike + '/' + postId);
+		return res;
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function comment(comment) {
 	try {
 		let res = await axios.post(api.content.comment, comment);
@@ -68,5 +88,7 @@ export {
 	getStoryById,
 	postLike,
 	postDislike,
+	deleteLike,
+	deleteDislike,
 	comment
 };

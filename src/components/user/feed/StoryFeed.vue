@@ -1,5 +1,10 @@
 <template>
-	<v-row class="content-wrap" align="center" justify="center">
+	<v-row
+		class="content-wrap"
+		align="center"
+		justify="center"
+		v-if="storiesLoaded"
+	>
 		<v-slide-group class="pa-4" show-arrows>
 			<v-slide-item
 				v-for="(storyGroup, index) in closeFriendStoryGroups"
@@ -113,6 +118,9 @@
 			</v-slide-group>
 		</v-dialog>
 	</v-row>
+	<v-row align="center" justify="center" class="content-wrap" v-else>
+		<v-progress-circular :size="50" indeterminate></v-progress-circular>
+	</v-row>
 </template>
 
 <script>
@@ -124,7 +132,8 @@ export default {
 	data() {
 		return {
 			selectedStoryGroup: null,
-			storyDialog: false
+			storyDialog: false,
+			storiesLoaded: false
 		};
 	},
 	methods: {
@@ -152,6 +161,7 @@ export default {
 	async mounted() {
 		await this.$store.dispatch('fetchCloseFriendStories');
 		await this.$store.dispatch('fetchStories');
+		this.storiesLoaded = true;
 	}
 };
 </script>
