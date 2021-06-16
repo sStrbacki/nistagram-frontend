@@ -88,6 +88,7 @@ async function comment(comment) {
 		return err.response;
 	}
 }
+
 async function createCollection(collectionName) {
 	try {
 		let res = await axios.post(
@@ -171,6 +172,16 @@ async function deletePostFromCustomCollection(collectionName, postId) {
 		return err.response;
 	}
 }
+
+async function getProfilePosts(username) {
+	try {
+		return await axios.get(api.content.userPosts + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+
 export {
 	createPost,
 	createStory,
@@ -181,7 +192,6 @@ export {
 	postDislike,
 	deleteLike,
 	deleteDislike,
-	comment,
 	createCollection,
 	fetchCollections,
 	saveToDefaultCollection,
@@ -190,5 +200,7 @@ export {
 	fetchPostsFromCollection,
 	fetchPostsFromDefault,
 	deletePostFromCustomCollection,
-	deletePostFromDefaultCollection
+	deletePostFromDefaultCollection,
+	comment,
+	getProfilePosts
 };

@@ -6,16 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-		"preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions"
   },
-	"resolutions":{
-		"css-what": "^5.0.1",
-		"normalize-url": "^6.0.1",
-		"glob-parent": "^5.1.2",
-		"postcss":"^8.3.2",
-		"serialize-javascript":"^3.1.0",
-		"ssri":"^8.0.1"
-	},
+  "resolutions": {
+    "css-what": "^5.0.1",
+    "normalize-url": "^6.0.1",
+    "glob-parent": "^5.1.2",
+    "postcss": "^8.3.2",
+    "serialize-javascript": "^3.1.0",
+    "ssri": "^8.0.1"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",

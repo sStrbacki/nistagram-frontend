@@ -14,7 +14,9 @@ export const api = {
 		preferences: apiHost + '/api/users/profile/preferences',
 		privacyData: apiHost + '/api/users/profile/privacy',
 		publicData: apiHost + '/api/users/public',
-		taggable: apiHost + '/api/users/taggable'
+		taggable: apiHost + '/api/users/taggable',
+		visibility: apiHost + '/api/users/visibility',
+		stats: apiHost + '/api/users/profile/stats'
 	},
 	content: {
 		base: apiHost + '/api/content',
@@ -24,7 +26,8 @@ export const api = {
 		mediaStory: apiHost + '/api/content/story/media',
 		postLike: apiHost + '/api/content/post/like',
 		postDislike: apiHost + '/api/content/post/dislike',
-		comment: apiHost + '/api/content/post/comment'
+		comment: apiHost + '/api/content/post/comment',
+		userPosts: apiHost + '/api/content/post/user'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
@@ -36,5 +39,11 @@ export const api = {
 		saveDefault: apiHost + '/api/content/post/save',
 		defaultCollection: apiHost + '/api/content/post/saved',
 		unsave: apiHost + '/api/content/post/unsave'
+	},
+	graph: {
+		base: apiHost + '/api/user-graph',
+		following: apiHost + '/api/user-graph/follows',
+		pending: apiHost + '/api/user-graph/pending',
+		follow: apiHost + '/api/user-graph/followers'
 	}
 };

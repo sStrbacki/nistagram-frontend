@@ -164,24 +164,23 @@ const routes = [
 				]
 			}
 		]
-	}
-
-	// {
-	// 	path: '/:username',
-	// 	component: () => import('../views/user/ProfileView'),
-	// 	children: [
-	// 		{
-	// 			path: '',
-	// 			name: 'ProfilePostsView',
-	// 			component: () => import('../components/user/ProfilePostsView')
-	// 		},
-	// 		{
-	// 			path: 'tagged',
-	// 			name: 'ProfileTaggedPosts',
-	// 			component: () => import('../components/user/ProfilePostsView')
-	// 		}
-	// 	]
-	// },
+	},
+	{
+		path: '/:username',
+		component: () => import('../views/user/profile/ProfileView'),
+		children: [
+			{
+				path: '',
+				name: 'ProfilePostsView',
+				component: () => import('../components/user/profile/ProfilePostsView')
+			},
+			{
+				path: 'tagged',
+				name: 'ProfileTaggedPosts',
+				component: () => import('../components/user/profile/ProfilePostsView')
+			}
+		]
+	},
 ];
 
 const router = new VueRouter({

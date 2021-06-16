@@ -1,20 +1,25 @@
 <template>
   <v-container>
     <profile-header></profile-header>
-    <profile-highlights-bar></profile-highlights-bar>
-    <v-tabs class="d-flex justify-center">
-      <v-tab @click="goToPosts()">Posts</v-tab>
-      <v-tab @click="goToTagged()">Tagged</v-tab>
-    </v-tabs>
-    <v-card>
-      <router-view></router-view>
+    <div v-if="private === false || following">
+      <profile-highlights-bar></profile-highlights-bar>
+      <v-tabs class="d-flex justify-center">
+        <v-tab @click="goToPosts()">Posts</v-tab>
+        <v-tab @click="goToTagged()">Tagged</v-tab>
+      </v-tabs>
+      <v-card>
+        <router-view></router-view>
+      </v-card>
+    </div>
+    <v-card class="d-flex justify-center my-5 py-5" v-if="private && following === false">
+      This profile is private!
     </v-card>
   </v-container>
 </template>
 
 <script>
-  import ProfileHeader from '../../components/user/ProfileHeader';
-  import ProfileHighlightsBar from '../../components/user/ProfileHighlightsBar';
+  import ProfileHeader from '../../../components/user/profile/ProfileHeader';
+  import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
 
   export default {
     name: 'ProfileView.vue',
@@ -22,6 +27,20 @@
     computed: {
       username() {
         return this.$route.params.username
+      },
+      private() {
+        return this.$store.getters.viewingProfilePrivate;
+      },
+      following() {
+        return this.$store.getters.followingViewingProfile;
+      }
+    },
+    mounted() {
+      this.getProfile();
+    },
+    watch: {
+      $route () {
+        this.getProfile();
       }
     },
     methods: {
@@ -29,7 +48,14 @@
         this.$router.push('/' + this.username);
       },
       goToTagged() {
-        this.$router.push('/' + this.username + '/tagged')
+        this.$router.push('/' + this.username + '/tagged');
+      },
+      getProfile() {
+        this.$store.dispatch('getViewingProfilePrivate', this.username);
+        this.$store.dispatch('getViewingProfile', this.username);
+        this.$store.dispatch('getFollowingViewingProfile', this.username);
+        this.$store.dispatch('getPendingViewingProfile', this.username);
+        this.$store.dispatch('getViewingProfileStats', this.username);
       }
     }
   }
