@@ -7,6 +7,7 @@ import postingModule from './posting/index';
 import feedModule from './feed/index';
 import postModule from './post/index';
 import collectionModule from './collection/index';
+import viewingProfile from './viewing-profile/index'
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
 		posting: postingModule,
 		feed: feedModule,
 		post: postModule,
-		colleciton: collectionModule
+		colleciton: collectionModule,
+		viewingProfile: viewingProfile
 	}
 });
 //ZnKa&qL86A*#jt

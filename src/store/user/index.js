@@ -34,22 +34,7 @@ export default {
             newFollowerNotificationEnabled: '',
             messageRequestNotificationEnabled: '',
             messageNotificationEnabled: ''
-        },
-        viewingProfile: {
-            username: '',
-            fullName: '',
-            bio: '',
-            website: ''
-        },
-        viewingProfileStats: {
-            following: '',
-            followers: '',
-            postCount: ''
-        },
-        viewingProfilePosts: [],
-        followingViewingProfile: null,
-        pendingViewingProfile: null,
-        viewingProfilePrivate: null
+        }
     },
     mutations: {
         setFullName: (state, fullName) => {
@@ -114,42 +99,6 @@ export default {
         },
         setPrivacyData: (state, privacyData) => {
             state.privacyData = privacyData;
-        },
-        setViewingProfileUsername: (state, username) => {
-            state.viewingProfile.username = username;
-        },
-        setViewingProfileFullName: (state, fullName) => {
-            state.viewingProfile.fullName = fullName;
-        },
-        setViewingProfileBio: (state, bio) => {
-            state.viewingProfile.bio = bio;
-        },
-        setViewingProfileWebsite: (state, website) => {
-            state.viewingProfile.website = website;
-        },
-        setViewingProfile: (state, publicData) => {
-            state.viewingProfile = {
-                username: '',
-                fullName: '',
-                bio: '',
-                website: ''
-            }
-            state.viewingProfile = publicData;
-        },
-        setViewingProfilePosts: (state, posts) => {
-            state.viewingProfilePosts = posts;
-        },
-        setFollowingViewingProfile: (state, following) => {
-            state.followingViewingProfile = following;
-        },
-        setPendingViewingProfile: (state, pending) => {
-            state.pendingViewingProfile = pending;
-        },
-        setViewingProfilePrivate: (state, profilePrivate) => {
-            state.viewingProfilePrivate = profilePrivate;
-        },
-        setViewingProfileStats: (state, stats) => {
-            state.viewingProfileStats = stats;
         }
     },
     actions: {
@@ -199,70 +148,6 @@ export default {
                 notifyError(response.data);
             } else {
                 context.commit('setPrivacyData', response.data);
-            }
-        },
-        getViewingProfile: async (context, username) => {
-            const response = await getPublicData(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setViewingProfile', response.data);
-            }
-        },
-        getViewingProfilePosts: async (context, username) => {
-            const response = await getProfilePosts(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setViewingProfilePosts', response.data);
-            }
-        },
-        getFollowingViewingProfile: async (context, username) => {
-            const response = await isFollowingProfile(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setFollowingViewingProfile', response.data.following);
-            }
-        },
-        getPendingViewingProfile: async (context, username) => {
-            const response = await isPendingProfile(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setPendingViewingProfile', response.data.pending);
-            }
-        },
-        followViewingProfile: async (context) => {
-            const response = await followProfile(context.state.viewingProfile.username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setPendingViewingProfile', true);
-            }
-        },
-        unfollowViewingProfile: async (context) => {
-            const response = await unfollowProfile(context.state.viewingProfile.username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setFollowingViewingProfile', false);
-            }
-        },
-        getViewingProfilePrivate: async (context, username) => {
-            const response = await isPrivate(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setViewingProfilePrivate', response.data.profilePrivate);
-            }
-        },
-        getViewingProfileStats: async (context, username) => {
-            const response = await getProfileStats(username);
-            if (response.status >= 400) {
-                notifyError(response.data);
-            } else {
-                context.commit('setViewingProfileStats', response.data);
             }
         }
     },
@@ -323,33 +208,6 @@ export default {
         },
         taggable: (state) => {
             return state.privacyData.taggable;
-        },
-        viewingProfileUsername: (state) => {
-            return state.viewingProfile.username;
-        },
-        viewingProfileFullName: (state) => {
-            return state.viewingProfile.fullName;
-        },
-        viewingProfileBio: (state) => {
-            return state.viewingProfile.bio;
-        },
-        viewingProfileWebsite: (state) => {
-            return state.viewingProfile.website;
-        },
-        viewingProfilePosts: (state) => {
-            return state.viewingProfilePosts;
-        },
-        followingViewingProfile: (state) => {
-            return state.followingViewingProfile;
-        },
-        pendingViewingProfile: (state) => {
-            return state.pendingViewingProfile;
-        },
-        viewingProfilePrivate: (state) => {
-            return state.viewingProfilePrivate;
-        },
-        viewingProfileStats: (state) => {
-            return state.viewingProfileStats;
         }
     }
 }

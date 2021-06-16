@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <profile-header></profile-header>
-    <div v-if="private === false || following">
+    <div v-if="private === false || following || username === currentUser">
       <profile-highlights-bar></profile-highlights-bar>
       <v-tabs class="d-flex justify-center">
         <v-tab @click="goToPosts()">Posts</v-tab>
@@ -11,7 +11,7 @@
         <router-view></router-view>
       </v-card>
     </div>
-    <v-card class="d-flex justify-center my-5 py-5" v-if="private && following === false">
+    <v-card class="d-flex justify-center my-5 py-5" v-else-if="private && following === false">
       This profile is private!
     </v-card>
   </v-container>
@@ -33,6 +33,9 @@
       },
       following() {
         return this.$store.getters.followingViewingProfile;
+      },
+      currentUser() {
+        return this.$store.getters.username;
       }
     },
     mounted() {
@@ -51,6 +54,7 @@
         this.$router.push('/' + this.username + '/tagged');
       },
       getProfile() {
+        this.$store.dispatch('getProfile');
         this.$store.dispatch('getViewingProfilePrivate', this.username);
         this.$store.dispatch('getViewingProfile', this.username);
         this.$store.dispatch('getFollowingViewingProfile', this.username);
