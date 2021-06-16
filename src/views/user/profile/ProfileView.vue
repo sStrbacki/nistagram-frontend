@@ -60,6 +60,7 @@
         this.$store.dispatch('getFollowingViewingProfile', this.username);
         this.$store.dispatch('getPendingViewingProfile', this.username);
         this.$store.dispatch('getViewingProfileStats', this.username);
+        this.$store.dispatch('getViewingProfileHighlights', this.username);
       }
     }
   }

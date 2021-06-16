@@ -27,7 +27,8 @@ export const api = {
 		postLike: apiHost + '/api/content/post/like',
 		postDislike: apiHost + '/api/content/post/dislike',
 		comment: apiHost + '/api/content/post/comment',
-		userPosts: apiHost + '/api/content/post/user'
+		userPosts: apiHost + '/api/content/post/user',
+		userHighlights: apiHost + '/api/content/story/highlights/user'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',

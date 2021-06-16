@@ -1,6 +1,6 @@
 import {getProfileStats, getPublicData, isPrivate} from "@/services/userService";
 import {notifyError} from "@/services/notificationService";
-import {getProfilePosts} from "@/services/contentService";
+import {getProfileHighlights, getProfilePosts} from "@/services/contentService";
 import {followProfile, isFollowingProfile, isPendingProfile, unfollowProfile} from "@/services/graphService";
 
 export default {
@@ -17,6 +17,7 @@ export default {
             postCount: ''
         },
         viewingProfilePosts: [],
+        viewingProfileHighlights: [],
         followingViewingProfile: null,
         pendingViewingProfile: null,
         viewingProfilePrivate: null
@@ -46,6 +47,9 @@ export default {
         setViewingProfileStats: (state, stats) => {
             state.viewingProfileStats = stats;
         },
+        setViewingProfileHighlights: (state, highlights) => {
+            state.viewingProfileHighlights = highlights;
+        }
     },
     actions: {
         getViewingProfile: async (context, username) => {
@@ -111,6 +115,14 @@ export default {
             } else {
                 context.commit('setViewingProfileStats', response.data);
             }
+        },
+        getViewingProfileHighlights: async (context, username) => {
+            const response = await getProfileHighlights(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setViewingProfileHighlights', response.data);
+            }
         }
     },
     getters: {
@@ -140,6 +152,9 @@ export default {
         },
         viewingProfileStats: (state) => {
             return state.viewingProfileStats;
+        },
+        viewingProfileHighlights: (state) => {
+            return state.viewingProfileHighlights;
         }
     }
 }

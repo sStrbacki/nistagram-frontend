@@ -181,6 +181,14 @@ async function getProfilePosts(username) {
 	}
 }
 
+async function getProfileHighlights(username) {
+	try {
+		return await axios.get(api.content.userHighlights + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 
 export {
 	createPost,
@@ -202,5 +210,6 @@ export {
 	deletePostFromCustomCollection,
 	deletePostFromDefaultCollection,
 	comment,
-	getProfilePosts
+	getProfilePosts,
+	getProfileHighlights
 };
