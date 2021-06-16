@@ -14,7 +14,8 @@ export const api = {
 		preferences: apiHost + '/api/users/profile/preferences',
 		privacyData: apiHost + '/api/users/profile/privacy',
 		publicData: apiHost + '/api/users/public',
-		taggable: apiHost + '/api/users/taggable'
+		taggable: apiHost + '/api/users/taggable',
+		visibility: apiHost + '/api/users/visibility'
 	},
 	content: {
 		base: apiHost + '/api/content',
