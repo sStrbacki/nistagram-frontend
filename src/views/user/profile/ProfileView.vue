@@ -29,7 +29,6 @@
         return this.$route.params.username
       },
       private() {
-        console.log(this.$store.getters.viewingProfilePrivate);
         return this.$store.getters.viewingProfilePrivate;
       },
       following() {
@@ -37,17 +36,11 @@
       }
     },
     mounted() {
-      this.$store.dispatch('getViewingProfilePrivate', this.username);
-      this.$store.dispatch('getViewingProfile', this.username);
-      this.$store.dispatch('getFollowingViewingProfile', this.username);
-      this.$store.dispatch('getPendingViewingProfile', this.username);
+      this.getProfile();
     },
     watch: {
       $route () {
-        this.$store.dispatch('getViewingProfilePrivate', this.username);
-        this.$store.dispatch('getViewingProfile', this.username);
-        this.$store.dispatch('getFollowingViewingProfile', this.username);
-        this.$store.dispatch('getPendingViewingProfile', this.username);
+        this.getProfile();
       }
     },
     methods: {
@@ -55,7 +48,14 @@
         this.$router.push('/' + this.username);
       },
       goToTagged() {
-        this.$router.push('/' + this.username + '/tagged')
+        this.$router.push('/' + this.username + '/tagged');
+      },
+      getProfile() {
+        this.$store.dispatch('getViewingProfilePrivate', this.username);
+        this.$store.dispatch('getViewingProfile', this.username);
+        this.$store.dispatch('getFollowingViewingProfile', this.username);
+        this.$store.dispatch('getPendingViewingProfile', this.username);
+        this.$store.dispatch('getViewingProfileStats', this.username);
       }
     }
   }

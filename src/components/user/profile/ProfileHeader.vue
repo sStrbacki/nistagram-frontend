@@ -10,9 +10,9 @@
         </div>
       </v-col>
       <v-col class="d-none d-sm-flex justify-space-between" id="profile-stats-div">
-        <span class="mx-1">500 posts</span>
-        <span class="mx-1">513k followers</span>
-        <span class="mx-1">1326 following</span>
+        <span class="mx-1">{{ postCount }} posts</span>
+        <span class="mx-1">{{ followersCount }} followers</span>
+        <span class="mx-1">{{ followingCount }} following</span>
       </v-col>
       <v-col id="personal-info-div">
         <h4>{{ fullName }}</h4>
@@ -68,6 +68,21 @@
       pending: {
         get() {
           return this.$store.getters.pendingViewingProfile;
+        }
+      },
+      postCount: {
+        get() {
+          return this.$store.getters.viewingProfileStats.postCount;
+        }
+      },
+      followersCount: {
+        get() {
+          return this.$store.getters.viewingProfileStats.followers;
+        }
+      },
+      followingCount: {
+        get() {
+          return this.$store.getters.viewingProfileStats.following;
         }
       }
     }

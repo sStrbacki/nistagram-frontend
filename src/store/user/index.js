@@ -1,6 +1,6 @@
 import {
     getNotificationPreferences, getPrivacyData,
-    getProfile, getPublicData, isPrivate,
+    getProfile, getProfileStats, getPublicData, isPrivate,
     updateNotificationPreferences, updatePrivacyData,
     updateProfile
 } from "../../services/userService";
@@ -40,6 +40,11 @@ export default {
             fullName: '',
             bio: '',
             website: ''
+        },
+        viewingProfileStats: {
+            following: '',
+            followers: '',
+            postCount: ''
         },
         viewingProfilePosts: [],
         followingViewingProfile: null,
@@ -142,6 +147,9 @@ export default {
         },
         setViewingProfilePrivate: (state, profilePrivate) => {
             state.viewingProfilePrivate = profilePrivate;
+        },
+        setViewingProfileStats: (state, stats) => {
+            state.viewingProfileStats = stats;
         }
     },
     actions: {
@@ -248,6 +256,14 @@ export default {
             } else {
                 context.commit('setViewingProfilePrivate', response.data.profilePrivate);
             }
+        },
+        getViewingProfileStats: async (context, username) => {
+            const response = await getProfileStats(username);
+            if (response.status >= 400) {
+                notifyError(response.data);
+            } else {
+                context.commit('setViewingProfileStats', response.data);
+            }
         }
     },
     getters: {
@@ -331,6 +347,9 @@ export default {
         },
         viewingProfilePrivate: (state) => {
             return state.viewingProfilePrivate;
+        },
+        viewingProfileStats: (state) => {
+            return state.viewingProfileStats;
         }
     }
 }

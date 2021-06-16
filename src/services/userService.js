@@ -65,6 +65,14 @@ async function isPrivate(username) {
     }
 }
 
+async function getProfileStats(username) {
+    try {
+        return await axios.get(api.user.stats + '/' + username);
+    } catch (err) {
+        return err.response;
+    }
+}
+
 export {
     getProfile,
     updateProfile,
@@ -73,5 +81,6 @@ export {
     getPrivacyData,
     updatePrivacyData,
     getPublicData,
-    isPrivate
+    isPrivate,
+    getProfileStats
 }
