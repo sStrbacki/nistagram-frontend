@@ -107,6 +107,7 @@ const routes = [
 			},
 			{
 				path: 'post/:postId',
+				name: 'PostPreview',
 				component: () => import('../views/user/post/PostPreview')
 			},
 			{

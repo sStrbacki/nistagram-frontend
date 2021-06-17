@@ -20,32 +20,21 @@
 				class="mx-auto"
 				max-width="400"
 				v-for="post in foundPosts"
-				:key="post.id"
-			>
-				<v-img :src="post.mediaUrls[0]" height="200px"></v-img>
+				:key="post.id">
 
-				<v-card-title>
-					{{ post.author }}
-				</v-card-title>
+        <post-card :post="post"/>
 
-				<v-card-subtitle>
-					{{ post.caption }}
-				</v-card-subtitle>
-
-				<v-card-actions>
-					<v-btn text>
-						See more
-					</v-btn>
-				</v-card-actions>
 			</v-card>
 		</v-row>
 	</v-col>
 </template>
 
 <script>
+import PostCard from "@/components/user/feed/PostCard";
 export default {
     name: 'LocationSearch',
-    data: () => ({
+  components: {PostCard},
+  data: () => ({
       items: [],
       autoCompleteService: null,
       geocoder: null,

@@ -224,7 +224,12 @@ export default {
 			this.reshareDialog = !this.reshareDialog;
 		},
 		rerouteToPostPreview() {
-			this.$router.push('post/' + this.post.id);
+			this.$router.push({
+          name: 'PostPreview',
+          params: {
+              postId: this.post.id
+          }
+      });
 		},
 		isVideo(url) {
 			return url.includes('videos');
