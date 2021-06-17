@@ -274,10 +274,13 @@ export default {
 		},
 		select(result) {
 			this.geocoder.geocode({ address: this.locationName }, (res, status) => {
-				if (status == window.google.maps.GeocoderStatus.OK) {
-					this.$store.dispatch('setLatitude', res[0].geometry.location.lat());
-					this.$store.dispatch('setLongitude', res[0].geometry.location.lng());
-					this.$store.dispatch('setLocationName', result);
+				if (status === window.google.maps.GeocoderStatus.OK) {
+				  const responseLocation = res[0];
+				  const coordinates = responseLocation.geometry.location;
+
+					this.$store.dispatch('setLatitude', coordinates.lat());
+					this.$store.dispatch('setLongitude', coordinates.lng());
+					this.$store.dispatch('setLocationName', responseLocation.formatted_address);
 				}
 			});
 		},

@@ -3,6 +3,7 @@ import {
 	findPosts,
 	findTaggableUsers
 } from '../../services/searchService';
+import {notifyError} from "@/services/notificationService";
 
 export default {
 	state: {
@@ -15,9 +16,15 @@ export default {
 		results: {
 			users: [],
 			posts: []
+		},
+		location: {
+			street: ''
 		}
 	},
 	mutations: {
+		setLocationStreet: (state, street) => {
+			state.location.street = street;
+		},
 		setTaggableUserQuery: (state, userQuery) => {
 			state.queries.taggableUserQuery = userQuery;
 		},
@@ -55,8 +62,16 @@ export default {
 			state.commit('setUsers', response);
 		},
 		findPostsByLocation: async state => {
-			const response = await findPosts(state.getters.locationQuery);
-			state.commit('setPosts', response);
+			console.log("Location", state.getters.locationStreet);
+			findPosts(state.getters.locationStreet)
+				.then(response => {
+					console.log("Found some posts:", response.data);
+					state.commit('setPosts', response.data);
+				})
+				.catch(e => {
+					notifyError("Failed to load");
+					console.error(e.response.data);
+				})
 		},
 		appendTag: (state, tag) => {
 			state.commit('appendTag', tag);
@@ -66,6 +81,9 @@ export default {
 		}
 	},
 	getters: {
+		locationStreet: state => {
+			return state.location.street;
+		},
 		taggableUserQuery: state => {
 			return state.queries.taggableUserQuery;
 		},
