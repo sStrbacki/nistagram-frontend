@@ -162,6 +162,10 @@ const routes = [
 						component: () => import('../components/common/search/TagSearch.vue')
 					}
 				]
+			},
+			{
+				path: 'followers',
+				component: () => import('../views/user/profile/FollowerRequestsView')
 			}
 		]
 	},
