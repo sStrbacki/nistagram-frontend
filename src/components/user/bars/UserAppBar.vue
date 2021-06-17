@@ -14,6 +14,9 @@
 
 			<v-spacer></v-spacer>
 
+      <v-btn icon to="/home/followers">
+        <v-icon>mdi-account-multiple</v-icon>
+      </v-btn>
 			<v-btn icon>
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
