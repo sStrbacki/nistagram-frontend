@@ -15,7 +15,7 @@
 				return-object
 			></v-autocomplete>
 		</v-row>
-		<v-row v-if="selected && foundPosts.length !== 0" dense no-gutters>
+		<v-row v-if="foundPosts.length !== 0" dense no-gutters>
 			<v-card
 				class="mx-auto"
 				max-width="400"
