@@ -107,6 +107,7 @@ const routes = [
 			},
 			{
 				path: 'post/:postId',
+				name: 'PostPreview',
 				component: () => import('../views/user/post/PostPreview')
 			},
 			{
@@ -180,7 +181,7 @@ const routes = [
 				component: () => import('../components/user/profile/ProfilePostsView')
 			}
 		]
-	},
+	}
 ];
 
 const router = new VueRouter({

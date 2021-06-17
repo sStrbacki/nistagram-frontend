@@ -13,6 +13,7 @@ export default {
 	components: { UserAppBar },
 	mounted() {
 		this.$store.dispatch('getProfile');
+		this.$store.dispatch('getNotifications');
 	}
 };
 </script>

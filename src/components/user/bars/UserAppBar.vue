@@ -29,6 +29,8 @@
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
 
+			<notifications-dropdown />
+
 			<v-btn icon @click="drawer = !drawer">
 				<v-icon>mdi-dots-vertical</v-icon>
 			</v-btn>
@@ -65,8 +67,10 @@
 
 <script>
 import { logout } from '../../../services/authService';
+import NotificationsDropdown from '../notifications/NotificationsDropdown.vue';
 
 export default {
+	components: { NotificationsDropdown },
 	name: 'UserAppBar',
 	data() {
 		return {

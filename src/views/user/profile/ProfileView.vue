@@ -1,71 +1,72 @@
 <template>
-  <v-container>
-    <profile-header></profile-header>
-    <div v-if="private === false || following || username === currentUser">
-      <profile-highlights-bar></profile-highlights-bar>
-      <v-tabs class="d-flex justify-center">
-        <v-tab @click="goToPosts()">Posts</v-tab>
-        <v-tab @click="goToTagged()">Tagged</v-tab>
-      </v-tabs>
-      <v-card>
-        <router-view></router-view>
-      </v-card>
-    </div>
-    <v-card class="d-flex justify-center my-5 py-5" v-else-if="private && following === false">
-      This profile is private!
-    </v-card>
-  </v-container>
+	<v-container>
+		<profile-header></profile-header>
+		<div v-if="!this.private || following || username === currentUser">
+			<profile-highlights-bar></profile-highlights-bar>
+			<v-tabs class="d-flex justify-center">
+				<v-tab @click="goToPosts()">Posts</v-tab>
+				<v-tab @click="goToTagged()">Tagged</v-tab>
+			</v-tabs>
+			<v-card>
+				<router-view></router-view>
+			</v-card>
+		</div>
+		<v-card
+			class="d-flex justify-center my-5 py-5"
+			v-else-if="this.private && following === false"
+		>
+			This profile is private!
+		</v-card>
+	</v-container>
 </template>
 
 <script>
-  import ProfileHeader from '../../../components/user/profile/ProfileHeader';
-  import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
+import ProfileHeader from '../../../components/user/profile/ProfileHeader';
+import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
 
-  export default {
-    name: 'ProfileView.vue',
-    components: {ProfileHighlightsBar, ProfileHeader},
-    computed: {
-      username() {
-        return this.$route.params.username
-      },
-      private() {
-        return this.$store.getters.viewingProfilePrivate;
-      },
-      following() {
-        return this.$store.getters.followingViewingProfile;
-      },
-      currentUser() {
-        return this.$store.getters.username;
-      }
-    },
-    mounted() {
-      this.getProfile();
-    },
-    watch: {
-      $route () {
-        this.getProfile();
-      }
-    },
-    methods: {
-      goToPosts() {
-        this.$router.push('/' + this.username);
-      },
-      goToTagged() {
-        this.$router.push('/' + this.username + '/tagged');
-      },
-      getProfile() {
-        this.$store.dispatch('getProfile');
-        this.$store.dispatch('getViewingProfilePrivate', this.username);
-        this.$store.dispatch('getViewingProfile', this.username);
-        this.$store.dispatch('getFollowingViewingProfile', this.username);
-        this.$store.dispatch('getPendingViewingProfile', this.username);
-        this.$store.dispatch('getViewingProfileStats', this.username);
-        this.$store.dispatch('getViewingProfileHighlights', this.username);
-      }
-    }
-  }
+export default {
+	name: 'ProfileView.vue',
+	components: { ProfileHighlightsBar, ProfileHeader },
+	computed: {
+		username() {
+			return this.$route.params.username;
+		},
+		private() {
+			return this.$store.getters.viewingProfilePrivate;
+		},
+		following() {
+			return this.$store.getters.followingViewingProfile;
+		},
+		currentUser() {
+			return this.$store.getters.username;
+		}
+	},
+	mounted() {
+		this.getProfile();
+	},
+	watch: {
+		$route() {
+			this.getProfile();
+		}
+	},
+	methods: {
+		goToPosts() {
+			this.$router.push('/' + this.username);
+		},
+		goToTagged() {
+			this.$router.push('/' + this.username + '/tagged');
+		},
+		getProfile() {
+			this.$store.dispatch('getProfile');
+			this.$store.dispatch('getViewingProfilePrivate', this.username);
+			this.$store.dispatch('getViewingProfile', this.username);
+			this.$store.dispatch('getFollowingViewingProfile', this.username);
+			this.$store.dispatch('getPendingViewingProfile', this.username);
+			this.$store.dispatch('getViewingProfileStats', this.username);
+			this.$store.dispatch('getViewingProfileHighlights', this.username);
+		}
+	}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
