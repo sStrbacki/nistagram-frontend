@@ -62,64 +62,7 @@
 			</v-slide-item>
 		</v-slide-group>
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStoryGroup">
-			<v-slide-group class="pa-4" active-class="success" show-arrows>
-				<v-slide-item
-					v-for="entry in selectedStoryGroup.entries"
-					:key="entry.id"
-				>
-					<v-card class="ma-4" height="500" width="500">
-						<post-card-small
-							:post="entry.storyData.post"
-							v-if="entry.storyData.reshare"
-						/>
-						<v-img
-							contain
-							v-else-if="!isVideo(entry.storyData.mediaUrl)"
-							:src="entry.storyData.mediaUrl"
-							height="300px"
-							aspect-ratio="1"
-						>
-						</v-img>
-						<video-player v-else>
-							<source :src="entry.storyData.mediaUrl" />
-						</video-player>
-						<v-card-title>
-							<v-row>
-								<v-col cols="1">
-									<v-icon dark>
-										mdi-account-circle
-									</v-icon>
-								</v-col>
-								<v-col class="subtitle-2 mt-2">
-									<p>{{ entry.storyData.author }}</p>
-								</v-col>
-							</v-row>
-						</v-card-title>
-						<v-card-subtitle>
-							<v-row>
-								<v-col cols="1">
-									<v-icon dark>
-										mdi-closed-caption
-									</v-icon>
-								</v-col>
-								<v-col>
-									{{ entry.storyData.caption }}
-								</v-col>
-							</v-row>
-							<v-row v-if="entry.storyData.location">
-								<v-col cols="1">
-									<v-icon dark>
-										mdi-map-marker
-									</v-icon>
-								</v-col>
-								<v-col>
-									{{ entry.storyData.location.name }}
-								</v-col>
-							</v-row>
-						</v-card-subtitle>
-					</v-card>
-				</v-slide-item>
-			</v-slide-group>
+			<story-view :stories="getStoriesFromStoryGroup(selectedStoryGroup)"></story-view>
 		</v-dialog>
 	</v-row>
 	<v-row align="center" justify="center" class="content-wrap" v-else>
@@ -131,9 +74,10 @@
 import { videoPlayer } from 'vue-md-player';
 import 'vue-md-player/dist/vue-md-player.css';
 import PostCardSmall from './PostCardSmall.vue';
+import StoryView from "@/components/common/story/StoryView";
 export default {
 	name: 'StoryFeed',
-	components: { videoPlayer, PostCardSmall },
+	components: {StoryView, videoPlayer, PostCardSmall },
 	data() {
 		return {
 			selectedStoryGroup: null,
@@ -149,7 +93,10 @@ export default {
 		},
 		isVideo(url) {
 			return url.includes('videos');
-		}
+		},
+    getStoriesFromStoryGroup(storyGroup) {
+		  return storyGroup.entries.map(entry => entry.storyData);
+    }
 	},
 	computed: {
 		storyGroups: {
