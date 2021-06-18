@@ -62,7 +62,9 @@
 			</v-slide-item>
 		</v-slide-group>
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStoryGroup">
-			<story-view :stories="getStoriesFromStoryGroup(selectedStoryGroup)"></story-view>
+			<story-view
+				:stories="getStoriesFromStoryGroup(selectedStoryGroup)"
+			></story-view>
 		</v-dialog>
 	</v-row>
 	<v-row align="center" justify="center" class="content-wrap" v-else>
@@ -71,13 +73,11 @@
 </template>
 
 <script>
-import { videoPlayer } from 'vue-md-player';
 import 'vue-md-player/dist/vue-md-player.css';
-import PostCardSmall from './PostCardSmall.vue';
-import StoryView from "@/components/common/story/StoryView";
+import StoryView from '@/components/common/story/StoryView';
 export default {
 	name: 'StoryFeed',
-	components: {StoryView, videoPlayer, PostCardSmall },
+	components: { StoryView },
 	data() {
 		return {
 			selectedStoryGroup: null,
@@ -93,9 +93,9 @@ export default {
 		isVideo(url) {
 			return url.includes('videos');
 		},
-    getStoriesFromStoryGroup(storyGroup) {
-		  return storyGroup.entries.map(entry => entry.storyData);
-    }
+		getStoriesFromStoryGroup(storyGroup) {
+			return storyGroup.entries.map(entry => entry.storyData);
+		}
 	},
 	computed: {
 		storyGroups: {

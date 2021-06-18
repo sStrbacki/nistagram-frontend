@@ -10,7 +10,11 @@
 		<v-row>
 			<v-col>
 				<v-list flat>
-					<v-list-item v-for="user in users" :key="user.username" @click="openProfile(user.username)">
+					<v-list-item
+						v-for="user in users"
+						:key="user.username"
+						@click="openProfile(user.username)"
+					>
 						<v-list-item-avatar>
 							<v-icon dark>
 								mdi-account-circle
@@ -22,7 +26,7 @@
 								{{ user.username }}
 							</v-list-item-title>
 							<v-list-item-subtitle>
-                {{ user.fullName }}
+								{{ user.fullName }}
 							</v-list-item-subtitle>
 						</v-list-item-content>
 					</v-list-item>
@@ -61,15 +65,15 @@ export default {
 			if (this.searchQuery !== '') this.$store.dispatch('findUsersByUsername');
 			else this.users = [];
 		},
-    openProfile(username) {
-        this.$router.push({name: 'Profile', params: {username: username}})
-    }
+		openProfile(username) {
+			this.$router.push({ name: 'Profile', params: { username: username } });
+		}
 	},
-  watch: {
-	    users() {
-	        console.log(this.users);
-      }
-  }
+	watch: {
+		users() {
+			console.log(this.users);
+		}
+	}
 };
 </script>
 

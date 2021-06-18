@@ -272,15 +272,19 @@ export default {
 		isVideo(url) {
 			return url.includes('videos');
 		},
+		// eslint-disable-next-line no-unused-vars
 		select(result) {
 			this.geocoder.geocode({ address: this.locationName }, (res, status) => {
 				if (status === window.google.maps.GeocoderStatus.OK) {
-				  const responseLocation = res[0];
-				  const coordinates = responseLocation.geometry.location;
+					const responseLocation = res[0];
+					const coordinates = responseLocation.geometry.location;
 
 					this.$store.dispatch('setLatitude', coordinates.lat());
 					this.$store.dispatch('setLongitude', coordinates.lng());
-					this.$store.dispatch('setLocationName', responseLocation.formatted_address);
+					this.$store.dispatch(
+						'setLocationName',
+						responseLocation.formatted_address
+					);
 				}
 			});
 		},
