@@ -12,7 +12,7 @@
 			</v-btn>
 		</template>
 
-		<v-list>
+		<v-list v-if="notifications.length > 0">
 			<v-list-item v-for="notification in notifications" :key="notification.id">
 				<v-list-item-title>
 					<v-row>

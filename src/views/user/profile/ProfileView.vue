@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container class="content-wrap">
 		<profile-header></profile-header>
 		<div v-if="!this.private || following || username === currentUser">
 			<profile-highlights-bar></profile-highlights-bar>

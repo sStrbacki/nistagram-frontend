@@ -167,23 +167,25 @@ const routes = [
 			{
 				path: 'followers',
 				component: () => import('../views/user/profile/FollowerRequestsView')
-			}
-		]
-	},
-	{
-		path: '/:username',
-		name: 'Profile',
-		component: () => import('../views/user/profile/ProfileView'),
-		children: [
-			{
-				path: '',
-				name: 'ProfilePostsView',
-				component: () => import('../components/user/profile/ProfilePostsView')
 			},
 			{
-				path: 'tagged',
-				name: 'ProfileTaggedPosts',
-				component: () => import('../components/user/profile/ProfilePostsView')
+				path: '/:username',
+				name: 'Profile',
+				component: () => import('../views/user/profile/ProfileView'),
+				children: [
+					{
+						path: '',
+						name: 'ProfilePostsView',
+						component: () =>
+							import('../components/user/profile/ProfilePostsView')
+					},
+					{
+						path: 'tagged',
+						name: 'ProfileTaggedPosts',
+						component: () =>
+							import('../components/user/profile/ProfilePostsView')
+					}
+				]
 			}
 		]
 	}

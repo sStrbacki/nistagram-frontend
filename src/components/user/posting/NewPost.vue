@@ -115,7 +115,7 @@
 				</v-chip>
 			</v-col>
 		</v-row>
-		<v-row justify="center" align="center" class="mt-2">
+		<v-row justify="center" class="mt-2">
 			<v-col cols="1">
 				<v-row>
 					<v-btn color="success" :disabled="!isValid" @click="post">
