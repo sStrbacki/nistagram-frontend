@@ -82,9 +82,6 @@ export default {
             this.autoCompleteService = new window.google.maps.places.AutocompleteService();
             this.geocoder = new window.google.maps.Geocoder();
         },
-        displaySuggestions(predictions) {
-            this.items = predictions;
-        },
         select(result) {
           this.geocoder.geocode(
               {
@@ -125,7 +122,6 @@ export default {
                 }
             ).then(res => {
                   // When you get predictions, show them within the v-autocomplete
-                  this.displaySuggestions(res.predictions);
                   this.isLoading = false;
               })
               .finally(() => (this.isLoading = false));

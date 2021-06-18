@@ -1,9 +1,10 @@
 import {
 	findUsers,
 	findPosts,
-	findTaggableUsers
+	findTaggableUsers, promiseToFindTaggableUsersByUsername
 } from '../../services/searchService';
 import {notifyError} from "@/services/notificationService";
+import {promiseToFindPostsWhereUserIsTagged} from "@/services/searchService";
 
 export default {
 	state: {
@@ -19,9 +20,23 @@ export default {
 		},
 		location: {
 			street: ''
+		},
+		tag: {
+			usernameQuery: '',
+			foundPosts: '',
+			suggestedUsernames: []
 		}
 	},
 	mutations: {
+		setPostsWhereUserIsTagged: (state, posts) => {
+			state.tag.foundPosts = posts;
+		},
+		setUsersWhoCanBeTaggedInPosts: (state, users) => {
+			state.tag.suggestedUsernames = users;
+		},
+		setPostTaggedUser: (state, username) => {
+			state.tag.usernameQuery = username;
+		},
 		setLocationStreet: (state, street) => {
 			state.location.street = street;
 		},
@@ -78,9 +93,30 @@ export default {
 		},
 		removeTag: (state, tag) => {
 			state.commit('removeTag', tag);
+		},
+		findPostsByTaggedUser: async state => {
+			promiseToFindPostsWhereUserIsTagged(state.getters.postTagQuery)
+				.then(response => {
+					state.commit('setPostsWhereUserIsTagged', response.data);
+				})
+		},
+		findPostTaggableUsers: async state => {
+			promiseToFindTaggableUsersByUsername(state.getters.postTagQuery)
+				.then(response => {
+					state.commit('setUsersWhoCanBeTaggedInPosts', response.data);
+				});
 		}
 	},
 	getters: {
+		postTaggableUsers: state => {
+			return state.tag.suggestedUsernames;
+		},
+		postsWhereUserIsTagged: state => {
+			return state.tag.foundPosts;
+		},
+		postTagQuery: state => {
+			return state.tag.usernameQuery
+		},
 		locationStreet: state => {
 			return state.location.street;
 		},

@@ -21,6 +21,14 @@ async function findTaggableUsers(userQuery) {
 	}
 }
 
+async function promiseToFindTaggableUsersByUsername(username) {
+	return axios.get(api.user.taggable + '/' + username);
+}
+
+async function promiseToFindPostsWhereUserIsTagged(username) {
+	return axios.get(api.content.tagged + '/' + username);
+}
+
 function findPosts(locationQuery) {
 	return axios.post(api.content.postSearchLocation,{ street: locationQuery });
 	// console.log(locationQuery);
@@ -50,4 +58,4 @@ function findPosts(locationQuery) {
 	// ];
 }
 
-export { findUsers, findPosts, findTaggableUsers };
+export { findUsers, findPosts, findTaggableUsers, promiseToFindTaggableUsersByUsername, promiseToFindPostsWhereUserIsTagged };
