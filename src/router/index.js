@@ -172,6 +172,7 @@ const routes = [
 	},
 	{
 		path: '/:username',
+		name: 'Profile',
 		component: () => import('../views/user/profile/ProfileView'),
 		children: [
 			{
