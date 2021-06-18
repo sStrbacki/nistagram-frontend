@@ -29,7 +29,8 @@ export const api = {
 		comment: apiHost + '/api/content/post/comment',
 		userPosts: apiHost + '/api/content/post/user',
 		userHighlights: apiHost + '/api/content/story/highlights/user',
-		postSearchLocation: apiHost + '/api/content/post/search/location'
+		postSearchLocation: apiHost + '/api/content/post/search/location',
+		tagged: apiHost + '/api/content/post/tagged',
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',

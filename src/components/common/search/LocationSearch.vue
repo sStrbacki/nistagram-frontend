@@ -78,12 +78,12 @@ export default {
         this.initGoogleServices();
     },
     methods: {
+        displaySuggestions(predictions) {
+            this.items = predictions;
+        },
         initGoogleServices() {
             this.autoCompleteService = new window.google.maps.places.AutocompleteService();
             this.geocoder = new window.google.maps.Geocoder();
-        },
-        displaySuggestions(predictions) {
-            this.items = predictions;
         },
         select(result) {
           this.geocoder.geocode(
