@@ -7,6 +7,7 @@ import {
 	updateProfile
 } from '../../services/userService';
 import { notifyError } from '../../services/notificationService';
+import { getFollowerRequests } from '../../services/graphService';
 
 export default {
 	state: {
@@ -34,7 +35,8 @@ export default {
 			newFollowerNotificationEnabled: '',
 			messageRequestNotificationEnabled: '',
 			messageNotificationEnabled: ''
-		}
+		},
+		followerRequests: []
 	},
 	mutations: {
 		setFullName: (state, fullName) => {
@@ -114,6 +116,9 @@ export default {
 		},
 		setPrivacyData: (state, privacyData) => {
 			state.privacyData = privacyData;
+		},
+		setFollowerRequests: (state, requests) => {
+			state.followerRequests = requests;
 		}
 	},
 	actions: {
@@ -165,6 +170,16 @@ export default {
 				notifyError(response.data);
 			} else {
 				context.commit('setPrivacyData', response.data);
+			}
+		},
+		getFollowerRequests: async context => {
+			const response = await getFollowerRequests(
+				context.state.personalData.username
+			);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setFollowerRequests', response.data);
 			}
 		}
 	},
@@ -226,6 +241,9 @@ export default {
 		},
 		taggable: state => {
 			return state.privacyData.taggable;
+		},
+		followerRequests: state => {
+			return state.followerRequests;
 		}
 	}
 };

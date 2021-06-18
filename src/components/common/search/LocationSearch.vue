@@ -15,117 +15,128 @@
 				return-object
 			></v-autocomplete>
 		</v-row>
-		<v-row v-if="selected && foundPosts.length !== 0" dense no-gutters>
+		<v-row v-if="foundPosts.length !== 0" dense no-gutters>
 			<v-card
 				class="mx-auto"
 				max-width="400"
 				v-for="post in foundPosts"
-				:key="post.id"
-			>
-				<v-img :src="post.mediaUrls[0].url" height="200px"></v-img>
+				:key="post.id">
 
-				<v-card-title>
-					{{ post.author }}
-				</v-card-title>
+        <post-card :post="post"/>
 
-				<v-card-subtitle>
-					{{ post.caption }}
-				</v-card-subtitle>
-
-				<v-card-actions>
-					<v-btn text>
-						See more
-					</v-btn>
-				</v-card-actions>
 			</v-card>
 		</v-row>
 	</v-col>
 </template>
 
 <script>
+import PostCard from "@/components/user/feed/PostCard";
 export default {
-	name: 'LocationSearch',
-	data: () => ({
-		items: [],
-		service: null,
-		geocoder: null,
-		submitting: true,
-		selected: false,
-		entries: [],
-		isLoading: false,
-		model: null,
-		search: null,
-		location: null
-	}),
-	computed: {
-		coordinates: {
-			set(value) {
-				this.$store.commit('setLocationQuery', value);
-			},
-			get() {
-				return this.$store.getters.locationQuery;
-			}
-		},
-		foundPosts: {
-			get() {
-				return this.$store.getters.foundPosts;
-			}
-		},
-		locations() {
-			return this.items.map(item => {
-				return item.description;
-			});
-		}
-	},
-	methods: {
-		mapsInit() {
-			this.service = new window.google.maps.places.AutocompleteService();
-			this.geocoder = new window.google.maps.Geocoder();
-		},
-		displaySuggestions(predictions) {
-			this.items = predictions;
-		},
-		select(result) {
-			this.geocoder.geocode({ address: this.model }, (res, status) => {
-				if (status == window.google.maps.GeocoderStatus.OK) {
-					this.coordinates = {
-						latitude: res[0].geometry.location.lat(),
-						longitude: res[0].geometry.location.lng()
-					};
-					this.location = result.description;
-					this.selected = true;
-					this.$store.dispatch('findPostsByLocation');
-				}
-			});
-		}
-	},
-	watch: {
-		search(val) {
-			if (val) {
-				if (this.isLoading) return;
+    name: 'LocationSearch',
+  components: {PostCard},
+  data: () => ({
+      items: [],
+      autoCompleteService: null,
+      geocoder: null,
+      submitting: true,
+      selected: false,
+      entries: [],
+      isLoading: false,
+      model: null,
+      search: null,
+      location: null
+    }),
+    computed: {
+      street: {
+          get() {
+              return this.$store.getters.street;
+          },
+          set(value) {
+              this.$store.commit('setLocationStreet', value);
+          }
+      },
+      coordinates: {
+        set(value) {
+          this.$store.commit('setLocationQuery', value);
+        },
+        get() {
+          return this.$store.getters.locationQuery;
+        }
+      },
+      foundPosts: {
+        get() {
+          return this.$store.getters.foundPosts;
+        }
+      },
+      locations() {
+        return this.items.map(item => {
+          return item.description;
+        });
+      }
+    },
+    mounted: function() {
+        this.initGoogleServices();
+    },
+    methods: {
+        displaySuggestions(predictions) {
+            this.items = predictions;
+        },
+        initGoogleServices() {
+            this.autoCompleteService = new window.google.maps.places.AutocompleteService();
+            this.geocoder = new window.google.maps.Geocoder();
+        },
+        select(result) {
+          this.geocoder.geocode(
+              {
+                address: this.model
+              },
+              (response, status) =>
+              {
+                console.log("Geocoder", response);
+                if (status === window.google.maps.GeocoderStatus.OK) {
+                      // If the response is status OK, update $store variables
+                      const responseLocation = response[0];
+                      const coordinates = responseLocation.geometry.location;
+                      this.coordinates = {
+                          latitude: coordinates.lat(),
+                          longitude: coordinates.lng()
+                      };
+                      this.location = responseLocation.formatted_address;
+                      this.$store.commit('setLocationStreet', responseLocation.formatted_address);
+                      this.selected = true;
+                      // And then dispatch the search function
+                      this.$store.dispatch('findPostsByLocation');
+                  }
+              });
+        }
+    },
+    watch: {
+        search(val) {
+            // if search is empty or already loading, do not do anything
+            if (!val) return;
+            if (this.isLoading) return;
 
-				this.isLoading = true;
+            this.isLoading = true;
 
-				this.service
-					.getPlacePredictions({
-						input: val
-					})
-					.then(res => {
-						this.displaySuggestions(res.predictions);
-						this.isLoading = false;
-					})
-					.finally(() => (this.isLoading = false));
-			}
-		},
-		model(val) {
-			if (val) {
-				this.select(val);
-			}
-		}
-	},
-	mounted() {
-		this.mapsInit();
-	}
+            // Else, go ahead and query predictions
+            this.autoCompleteService.getPlacePredictions(
+                {
+                  input: val
+                }
+            ).then(res => {
+                  // When you get predictions, show them within the v-autocomplete
+                  this.displaySuggestions(res.predictions);
+                  this.isLoading = false;
+              })
+              .finally(() => (this.isLoading = false));
+        },
+        model(val) {
+          // This is called whenever the v-model from v-autocomplete is changed, meaning on click and on enter
+          if (val) {
+            this.select(val);
+          }
+        }
+    },
 };
 </script>
 

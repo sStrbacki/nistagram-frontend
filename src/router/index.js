@@ -163,11 +163,16 @@ const routes = [
 						component: () => import('../components/common/search/TagSearch.vue')
 					}
 				]
+			},
+			{
+				path: 'followers',
+				component: () => import('../views/user/profile/FollowerRequestsView')
 			}
 		]
 	},
 	{
 		path: '/:username',
+		name: 'Profile',
 		component: () => import('../views/user/profile/ProfileView'),
 		children: [
 			{

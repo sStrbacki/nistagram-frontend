@@ -29,7 +29,9 @@ export const api = {
 		postDislike: apiHost + '/api/content/post/dislike',
 		comment: apiHost + '/api/content/post/comment',
 		userPosts: apiHost + '/api/content/post/user',
-		userHighlights: apiHost + '/api/content/story/highlights/user'
+		userHighlights: apiHost + '/api/content/story/highlights/user',
+		postSearchLocation: apiHost + '/api/content/post/search/location',
+		tagged: apiHost + '/api/content/post/tagged'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
@@ -46,7 +48,8 @@ export const api = {
 		base: apiHost + '/api/user-graph',
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
-		follow: apiHost + '/api/user-graph/followers'
+		follow: apiHost + '/api/user-graph/followers',
+		pendingFollowers: apiHost + '/api/user-graph/followers/pending'
 	},
 	notification: {
 		base: apiHost + '/api/notification',
