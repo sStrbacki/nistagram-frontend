@@ -16,13 +16,21 @@
 			<v-list-item v-for="notification in notifications" :key="notification.id">
 				<v-list-item-title>
 					<v-row>
-						<v-col @click="reroute(notification)" class="notification">
+						<v-col
+							@click="reroute(notification)"
+							class="notification"
+							cols="10"
+						>
 							<v-icon>
 								{{ notificationIcon(notification.notificationType) }}
 							</v-icon>
 							{{ notification.text }}
 						</v-col>
-						<v-col cols="1" class="notification" @click="hide(notification.id)">
+						<v-col
+							cols="1"
+							class="notification ml-5"
+							@click="hide(notification.id)"
+						>
 							<v-icon>
 								mdi-close
 							</v-icon>
@@ -50,9 +58,22 @@ export default {
 	},
 	methods: {
 		notificationIcon(notificationType) {
-			if (notificationType === 'NEW_LIKE') return 'mdi-thumb-up';
-			else if (notificationType === 'NEW_COMMENT') return 'mdi-comment';
-			else return 'mdi-tag';
+			switch (notificationType) {
+				case 'NEW_LIKE':
+					return 'mdi-thumb-up';
+				case 'NEW_COMMENT':
+					return 'mdi-comment';
+				case 'USER_TAGGED':
+					return 'mdi-tag';
+				case 'NEW_FOLLOW_REQUEST':
+					return 'mdi-account-question';
+				case 'FOLLOW_REQUEST_ACCEPTED':
+					return 'mdi-account-check';
+				case 'NEW_FOLLOWER':
+					return 'mdi-account-plus';
+				default:
+					return 'mdi-help-circle';
+			}
 		},
 		async hide(notificationId) {
 			await this.$store.dispatch('hideNotification', notificationId);

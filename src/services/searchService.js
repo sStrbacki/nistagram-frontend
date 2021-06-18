@@ -6,7 +6,6 @@ async function findUsers(userQuery) {
 		let res = await axios.get(api.user.base + '/' + userQuery);
 		return res.data;
 	} catch (err) {
-		console.log(err);
 		return err.response.data;
 	}
 }
@@ -16,7 +15,6 @@ async function findTaggableUsers(userQuery) {
 		let res = await axios.get(api.user.taggable + '/' + userQuery);
 		return res.data;
 	} catch (err) {
-		console.log(err);
 		return err.response.data;
 	}
 }

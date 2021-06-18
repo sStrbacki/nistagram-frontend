@@ -11,9 +11,10 @@ import UserAppBar from '../../components/user/bars/UserAppBar.vue';
 export default {
 	name: 'UserHome',
 	components: { UserAppBar },
-	mounted() {
-		this.$store.dispatch('getProfile');
-		this.$store.dispatch('getNotifications');
+	async mounted() {
+		await this.$store.dispatch('getProfile');
+		await this.$store.dispatch('getNotifications');
+		await this.$store.dispatch('listenToNotifications');
 	}
 };
 </script>

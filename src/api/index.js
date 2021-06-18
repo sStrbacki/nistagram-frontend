@@ -1,4 +1,5 @@
 export const apiHost = 'http://localhost:9090';
+export const notificationHost = 'http://localhost:9005';
 
 export const api = {
 	auth: {
@@ -48,6 +49,7 @@ export const api = {
 		follow: apiHost + '/api/user-graph/followers'
 	},
 	notification: {
-		base: apiHost + '/api/notification'
+		base: apiHost + '/api/notification',
+		ws: notificationHost + '/api/notification/ws'
 	}
 };

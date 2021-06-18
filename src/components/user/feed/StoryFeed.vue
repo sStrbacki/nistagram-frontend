@@ -145,7 +145,6 @@ export default {
 		selectStoryGroup(storyGroup) {
 			this.selectedStoryGroup = storyGroup;
 			this.storyDialog = true;
-			console.log(storyGroup);
 		},
 		isVideo(url) {
 			return url.includes('videos');

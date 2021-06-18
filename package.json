@@ -17,14 +17,17 @@
     "ssri": "^8.0.1"
   },
   "dependencies": {
+    "@stomp/stompjs": "^6.1.0",
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "cache-loader": "^4.1.0",
     "core-js": "^3.13.1",
     "define-lazy-prop": "^3.0.0",
+    "eslint": "^7.28.0",
     "firebase": "^8.6.5",
     "install": "^0.13.0",
     "npm": "^7.16.0",
+    "sockjs-client": "^1.5.1",
     "uuid": "^8.3.2",
     "vue": "^2.6.13",
     "vue-loader": "^15.9.7",

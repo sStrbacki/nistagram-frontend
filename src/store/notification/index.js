@@ -1,5 +1,9 @@
 import { notifyError } from '../../services/notificationService';
-import { getAll, hide } from '../../services/ssNotificationService';
+import {
+	getAll,
+	hide,
+	listenToNotifications
+} from '../../services/ssNotificationService';
 
 export default {
 	state: {
@@ -28,6 +32,9 @@ export default {
 			let res = await hide(notificationId);
 			if (res.status >= 400) notifyError(res.data);
 			else state.commit('removeNotification', notificationId);
+		},
+		listenToNotifications: state => {
+			listenToNotifications(state);
 		}
 	},
 	getters: {
