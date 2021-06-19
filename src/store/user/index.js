@@ -184,10 +184,6 @@ export default {
 		}
 	},
 	getters: {
-		isLoggedIn: state => {
-			return !(!state.personalData.username
-				|| state.personalData.username === 'anonymousUser');
-		},
 		username: state => {
 			return state.personalData.username;
 		},
