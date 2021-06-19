@@ -1,6 +1,11 @@
 <template>
   <div class="d-flex justify-space-around my-5">
-    <div class="d-flex flex-column align-center" v-bind:key="highlight.id" v-for="highlight in highlights" @click="openHighlight(highlight)">
+    <div
+			class="d-flex flex-column align-center"
+			v-bind:key="highlight.id"
+			v-for="highlight in highlights"
+			v-if="highlight.stories.length"
+			@click="openHighlight(highlight)">
       <v-avatar :size="avatarHeight">
         <v-img :src="highlight.stories[0].mediaUrl"></v-img>
       </v-avatar><br/>

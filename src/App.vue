@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { isLogged } from '@/services/authService';
+
 export default {
 	name: 'App',
 	mounted() {
@@ -13,7 +15,7 @@ export default {
 	},
 	methods: {
 		getPersonalProfile() {
-			if (this.$store.getters.isLoggedIn) {
+			if (isLogged()) {
 				try {
 					this.$store.dispatch('getProfile');
 				} catch (error) {

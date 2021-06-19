@@ -30,6 +30,7 @@ export const api = {
 		comment: apiHost + '/api/content/post/comment',
 		userPosts: apiHost + '/api/content/post/user',
 		userPostsPublic: apiHost + '/api/content/post/public/user',
+		highlights: apiHost + '/api/content/story/highlights',
 		userHighlights: apiHost + '/api/content/story/highlights/user',
 		userHighlightsPublic: apiHost + '/api/content/story/public/highlights/user',
 		postSearchLocation: apiHost + '/api/content/post/search/location',

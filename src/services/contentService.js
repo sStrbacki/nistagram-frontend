@@ -212,6 +212,22 @@ async function getPersonalStories() {
 	}
 }
 
+async function createHighlight(name) {
+	try {
+		return await axios.post(api.content.highlights + '/' + name);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function addStoryToHighlight(storyId, highlightId) {
+	try {
+		return await axios.post(api.content.highlights + '/' + highlightId + '/story/' + storyId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	createPost,
 	createStory,
@@ -236,5 +252,7 @@ export {
 	getProfilePostsPublic,
 	getProfileHighlights,
 	getProfileHighlightsPublic,
-	getPersonalStories
+	getPersonalStories,
+	createHighlight,
+	addStoryToHighlight
 };

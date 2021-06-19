@@ -4,7 +4,7 @@
         v-for="story in stories"
         :key="story.id"
     >
-      <v-card class="ma-4" height="500" width="500">
+      <v-card class="ma-4" height="530" width="500">
         <post-card-small
             :post="story.post"
             v-if="story.reshare"
@@ -54,22 +54,97 @@
             </v-col>
           </v-row>
         </v-card-subtitle>
+				<v-card-actions v-if="story.author === currentUser">
+					<v-btn small color="info" v-if="!editStoryId" @click="selectStory(story.id)">Add as highlight</v-btn>
+					<div class="d-flex align-center" v-if="editStoryId === story.id">
+						<v-select
+							placeholder="Select existing highlight"
+							:items="highlights"
+							:item-text="highlightName"
+							:item-value="highlightId"
+							v-model="selectedHighlight"
+							@change="highlightInput = ''"
+						></v-select>
+						<span class="mx-2"> or </span>
+						<v-text-field
+							placeholder="Add new highlight"
+							v-model="highlightInput"
+							@keydown="selectedHighlight = null"
+						></v-text-field>
+						<v-btn color="primary" icon @click="addHighlight()"><v-icon>mdi-check</v-icon></v-btn>
+						<v-btn color="warning" icon @click="cancelHighlight()"><v-icon>mdi-close</v-icon></v-btn>
+					</div>
+				</v-card-actions>
       </v-card>
     </v-slide-item>
   </v-slide-group>
 </template>
 
 <script>
-  export default {
+import { addStoryToHighlight, createHighlight } from '@/services/contentService';
+import { notifyError } from '@/services/notificationService';
+
+	export default {
     name: 'StoryView',
     props: {
       stories: Array
     },
+		data: () => {
+    	return {
+				editStoryId: '',
+				highlightInput: '',
+				selectedHighlight: null
+			}
+		},
+		mounted() {
+    	this.$store.dispatch('getViewingProfileHighlights', this.currentUser);
+		},
     methods: {
       isVideo(url) {
         return url.includes('videos');
-      }
-    }
+      },
+			selectStory(id) {
+      	this.editStoryId = id;
+			},
+			highlightId: highlight => highlight.id,
+			highlightName: highlight => highlight.name,
+			cancelHighlight() {
+      	this.editStoryId = '';
+      	this.selectedHighlight = null;
+      	this.highlightInput = '';
+			},
+			async addHighlight() {
+      	if (this.highlightInput) {
+					const response = await createHighlight(this.highlightInput)
+					if (response.status >= 400) {
+						notifyError(response.data);
+					} else {
+						await this.addStoryToHighlight(this.editStoryId, response.data.id);
+					}
+				} else {
+      		await this.addStoryToHighlight(this.editStoryId, this.selectedHighlight);
+				}
+      	this.cancelHighlight();
+			},
+			async addStoryToHighlight(storyId, highlightId) {
+				const res = await addStoryToHighlight(storyId, highlightId);
+				if (res.status >= 400) {
+					notifyError(res.data);
+				}
+			}
+    },
+		computed: {
+    	currentUser: {
+    		get() {
+    			return this.$store.getters.username;
+				}
+			},
+			highlights: {
+    		get() {
+    			return this.$store.getters.viewingProfileHighlights;
+				}
+			}
+		}
   }
 </script>
 
