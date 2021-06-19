@@ -31,7 +31,11 @@ export const api = {
 		userPosts: apiHost + '/api/content/post/user',
 		userHighlights: apiHost + '/api/content/story/highlights/user',
 		postSearchLocation: apiHost + '/api/content/post/search/location',
-		tagged: apiHost + '/api/content/post/tagged'
+		tagged: apiHost + '/api/content/post/tagged',
+		report: {
+			post: apiHost + '/api/content/report/post',
+			story: apiHost + '/api/content/report/story'
+		}
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',

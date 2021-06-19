@@ -64,6 +64,7 @@
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStoryGroup">
 			<story-view
 				:stories="getStoriesFromStoryGroup(selectedStoryGroup)"
+				:feed="true"
 			></story-view>
 		</v-dialog>
 	</v-row>

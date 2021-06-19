@@ -9,6 +9,7 @@ import postModule from './post/index';
 import collectionModule from './collection/index';
 import viewingProfile from './viewing-profile/index';
 import notificationsModule from './notification/index';
+import reportModule from './report/index';
 
 Vue.use(Vuex);
 
@@ -22,7 +23,8 @@ export default new Vuex.Store({
 		post: postModule,
 		collection: collectionModule,
 		viewingProfile: viewingProfile,
-		notifications: notificationsModule
+		notifications: notificationsModule,
+		report: reportModule
 	}
 });
 //ZnKa&qL86A*#jt
