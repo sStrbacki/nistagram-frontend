@@ -17,7 +17,7 @@
       <v-btn icon to="/home/followers">
         <v-icon>mdi-account-multiple</v-icon>
       </v-btn>
-			<v-btn icon>
+			<v-btn icon :to="'/' + username">
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
 			<v-btn icon to="/home/feed">
@@ -84,6 +84,11 @@ export default {
 		signOut() {
 			logout();
 			this.$router.push('/');
+		}
+	},
+	computed: {
+		username() {
+			return this.$store.getters.username;
 		}
 	}
 };

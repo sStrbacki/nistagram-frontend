@@ -9,7 +9,7 @@ import {
 	postLike,
 	postDislike,
 	deleteDislike,
-	deleteLike
+	deleteLike, getPersonalStories
 } from '../../services/contentService';
 
 import { getPostById, getStoryById } from '../../services/contentService';
@@ -21,7 +21,8 @@ export default {
 		posts: [],
 		postsLoaded: false,
 		storyGroups: [],
-		closeFriendStoryGroups: []
+		closeFriendStoryGroups: [],
+		personalStories: []
 	},
 	mutations: {
 		setPosts: (state, posts) => {
@@ -43,6 +44,9 @@ export default {
 			state.posts.filter(post => {
 				return post.contentId == postInfo.postId;
 			})[0].postData = postInfo.postData;
+		},
+		setPersonalStories: (state, personalStories) => {
+			state.personalStories = personalStories;
 		}
 	},
 	actions: {
@@ -95,6 +99,14 @@ export default {
 			state.commit('setCloseFriendStoryGroups', response.data);
 			state.dispatch('fetchCloseFriendStoryData');
 		},
+		fetchPersonalStories: async state => {
+			const response = await getPersonalStories();
+			if (response.status >= 400) {
+				notifyError(response.data);
+				return;
+			}
+			state.commit('setPersonalStories', response.data);
+		},
 		fetchCloseFriendStoryData: async state => {
 			state.getters.closeFriendStoryGroups.forEach(async storyGroup => {
 				storyGroup.entries.forEach(async entry => {
@@ -131,6 +143,9 @@ export default {
 		},
 		closeFriendStoryGroups: state => {
 			return state.closeFriendStoryGroups;
+		},
+		personalStories: state => {
+			return state.personalStories;
 		}
 	}
 };

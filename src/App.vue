@@ -6,12 +6,24 @@
 </template>
 
 <script>
+import { isLogged } from '@/services/authService';
+
 export default {
 	name: 'App',
-
-	data: () => ({
-		//
-	})
+	mounted() {
+		this.getPersonalProfile();
+	},
+	methods: {
+		getPersonalProfile() {
+			if (isLogged()) {
+				try {
+					this.$store.dispatch('getProfile');
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		}
+	}
 };
 </script>
 
