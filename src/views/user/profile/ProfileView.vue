@@ -25,7 +25,7 @@ import ProfileHeader from '../../../components/user/profile/ProfileHeader';
 import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
 
 export default {
-	name: 'ProfileView.vue',
+	name: 'ProfileView',
 	components: { ProfileHighlightsBar, ProfileHeader },
 	computed: {
 		username() {
@@ -41,8 +41,8 @@ export default {
 			return this.$store.getters.username;
 		}
 	},
-	mounted() {
-		this.getProfile();
+	async mounted() {
+		await this.getProfile();
 	},
 	watch: {
 		$route() {
@@ -56,14 +56,14 @@ export default {
 		goToTagged() {
 			this.$router.push('/' + this.username + '/tagged');
 		},
-		getProfile() {
-			this.$store.dispatch('getProfile');
-			this.$store.dispatch('getViewingProfilePrivate', this.username);
-			this.$store.dispatch('getViewingProfile', this.username);
-			this.$store.dispatch('getFollowingViewingProfile', this.username);
-			this.$store.dispatch('getPendingViewingProfile', this.username);
-			this.$store.dispatch('getViewingProfileStats', this.username);
-			this.$store.dispatch('getViewingProfileHighlights', this.username);
+		async getProfile() {
+			await this.$store.dispatch('getProfile');
+			await this.$store.dispatch('getViewingProfilePrivate', this.username);
+			await this.$store.dispatch('getViewingProfile', this.username);
+			await this.$store.dispatch('getFollowingViewingProfile', this.username);
+			await this.$store.dispatch('getPendingViewingProfile', this.username);
+			await this.$store.dispatch('getViewingProfileStats', this.username);
+			await this.$store.dispatch('getViewingProfileHighlights', this.username);
 		}
 	}
 };
