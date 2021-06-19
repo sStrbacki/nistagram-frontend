@@ -24,7 +24,7 @@
 						<v-col class="subtitle-2 mt-2">
 							<p>{{ story.author }}</p>
 						</v-col>
-						<v-col v-if="feed" cols="3">
+						<v-col v-if="feed && story.author !== currentUser" cols="3">
 							<v-btn
 								color="blue-grey"
 								small

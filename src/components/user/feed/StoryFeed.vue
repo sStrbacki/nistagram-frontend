@@ -93,7 +93,7 @@
 			</v-slide-item>
 		</v-slide-group>
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStories">
-			<story-view :stories="selectedStories"></story-view>
+			<story-view :stories="selectedStories" :feed="true"></story-view>
 		</v-dialog>
 	</v-row>
 	<v-row align="center" justify="center" class="content-wrap" v-else>
