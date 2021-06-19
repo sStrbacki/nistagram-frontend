@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <profile-header></profile-header>
-    <div v-if="private === false || following || username === currentUser">
+    <div v-if="profilePrivate === false || following || username === currentUser">
       <profile-highlights-bar></profile-highlights-bar>
       <v-tabs class="d-flex justify-center">
         <v-tab @click="goToPosts()">Posts</v-tab>
@@ -11,7 +11,7 @@
         <router-view></router-view>
       </v-card>
     </div>
-    <v-card class="d-flex justify-center my-5 py-5" v-else-if="private && following === false">
+    <v-card class="d-flex justify-center my-5 py-5" v-else-if="profilePrivate && following === false">
       This profile is private!
     </v-card>
   </v-container>
@@ -28,7 +28,7 @@
       username() {
         return this.$route.params.username
       },
-      private() {
+      profilePrivate() {
         return this.$store.getters.viewingProfilePrivate;
       },
       following() {
@@ -53,15 +53,23 @@
       goToTagged() {
         this.$router.push('/' + this.username + '/tagged');
       },
-      getProfile() {
-        this.$store.dispatch('getProfile');
-        this.$store.dispatch('getViewingProfilePrivate', this.username);
-        this.$store.dispatch('getViewingProfile', this.username);
-        this.$store.dispatch('getFollowingViewingProfile', this.username);
-        this.$store.dispatch('getPendingViewingProfile', this.username);
-        this.$store.dispatch('getViewingProfileStats', this.username);
-        this.$store.dispatch('getViewingProfileHighlights', this.username);
-      }
+      async getProfile() {
+				await this.$store.dispatch('getViewingProfilePrivate', this.username);
+				if (this.profilePrivate) {
+					this.getData();
+				} else {
+					console.log('get data for public profile');
+				}
+			},
+			getData() {
+				this.$store.dispatch('getProfile');
+				this.$store.dispatch('getViewingProfilePosts', this.username);
+				this.$store.dispatch('getViewingProfile', this.username);
+				this.$store.dispatch('getFollowingViewingProfile', this.username);
+				this.$store.dispatch('getPendingViewingProfile', this.username);
+				this.$store.dispatch('getViewingProfileStats', this.username);
+				this.$store.dispatch('getViewingProfileHighlights', this.username);
+			}
     }
   }
 </script>

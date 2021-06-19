@@ -14,14 +14,6 @@
     components: {
       ProfilePost
     },
-    mounted() {
-      this.$store.dispatch('getViewingProfilePosts', this.username);
-    },
-    watch:{
-      $route() {
-        this.$store.dispatch('getViewingProfilePosts', this.username);
-      }
-    },
     computed: {
       username() {
         return this.$route.params.username
