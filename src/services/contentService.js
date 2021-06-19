@@ -104,7 +104,6 @@ async function fetchCollections() {
 		let res = await axios.get(api.collection.collectionBase);
 		return res;
 	} catch (err) {
-		console.log(err);
 		return err.response;
 	}
 }
@@ -188,7 +187,6 @@ async function getProfileHighlights(username) {
 		return err.response;
 	}
 }
-
 
 export {
 	createPost,

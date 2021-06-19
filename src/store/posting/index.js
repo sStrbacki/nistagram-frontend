@@ -116,7 +116,6 @@ export default {
 	actions: {
 		postFiles: async state => {
 			state.commit('clearUrls');
-			console.log(state.getters.files);
 			getUploadUrls(uploadFiles(state.getters.files)).then(urlPromises => {
 				urlPromises.forEach(urlPromise => {
 					urlPromise.then(url => state.commit('addUploadedUrl', url));

@@ -30,7 +30,7 @@ export default {
 			state.post = post;
 		},
 		addComment: (state, comment) => {
-			if (!state.comment) state.comment = [];
+			if (!state.comments) state.comments = [];
 			state.post.comments.push(comment);
 		},
 		addPostLike: (state, user) => {

@@ -1,4 +1,5 @@
 export const apiHost = 'http://localhost:9090';
+export const notificationHost = 'http://localhost:9005';
 
 export const api = {
 	auth: {
@@ -29,7 +30,8 @@ export const api = {
 		comment: apiHost + '/api/content/post/comment',
 		userPosts: apiHost + '/api/content/post/user',
 		userHighlights: apiHost + '/api/content/story/highlights/user',
-		postSearchLocation: apiHost + '/api/content/post/search/location'
+		postSearchLocation: apiHost + '/api/content/post/search/location',
+		tagged: apiHost + '/api/content/post/tagged'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
@@ -47,6 +49,10 @@ export const api = {
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
 		follow: apiHost + '/api/user-graph/followers',
-		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
+		pendingFollowers: apiHost + '/api/user-graph/followers/pending'
+	},
+	notification: {
+		base: apiHost + '/api/notification',
+		ws: notificationHost + '/api/notification/ws'
 	}
 };

@@ -6,7 +6,6 @@ async function findUsers(userQuery) {
 		let res = await axios.get(api.user.base + '/' + userQuery);
 		return res.data;
 	} catch (err) {
-		console.log(err);
 		return err.response.data;
 	}
 }
@@ -16,38 +15,26 @@ async function findTaggableUsers(userQuery) {
 		let res = await axios.get(api.user.taggable + '/' + userQuery);
 		return res.data;
 	} catch (err) {
-		console.log(err);
 		return err.response.data;
 	}
 }
 
-function findPosts(locationQuery) {
-	return axios.post(api.content.postSearchLocation,{ street: locationQuery });
-	// console.log(locationQuery);
-	// return [
-	// 	{
-	// 		id: 0,
-	// 		author: 'johndoe',
-	// 		caption: 'Capshnz',
-	// 		mediaUrls: [
-	// 			{
-	// 				id: 0,
-	// 				url: 'https://i.imgur.com/6oLYk8E.jpeg'
-	// 			}
-	// 		]
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		author: 'janedoe',
-	// 		caption: 'Caption',
-	// 		mediaUrls: [
-	// 			{
-	// 				id: 0,
-	// 				url: 'https://i.imgur.com/Leiecq4.jpeg'
-	// 			}
-	// 		]
-	// 	}
-	// ];
+async function promiseToFindTaggableUsersByUsername(username) {
+	return axios.get(api.user.taggable + '/' + username);
 }
 
-export { findUsers, findPosts, findTaggableUsers };
+async function promiseToFindPostsWhereUserIsTagged(username) {
+	return axios.get(api.content.tagged + '/' + username);
+}
+
+function findPosts(locationQuery) {
+	return axios.post(api.content.postSearchLocation, { street: locationQuery });
+}
+
+export {
+	findUsers,
+	findPosts,
+	findTaggableUsers,
+	promiseToFindTaggableUsersByUsername,
+	promiseToFindPostsWhereUserIsTagged
+};

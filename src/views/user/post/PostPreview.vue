@@ -172,6 +172,12 @@ export default {
 			comment: ''
 		};
 	},
+	watch: {
+		$route(to, from) {
+			if (to.name === 'PostPreview' && from.name === 'PostPreview')
+				this.fetchPost(to.params.postId);
+		}
+	},
 	computed: {
 		id: {
 			get() {
@@ -239,6 +245,7 @@ export default {
 			}).length;
 		}
 	},
+
 	methods: {
 		isVideo(url) {
 			return url.includes('videos');
@@ -314,13 +321,14 @@ export default {
 					return interaction.author;
 				})
 				.includes(this.$store.getters.username);
+		},
+		async fetchPost(postId) {
+			if (isNaN(postId)) this.$router.push('/home/feed');
+			await this.$store.dispatch('getPostById', postId);
 		}
 	},
 	async mounted() {
-		const postId = this.$route.params.postId;
-		if (isNaN(postId)) this.$router.push('/home/feed');
-
-		await this.$store.dispatch('getPostById', this.$route.params.postId);
+		await this.fetchPost(this.$route.params.postId);
 		this.setPostLiked();
 		this.setPostDisliked();
 		this.setLikeEnabled();

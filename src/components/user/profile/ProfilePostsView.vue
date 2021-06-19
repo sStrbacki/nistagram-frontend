@@ -1,13 +1,13 @@
 <template>
-  <div class="d-flex flex-wrap">
-    <v-col cols="4" class="pa-2"  v-for="post in posts" v-bind:key="post.id">
-      <ProfilePost :post="post"></ProfilePost>
-    </v-col>
-  </div>
+	<div class="d-flex flex-wrap">
+		<v-col cols="4" class="pa-2" v-for="post in posts" v-bind:key="post.id">
+			<ProfilePost :post="post"></ProfilePost>
+		</v-col>
+	</div>
 </template>
 
 <script>
-  import ProfilePost from "./ProfilePost";
+	import ProfilePost from './ProfilePost';
 
   export default {
     name: 'ProfilePostsView.vue',
@@ -27,6 +27,4 @@
   }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

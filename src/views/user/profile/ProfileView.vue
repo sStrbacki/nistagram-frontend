@@ -1,25 +1,28 @@
 <template>
-  <v-container>
-    <profile-header></profile-header>
-    <div v-if="profilePrivate === false || following || username === currentUser">
-      <profile-highlights-bar></profile-highlights-bar>
-      <v-tabs class="d-flex justify-center">
-        <v-tab @click="goToPosts()">Posts</v-tab>
-        <v-tab @click="goToTagged()">Tagged</v-tab>
-      </v-tabs>
-      <v-card>
-        <router-view></router-view>
-      </v-card>
-    </div>
-    <v-card class="d-flex justify-center my-5 py-5" v-else-if="profilePrivate && following === false">
-      This profile is private!
-    </v-card>
-  </v-container>
+	<v-container class="content-wrap">
+		<profile-header></profile-header>
+		<div v-if="!this.private || following || username === currentUser">
+			<profile-highlights-bar></profile-highlights-bar>
+			<v-tabs class="d-flex justify-center">
+				<v-tab @click="goToPosts()">Posts</v-tab>
+				<v-tab @click="goToTagged()">Tagged</v-tab>
+			</v-tabs>
+			<v-card>
+				<router-view></router-view>
+			</v-card>
+		</div>
+		<v-card
+			class="d-flex justify-center my-5 py-5"
+			v-else-if="this.private && following === false"
+		>
+			This profile is private!
+		</v-card>
+	</v-container>
 </template>
 
 <script>
-  import ProfileHeader from '../../../components/user/profile/ProfileHeader';
-  import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
+	import ProfileHeader from '../../../components/user/profile/ProfileHeader';
+	import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
 
   export default {
     name: 'ProfileView.vue',
@@ -74,6 +77,4 @@
   }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -6,7 +6,7 @@
 				<router-view />
 			</v-row>
 		</v-container>
-		<v-bottom-navigation absolute horizontal>
+		<v-bottom-navigation absolute horizontal class="mt-5">
 			<v-btn value="post" to="/home/publish/post" text>
 				<span>Publish a post</span>
 
