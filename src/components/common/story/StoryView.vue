@@ -24,6 +24,19 @@
 						<v-col class="subtitle-2 mt-2">
 							<p>{{ story.author }}</p>
 						</v-col>
+						<v-col v-if="feed && story.author !== currentUser" cols="3">
+							<v-btn
+								color="blue-grey"
+								small
+								@click="openStoryReportDialog(story)"
+							>
+								Report
+
+								<v-icon dark>
+									mdi-alert
+								</v-icon>
+							</v-btn>
+						</v-col>
 					</v-row>
 				</v-card-title>
 				<v-card-subtitle>
@@ -85,19 +98,20 @@
 </template>
 
 <script>
+import PostCardSmall from '../../../components/user/feed/PostCardSmall.vue';
+import { videoPlayer } from 'vue-md-player';
 import {
 	addStoryToHighlight,
 	createHighlight
 } from '@/services/contentService';
 import { notifyError } from '@/services/notificationService';
-import PostCardSmall from '../../../components/user/feed/PostCardSmall.vue';
-
 export default {
 	name: 'StoryView',
+	components: { PostCardSmall, videoPlayer },
 	props: {
-		stories: Array
+		stories: Array,
+		feed: Boolean
 	},
-	components: { PostCardSmall },
 	data: () => {
 		return {
 			editStoryId: '',
@@ -105,12 +119,41 @@ export default {
 			selectedHighlight: null
 		};
 	},
-	mounted() {
-		this.$store.dispatch('getViewingProfileHighlights', this.currentUser);
+	computed: {
+		storyReportDialog: {
+			get() {
+				return this.$store.getters.storyReportDialog;
+			},
+			set(value) {
+				this.$store.commit('setStoryReportDialog', value);
+			}
+		},
+		reportedStory: {
+			get() {
+				return this.$store.getters.reportedStory;
+			},
+			set(value) {
+				this.$store.commit('setReportedStory', value);
+			}
+		},
+		currentUser: {
+			get() {
+				return this.$store.getters.username;
+			}
+		},
+		highlights: {
+			get() {
+				return this.$store.getters.viewingProfileHighlights;
+			}
+		}
 	},
 	methods: {
 		isVideo(url) {
 			return url.includes('videos');
+		},
+		openStoryReportDialog(story) {
+			this.storyReportDialog = !this.storyReportDialog;
+			this.reportedStory = story;
 		},
 		selectStory(id) {
 			this.editStoryId = id;
@@ -145,17 +188,8 @@ export default {
 			}
 		}
 	},
-	computed: {
-		currentUser: {
-			get() {
-				return this.$store.getters.username;
-			}
-		},
-		highlights: {
-			get() {
-				return this.$store.getters.viewingProfileHighlights;
-			}
-		}
+	mounted() {
+		this.$store.dispatch('getViewingProfileHighlights', this.currentUser);
 	}
 };
 </script>

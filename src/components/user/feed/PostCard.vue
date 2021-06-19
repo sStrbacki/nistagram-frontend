@@ -81,7 +81,7 @@
 									</v-list-item-content>
 								</v-list-item>
 
-								<v-list-item class="list-item">
+								<v-list-item class="list-item" @click="openPostReportDialog()">
 									<v-list-item-icon>
 										<v-icon>mdi-alert</v-icon>
 									</v-list-item-icon>
@@ -186,6 +186,14 @@ export default {
 				this.$store.commit('setResharePost', value);
 			}
 		},
+		reportedPost: {
+			set(value) {
+				this.$store.commit('setReportedPost', value);
+			},
+			get() {
+				return this.$store.getters.reportedPost;
+			}
+		},
 		collectionDialog: {
 			get() {
 				return this.$store.getters.collectionDialog;
@@ -202,6 +210,14 @@ export default {
 				this.$store.commit('setReshareDialog', value);
 			}
 		},
+		postReportDialog: {
+			get() {
+				return this.$store.getters.postReportDialog;
+			},
+			set(value) {
+				this.$store.commit('setPostReportDialog', value);
+			}
+		},
 		likedColor() {
 			if (this.postLiked) return 'green';
 			else return 'gray';
@@ -212,6 +228,10 @@ export default {
 		}
 	},
 	methods: {
+		openPostReportDialog() {
+			this.reportedPost = this.post;
+			this.postReportDialog = !this.postReportDialog;
+		},
 		removePostFromCollection() {
 			this.$store.dispatch('removePostFromCollection', this.post.id);
 		},
@@ -225,11 +245,11 @@ export default {
 		},
 		rerouteToPostPreview() {
 			this.$router.push({
-          name: 'PostPreview',
-          params: {
-              postId: this.post.id
-          }
-      });
+				name: 'PostPreview',
+				params: {
+					postId: this.post.id
+				}
+			});
 		},
 		isVideo(url) {
 			return url.includes('videos');

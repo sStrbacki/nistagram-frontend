@@ -6,9 +6,7 @@
 		v-if="storiesLoaded"
 	>
 		<v-slide-group class="pa-4" show-arrows>
-			<v-slide-item
-				v-slot="{ toggle }"
-			>
+			<v-slide-item v-slot="{ toggle }">
 				<v-card
 					shaped
 					:color="'blue accent-1'"
@@ -23,7 +21,7 @@
 							color="grey lighten-3"
 							size="48"
 							v-text="'mdi-account-circle'"
-							v-if='personalStories.length'
+							v-if="personalStories.length"
 						></v-icon>
 						<v-icon
 							color="grey lighten-3"
@@ -95,9 +93,7 @@
 			</v-slide-item>
 		</v-slide-group>
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStories">
-			<story-view
-				:stories="selectedStories"
-			></story-view>
+			<story-view :stories="selectedStories" :feed="true"></story-view>
 		</v-dialog>
 	</v-row>
 	<v-row align="center" justify="center" class="content-wrap" v-else>

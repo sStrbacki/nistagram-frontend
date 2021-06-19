@@ -6,15 +6,12 @@
 			v-for="highlight in highlights"
 			@click="openHighlight(highlight)"
 		>
-			<v-avatar :size="avatarHeight" v-if="highlight.stories.length">
+			<v-avatar :size="avatarHeight">
 				<v-img :src="highlight.stories[0].mediaUrl"></v-img> </v-avatar
-			><br v-if="highlight.stories.length" />
-			<v-chip
-				:small="avatarHeight >= 60"
-				:x-small="avatarHeight < 60"
-				v-if="highlight.stories.length"
-				>{{ highlight.name }}</v-chip
-			>
+			><br />
+			<v-chip :small="avatarHeight >= 60" :x-small="avatarHeight < 60">{{
+				highlight.name
+			}}</v-chip>
 		</div>
 		<v-dialog v-model="showHighlight" width="1000" v-if="stories">
 			<story-view :stories="stories" :display="showHighlight"></story-view>

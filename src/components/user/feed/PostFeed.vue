@@ -5,6 +5,7 @@
 		</v-col>
 		<collection-dialog />
 		<reshare-dialog />
+		<post-report-dialog />
 	</v-row>
 	<v-row align="center" justify="center" v-else>
 		<v-progress-circular :size="50" indeterminate></v-progress-circular>
@@ -15,10 +16,11 @@
 import PostCard from '../../../components/user/feed/PostCard.vue';
 import CollectionDialog from '../post-collection/CollectionDialog.vue';
 import ReshareDialog from '../posting/ReshareDialog.vue';
+import PostReportDialog from '../report/PostReportDialog.vue';
 
 export default {
 	name: 'PostFeed',
-	components: { PostCard, CollectionDialog, ReshareDialog },
+	components: { PostCard, CollectionDialog, ReshareDialog, PostReportDialog },
 	data() {
 		return {
 			postsLoaded: false
