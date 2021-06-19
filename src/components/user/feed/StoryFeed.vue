@@ -23,6 +23,13 @@
 							color="grey lighten-3"
 							size="48"
 							v-text="'mdi-account-circle'"
+							v-if='personalStories.length'
+						></v-icon>
+						<v-icon
+							color="grey lighten-3"
+							size="48"
+							v-text="'mdi-plus'"
+							v-else
 						></v-icon>
 					</v-row>
 					<v-row align="center" justify="center" class="mt-4">
@@ -117,6 +124,10 @@ export default {
 			this.storyDialog = true;
 		},
 		selectPersonalStories() {
+			if (!this.personalStories.length) {
+				this.$router.push('/home/publish/story');
+				return;
+			}
 			this.selectedStories = this.personalStories;
 			this.storyDialog = true;
 		},
