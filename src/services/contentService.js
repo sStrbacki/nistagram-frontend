@@ -204,6 +204,14 @@ async function getProfileHighlightsPublic(username) {
 	}
 }
 
+async function getPersonalStories() {
+	try {
+		return await axios.get(api.content.personalStories);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	createPost,
 	createStory,
@@ -227,5 +235,6 @@ export {
 	getProfilePosts,
 	getProfilePostsPublic,
 	getProfileHighlights,
-	getProfileHighlightsPublic
+	getProfileHighlightsPublic,
+	getPersonalStories
 };

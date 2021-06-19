@@ -33,12 +33,13 @@ export const api = {
 		userHighlights: apiHost + '/api/content/story/highlights/user',
 		userHighlightsPublic: apiHost + '/api/content/story/public/highlights/user',
 		postSearchLocation: apiHost + '/api/content/post/search/location',
-		tagged: apiHost + '/api/content/post/tagged'
+		tagged: apiHost + '/api/content/post/tagged',
+		personalStories: apiHost + '/api/content/story/me/all'
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
-		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped',
 	},
 	collection: {
 		collectionBase: apiHost + '/api/content/post/collection',
