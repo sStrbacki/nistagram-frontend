@@ -61,6 +61,10 @@ export default {
 			switch (notificationType) {
 				case 'NEW_LIKE':
 					return 'mdi-thumb-up';
+				case 'NEW_DISLIKE':
+					return 'mdi-thumb-down';
+				case 'NEW_SHARE':
+					return 'mdi-share-variant';
 				case 'NEW_COMMENT':
 					return 'mdi-comment';
 				case 'USER_TAGGED':
