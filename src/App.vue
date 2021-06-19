@@ -8,10 +8,20 @@
 <script>
 export default {
 	name: 'App',
-
-	data: () => ({
-		//
-	})
+	mounted() {
+		this.getPersonalProfile();
+	},
+	methods: {
+		getPersonalProfile() {
+			if (this.$store.getters.isLoggedIn) {
+				try {
+					this.$store.dispatch('getProfile');
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		}
+	}
 };
 </script>
 

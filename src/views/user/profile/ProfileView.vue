@@ -1,7 +1,7 @@
 <template>
 	<v-container class="content-wrap">
 		<profile-header></profile-header>
-		<div v-if="!this.private || following || username === currentUser">
+		<div v-if="!profilePrivate || following || username === currentUser">
 			<profile-highlights-bar></profile-highlights-bar>
 			<v-tabs class="d-flex justify-center">
 				<v-tab @click="goToPosts()">Posts</v-tab>
@@ -13,9 +13,16 @@
 		</div>
 		<v-card
 			class="d-flex justify-center my-5 py-5"
-			v-else-if="this.private && following === false"
+			v-else-if="profilePrivate && following === false"
 		>
 			This profile is private!
+		</v-card>
+		<v-card
+			class="d-flex flex-column align-center my-5 py-5"
+			v-else-if="!isLoggedIn"
+		>
+			<div class="mb-5">This profile is private!</div>
+			<v-btn plain color="primary" to="/">Log in</v-btn>
 		</v-card>
 	</v-container>
 </template>
@@ -39,7 +46,10 @@
       },
       currentUser() {
         return this.$store.getters.username;
-      }
+      },
+			isLoggedIn() {
+      	return this.$store.getters.isLoggedIn;
+			}
     },
     mounted() {
       this.getProfile();
@@ -61,17 +71,28 @@
 				if (this.profilePrivate) {
 					this.getData();
 				} else {
-					console.log('get data for public profile');
+					this.getDataPublic();
 				}
 			},
 			getData() {
-				this.$store.dispatch('getProfile');
-				this.$store.dispatch('getViewingProfilePosts', this.username);
 				this.$store.dispatch('getViewingProfile', this.username);
-				this.$store.dispatch('getFollowingViewingProfile', this.username);
-				this.$store.dispatch('getPendingViewingProfile', this.username);
 				this.$store.dispatch('getViewingProfileStats', this.username);
-				this.$store.dispatch('getViewingProfileHighlights', this.username);
+				if (this.isLoggedIn) {
+					this.$store.dispatch('getViewingProfilePosts', this.username);
+					this.$store.dispatch('getFollowingViewingProfile', this.username);
+					this.$store.dispatch('getPendingViewingProfile', this.username);
+					this.$store.dispatch('getViewingProfileHighlights', this.username);
+				}
+			},
+			getDataPublic() {
+				this.$store.dispatch('getViewingProfile', this.username);
+				this.$store.dispatch('getViewingProfilePostsPublic', this.username);
+				this.$store.dispatch('getViewingProfileStats', this.username);
+				this.$store.dispatch('getViewingProfileHighlightsPublic', this.username);
+				if (this.isLoggedIn) {
+					this.$store.dispatch('getPendingViewingProfile', this.username);
+					this.$store.dispatch('getFollowingViewingProfile', this.username);
+				}
 			}
     }
   }

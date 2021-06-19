@@ -5,8 +5,8 @@ import {
 } from '@/services/userService';
 import { notifyError } from '@/services/notificationService';
 import {
-	getProfileHighlights,
-	getProfilePosts
+	getProfileHighlights, getProfileHighlightsPublic,
+	getProfilePosts, getProfilePostsPublic
 } from '@/services/contentService';
 import {
 	followProfile,
@@ -80,6 +80,14 @@ export default {
 				context.commit('setViewingProfilePosts', response.data);
 			}
 		},
+		getViewingProfilePostsPublic: async (context, username) => {
+			const response = await getProfilePostsPublic(username);
+			if (response.status >= 400) {
+				console.log(response.data);
+			} else {
+				context.commit('setViewingProfilePosts', response.data);
+			}
+		},
 		getFollowingViewingProfile: async (context, username) => {
 			const response = await isFollowingProfile(username);
 			if (response.status >= 400) {
@@ -137,6 +145,14 @@ export default {
 		},
 		getViewingProfileHighlights: async (context, username) => {
 			const response = await getProfileHighlights(username);
+			if (response.status >= 400) {
+				console.log(response.data);
+			} else {
+				context.commit('setViewingProfileHighlights', response.data);
+			}
+		},
+		getViewingProfileHighlightsPublic: async (context, username) => {
+			const response = await getProfileHighlightsPublic(username);
 			if (response.status >= 400) {
 				console.log(response.data);
 			} else {

@@ -180,9 +180,25 @@ async function getProfilePosts(username) {
 	}
 }
 
+async function getProfilePostsPublic(username) {
+	try {
+		return await axios.get(api.content.userPostsPublic + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function getProfileHighlights(username) {
 	try {
 		return await axios.get(api.content.userHighlights + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function getProfileHighlightsPublic(username) {
+	try {
+		return await axios.get(api.content.userHighlightsPublic + '/' + username);
 	} catch (err) {
 		return err.response;
 	}
@@ -209,5 +225,7 @@ export {
 	deletePostFromDefaultCollection,
 	comment,
 	getProfilePosts,
-	getProfileHighlights
+	getProfilePostsPublic,
+	getProfileHighlights,
+	getProfileHighlightsPublic
 };

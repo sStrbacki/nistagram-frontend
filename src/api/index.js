@@ -29,7 +29,9 @@ export const api = {
 		postDislike: apiHost + '/api/content/post/dislike',
 		comment: apiHost + '/api/content/post/comment',
 		userPosts: apiHost + '/api/content/post/user',
+		userPostsPublic: apiHost + '/api/content/post/public/user',
 		userHighlights: apiHost + '/api/content/story/highlights/user',
+		userHighlightsPublic: apiHost + '/api/content/story/public/highlights/user',
 		postSearchLocation: apiHost + '/api/content/post/search/location',
 		tagged: apiHost + '/api/content/post/tagged'
 	},
