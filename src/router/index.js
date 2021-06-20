@@ -78,6 +78,11 @@ const routes = [
 				redirect: 'feed'
 			},
 			{
+				path: 'interactions',
+				name: "InteractedPosts",
+				component: () => import('../views/user/post/InteractedPosts.vue')
+			},
+			{
 				path: 'feed',
 				name: 'Feed',
 				component: () => import('../views/user/feed/Feed.vue')

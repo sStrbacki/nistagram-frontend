@@ -44,6 +44,10 @@ async function getStoryById(storyId) {
 	}
 }
 
+async function fetchInteractedPosts() {
+	return axios.get(api.content.interactedPosts);
+}
+
 async function postLike(postId) {
 	try {
 		let res = await axios.get(api.content.postLike + '/' + postId);
@@ -254,5 +258,6 @@ export {
 	getProfileHighlightsPublic,
 	getPersonalStories,
 	createHighlight,
-	addStoryToHighlight
+	addStoryToHighlight,
+	fetchInteractedPosts
 };

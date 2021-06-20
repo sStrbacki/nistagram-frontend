@@ -14,6 +14,10 @@
 
 			<v-spacer></v-spacer>
 
+      <v-btn icon to="/home/interactions">
+        <v-icon>mdi-thumbs-up-down</v-icon>
+      </v-btn>
+
       <v-btn icon to="/home/followers">
         <v-icon>mdi-account-multiple</v-icon>
       </v-btn>

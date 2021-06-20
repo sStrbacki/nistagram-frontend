@@ -35,7 +35,8 @@ export const api = {
 		userHighlightsPublic: apiHost + '/api/content/story/public/highlights/user',
 		postSearchLocation: apiHost + '/api/content/post/search/location',
 		tagged: apiHost + '/api/content/post/tagged',
-		personalStories: apiHost + '/api/content/story/me/all'
+		personalStories: apiHost + '/api/content/story/me/all',
+		interactedPosts: apiHost + '/api/content/post/interactions',
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
