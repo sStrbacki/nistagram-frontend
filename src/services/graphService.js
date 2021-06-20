@@ -1,6 +1,30 @@
 import axios from 'axios';
 import { api } from '../api';
 
+async function hasMuted(username) {
+	try {
+		return await axios.get(api.graph.muted + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function mute(username) {
+	try {
+		return await axios.post(api.graph.mute + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function unmute(username) {
+	try {
+		return await axios.delete(api.graph.mute + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function isFollowingProfile(username) {
 	try {
 		return await axios.get(api.graph.following + '/' + username);
@@ -59,6 +83,9 @@ async function declineFollowerRequest(username) {
 }
 
 export {
+	hasMuted,
+	mute,
+	unmute,
 	isFollowingProfile,
 	isPendingProfile,
 	followProfile,

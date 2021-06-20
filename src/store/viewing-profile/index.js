@@ -5,14 +5,19 @@ import {
 } from '@/services/userService';
 import { notifyError } from '@/services/notificationService';
 import {
-	getProfileHighlights, getProfileHighlightsPublic,
-	getProfilePosts, getProfilePostsPublic
+	getProfileHighlights,
+	getProfileHighlightsPublic,
+	getProfilePosts,
+	getProfilePostsPublic
 } from '@/services/contentService';
 import {
 	followProfile,
 	isFollowingProfile,
 	isPendingProfile,
-	unfollowProfile
+	unfollowProfile,
+	mute,
+	unmute,
+	hasMuted
 } from '@/services/graphService';
 
 export default {
@@ -32,7 +37,8 @@ export default {
 		viewingProfileHighlights: [],
 		followingViewingProfile: null,
 		pendingViewingProfile: null,
-		viewingProfilePrivate: null
+		viewingProfilePrivate: null,
+		viewingProfileMuted: null
 	},
 	mutations: {
 		setViewingProfile: (state, publicData) => {
@@ -61,6 +67,9 @@ export default {
 		},
 		setViewingProfileHighlights: (state, highlights) => {
 			state.viewingProfileHighlights = highlights;
+		},
+		setViewingProfileMuted: (state, value) => {
+			state.viewingProfileMuted = value;
 		}
 	},
 	actions: {
@@ -103,6 +112,24 @@ export default {
 			} else {
 				context.commit('setPendingViewingProfile', response.data.following);
 			}
+		},
+		muteViewingProfile: async context => {
+			const response = await mute(context.state.viewingProfile.username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else context.commit('setViewingProfileMuted', true);
+		},
+		unmuteViewingProfile: async context => {
+			const response = await unmute(context.state.viewingProfile.username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else context.commit('setViewingProfileMuted', false);
+		},
+		getViewingProfileMuted: async (context, username) => {
+			const response = await hasMuted(username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else context.commit('setViewingProfileMuted', response.data.muted);
 		},
 		followViewingProfile: async context => {
 			const response = await followProfile(
@@ -190,6 +217,9 @@ export default {
 		},
 		viewingProfileHighlights: state => {
 			return state.viewingProfileHighlights;
+		},
+		viewingProfileMuted: state => {
+			return state.viewingProfileMuted;
 		}
 	}
 };

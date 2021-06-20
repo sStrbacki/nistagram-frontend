@@ -57,7 +57,9 @@ export const api = {
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
 		follow: apiHost + '/api/user-graph/followers',
-		pendingFollowers: apiHost + '/api/user-graph/followers/pending'
+		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
+		mute: apiHost + '/api/user-graph/mute',
+		muted: apiHost + '/api/user-graph/muted'
 	},
 	notification: {
 		base: apiHost + '/api/notification',
