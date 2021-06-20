@@ -47,6 +47,17 @@
 						<v-list-item-title>Notification Preferences</v-list-item-title>
 					</v-list-item>
 				</router-link>
+				<router-link
+					to="/home/settings/verification"
+					v-slot="{ href, navigate, isActive }"
+				>
+					<v-list-item link :active="isActive" :href="href" @click="navigate">
+						<v-list-item-icon>
+							<v-icon>mdi-lock</v-icon>
+						</v-list-item-icon>
+						<v-list-item-title>Verification</v-list-item-title>
+					</v-list-item>
+				</router-link>
 			</v-list>
 		</v-navigation-drawer>
 		<v-spacer></v-spacer>

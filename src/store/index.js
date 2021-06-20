@@ -10,6 +10,7 @@ import collectionModule from './collection/index';
 import viewingProfile from './viewing-profile/index';
 import notificationsModule from './notification/index';
 import reportModule from './report/index';
+import verificationModule from './verification/index';
 
 Vue.use(Vuex);
 
@@ -24,7 +25,8 @@ export default new Vuex.Store({
 		collection: collectionModule,
 		viewingProfile: viewingProfile,
 		notifications: notificationsModule,
-		report: reportModule
+		report: reportModule,
+		verification: verificationModule
 	}
 });
 //ZnKa&qL86A*#jt

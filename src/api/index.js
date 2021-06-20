@@ -64,5 +64,10 @@ export const api = {
 	notification: {
 		base: apiHost + '/api/notification',
 		ws: notificationHost + '/api/notification/ws'
+	},
+	verification: {
+		base: apiHost + '/api/users/verification',
+		categories: apiHost + '/api/users/verification/categories',
+		admin: apiHost + 'api/users/verification/admin'
 	}
 };

@@ -134,6 +134,12 @@ const routes = [
 						name: 'NotificationPreferences',
 						component: () =>
 							import('../components/user/profile/NotificationPreferences')
+					},
+					{
+						path: 'verification',
+						name: 'Verification',
+						component: () =>
+							import('../components/user/profile/VerificationSection')
 					}
 				]
 			},
