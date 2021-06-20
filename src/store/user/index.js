@@ -29,6 +29,8 @@ export default {
 		notificationPreferences: {
 			comment: '',
 			likes: '',
+			dislikes: '',
+			shares: '',
 			photosOfMe: '',
 			followerRequestNotificationEnabled: '',
 			followRequestAcceptedNotificationEnabled: '',
@@ -68,6 +70,12 @@ export default {
 		},
 		setLikes: (state, likes) => {
 			state.notificationPreferences.likes = likes;
+		},
+		setDislikes: (state, dislikes) => {
+			state.notificationPreferences.dislikes = dislikes;
+		},
+		setShares: (state, shares) => {
+			state.notificationPreferences.shares = shares;
 		},
 		setPhotosOfMe: (state, photosOfMe) => {
 			state.notificationPreferences.photosOfMe = photosOfMe;
@@ -213,6 +221,12 @@ export default {
 		},
 		likes: state => {
 			return state.notificationPreferences.likes;
+		},
+		dislikes: state => {
+			return state.notificationPreferences.dislikes;
+		},
+		shares: state => {
+			return state.notificationPreferences.shares;
 		},
 		photosOfMe: state => {
 			return state.notificationPreferences.photosOfMe;

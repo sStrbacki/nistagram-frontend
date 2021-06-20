@@ -4,7 +4,13 @@
 		<unauth-app-bar v-else></unauth-app-bar>
 		<v-container class="content-wrap">
 			<profile-header></profile-header>
-			<div v-if="!profilePrivate || following || username === currentUser">
+			<v-card
+				class="d-flex justify-center my-5 py-5"
+				v-if="viewingProfileBlocked"
+			>
+				You've blocked this user!
+			</v-card>
+			<div v-else-if="!profilePrivate || following || username === currentUser">
 				<profile-highlights-bar></profile-highlights-bar>
 				<v-tabs class="d-flex justify-center">
 					<v-tab @click="goToPosts()">Posts</v-tab>
@@ -14,6 +20,7 @@
 					<router-view></router-view>
 				</v-card>
 			</div>
+
 			<v-card
 				class="d-flex justify-center my-5 py-5"
 				v-else-if="profilePrivate && following === false"
@@ -32,77 +39,86 @@
 </template>
 
 <script>
-	import ProfileHeader from '../../../components/user/profile/ProfileHeader';
-	import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
-	import { isLogged } from '@/services/authService';
-	import UserAppBar from '@/components/user/bars/UserAppBar';
-	import UnauthAppBar from '@/components/unauth/UnauthAppBar';
+import ProfileHeader from '../../../components/user/profile/ProfileHeader';
+import ProfileHighlightsBar from '../../../components/user/profile/ProfileHighlightsBar';
+import { isLogged } from '@/services/authService';
+import UserAppBar from '@/components/user/bars/UserAppBar';
+import UnauthAppBar from '@/components/unauth/UnauthAppBar';
 
-  export default {
-    name: 'ProfileView.vue',
-    components: { UnauthAppBar, UserAppBar, ProfileHighlightsBar, ProfileHeader},
-    computed: {
-      username() {
-        return this.$route.params.username
-      },
-      profilePrivate() {
-        return this.$store.getters.viewingProfilePrivate;
-      },
-      following() {
-        return this.$store.getters.followingViewingProfile;
-      },
-      currentUser() {
-        return this.$store.getters.username;
-      },
-			isLoggedIn() {
-				return isLogged();
+export default {
+	name: 'ProfileView.vue',
+	components: { UnauthAppBar, UserAppBar, ProfileHighlightsBar, ProfileHeader },
+	computed: {
+		username() {
+			return this.$route.params.username;
+		},
+		profilePrivate() {
+			return this.$store.getters.viewingProfilePrivate;
+		},
+		following() {
+			return this.$store.getters.followingViewingProfile;
+		},
+		currentUser() {
+			return this.$store.getters.username;
+		},
+		isLoggedIn() {
+			return isLogged();
+		},
+		viewingProfileBlocked() {
+			return this.$store.getters.viewingProfileBlocked;
+		}
+	},
+	mounted() {
+		this.getProfile();
+	},
+	watch: {
+		$route() {
+			this.getProfile();
+		}
+	},
+	methods: {
+		goToPosts() {
+			this.$router.push('/' + this.username);
+		},
+		goToTagged() {
+			this.$router.push('/' + this.username + '/tagged');
+		},
+		async getProfile() {
+			await this.$store.dispatch('getViewingProfilePrivate', this.username);
+			if (this.profilePrivate) {
+				this.getData();
+			} else {
+				this.getDataPublic();
 			}
-    },
-    mounted() {
-      this.getProfile();
-    },
-    watch: {
-      $route () {
-        this.getProfile();
-      }
-    },
-    methods: {
-      goToPosts() {
-        this.$router.push('/' + this.username);
-      },
-      goToTagged() {
-        this.$router.push('/' + this.username + '/tagged');
-      },
-      async getProfile() {
-				await this.$store.dispatch('getViewingProfilePrivate', this.username);
-				if (this.profilePrivate) {
-					this.getData();
-				} else {
-					this.getDataPublic();
-				}
-			},
-			getData() {
-				this.$store.dispatch('getViewingProfile', this.username);
-				this.$store.dispatch('getViewingProfileStats', this.username);
-				if (this.isLoggedIn) {
-					this.$store.dispatch('getViewingProfilePosts', this.username);
-					this.$store.dispatch('getFollowingViewingProfile', this.username);
-					this.$store.dispatch('getPendingViewingProfile', this.username);
-					this.$store.dispatch('getViewingProfileHighlights', this.username);
-				}
-			},
-			getDataPublic() {
-				this.$store.dispatch('getViewingProfile', this.username);
-				this.$store.dispatch('getViewingProfilePostsPublic', this.username);
-				this.$store.dispatch('getViewingProfileStats', this.username);
-				this.$store.dispatch('getViewingProfileHighlightsPublic', this.username);
-				if (this.isLoggedIn) {
-					this.$store.dispatch('getPendingViewingProfile', this.username);
-					this.$store.dispatch('getFollowingViewingProfile', this.username);
-				}
+		},
+		getData() {
+			this.$store.dispatch('getViewingProfile', this.username);
+			this.$store.dispatch('getViewingProfileStats', this.username);
+			if (this.isLoggedIn) {
+				this.$store.dispatch('getViewingProfileBlocked', this.username);
+				this.$store.dispatch('getBlockedByViewingProfile', this.username);
+				this.$store.dispatch('getViewingProfilePosts', this.username);
+				this.$store.dispatch('getFollowingViewingProfile', this.username);
+				this.$store.dispatch('getPendingViewingProfile', this.username);
+				this.$store.dispatch('getViewingProfileMuted', this.username);
+				this.$store.dispatch('getViewingProfileHighlights', this.username);
 			}
-    }
-  }
+		},
+		getDataPublic() {
+			this.$store.dispatch('getViewingProfile', this.username);
+			this.$store.dispatch('getViewingProfilePostsPublic', this.username);
+			this.$store.dispatch('getViewingProfileStats', this.username);
+			this.$store.dispatch('getViewingProfileHighlightsPublic', this.username);
+			if (this.isLoggedIn) {
+				this.$store.dispatch('getViewingProfileBlocked', this.username);
+				this.$store.dispatch('getBlockedByViewingProfile', this.username);
+				this.$store.dispatch('getPendingViewingProfile', this.username);
+				this.$store.dispatch('getViewingProfileMuted', this.username);
+				this.$store.dispatch('getFollowingViewingProfile', this.username);
+			}
+		}
+	}
+};
 </script>
 
 <style scoped></style>

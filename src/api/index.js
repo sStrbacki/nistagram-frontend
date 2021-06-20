@@ -37,11 +37,15 @@ export const api = {
 		tagged: apiHost + '/api/content/post/tagged',
 		personalStories: apiHost + '/api/content/story/me/all',
 		interactedPosts: apiHost + '/api/content/post/interactions',
+		report: {
+			post: apiHost + '/api/content/report/post',
+			story: apiHost + '/api/content/report/story'
+		}
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
-		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped',
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
 	},
 	collection: {
 		collectionBase: apiHost + '/api/content/post/collection',
@@ -54,7 +58,12 @@ export const api = {
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
 		follow: apiHost + '/api/user-graph/followers',
-		pendingFollowers: apiHost + '/api/user-graph/followers/pending'
+		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
+		mute: apiHost + '/api/user-graph/mute',
+		muted: apiHost + '/api/user-graph/muted',
+		block: apiHost + '/api/user-graph/block',
+		blocked: apiHost + '/api/user-graph/blocked',
+		blockedBy: apiHost + '/api/user-graph/blocked-by'
 	},
 	notification: {
 		base: apiHost + '/api/notification',
