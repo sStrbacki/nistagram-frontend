@@ -1,13 +1,17 @@
-import { notifyError } from '../../services/notificationService';
-import { getCategories } from '../../services/verificationService';
+import { notifyError, notifySuccess } from '../../services/notificationService';
+import { getCategories, sendVerificationRequest } from '../../services/verificationService';
 
 export default {
 	state: {
-		verificationCategories: []
+		verificationCategories: [],
+		verificationCategory: ''
 	},
 	mutations: {
 		setVerificationCategories: (state, categories) => {
 			state.verificationCategories = categories;
+		},
+		setVerificationCategory: (state, category) => {
+			state.verificationCategory = category;
 		}
 	},
 	actions: {
@@ -18,11 +22,31 @@ export default {
 			} else {
 				commit('setVerificationCategories', response.data);
 			}
+		},
+		sendVerificationRequest: async (context) => {
+			await context.dispatch('postFile');
+			if (!context.getters.fileUrl) {
+				notifyError('Error uploading image!');
+			} else {
+				const request = {
+					categoryId: context.getters.verificationCategory,
+					imageUrl: context.getters.fileUrl
+				}
+				const response = await sendVerificationRequest(request);
+				if (response.status >= 400) {
+					notifyError(response.data);
+				} else {
+					notifySuccess('Verification request successfully sent!')
+				}
+			}
 		}
 	},
 	getters: {
 		verificationCategories: (state) => {
 			return state.verificationCategories;
+		},
+		verificationCategory: (state) => {
+			return state.verificationCategory;
 		}
 	}
 }
