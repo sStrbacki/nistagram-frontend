@@ -98,8 +98,10 @@
 
 			<v-card-subtitle>
 				<v-row>
-					<v-col cols="4">
-						{{ post.caption }}
+					<v-col cols="1">
+            <span style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;">
+              {{ post.caption }}
+            </span>
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col cols="2">

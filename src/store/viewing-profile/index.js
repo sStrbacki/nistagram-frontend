@@ -17,8 +17,14 @@ import {
 	unfollowProfile,
 	mute,
 	unmute,
-	hasMuted
+	hasMuted,
+	block,
+	blockedBy,
+	hasBlocked,
+	unblock
 } from '@/services/graphService';
+
+import router from '../../router/index';
 
 export default {
 	state: {
@@ -39,7 +45,9 @@ export default {
 		followingViewingProfile: null,
 		pendingViewingProfile: null,
 		viewingProfilePrivate: null,
-		viewingProfileMuted: null
+		viewingProfileMuted: null,
+		viewingProfileBlocked: null,
+		blockedByViewingProfile: null
 	},
 	mutations: {
 		setViewingProfile: (state, publicData) => {
@@ -71,6 +79,12 @@ export default {
 		},
 		setViewingProfileMuted: (state, value) => {
 			state.viewingProfileMuted = value;
+		},
+		setViewingProfileBlocked: (state, value) => {
+			state.viewingProfileBlocked = value;
+		},
+		setBlockedByViewingProfile: (state, value) => {
+			state.blockedByViewingProfile = value;
 		}
 	},
 	actions: {
@@ -131,6 +145,36 @@ export default {
 
 			if (response.status >= 400) notifyError(response.data);
 			else context.commit('setViewingProfileMuted', response.data.muted);
+		},
+		blockViewingProfile: async context => {
+			const response = await block(context.state.viewingProfile.username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else {
+				context.commit('setViewingProfileBlocked', true);
+				context.commit('setFollowingViewingProfile', false);
+			}
+		},
+		unblockViewingProfile: async context => {
+			const response = await unblock(context.state.viewingProfile.username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else context.commit('setViewingProfileBlocked', false);
+		},
+		getViewingProfileBlocked: async (context, username) => {
+			const response = await hasBlocked(username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else context.commit('setViewingProfileBlocked', response.data.blocked);
+		},
+		getBlockedByViewingProfile: async (context, username) => {
+			const response = await blockedBy(username);
+
+			if (response.status >= 400) notifyError(response.data);
+			else {
+				context.commit('setBlockedByViewingProfile', response.data.blocked);
+				if (response.data.blocked) router.push('home');
+			}
 		},
 		followViewingProfile: async context => {
 			const response = await followProfile(
@@ -221,6 +265,12 @@ export default {
 		},
 		viewingProfileMuted: state => {
 			return state.viewingProfileMuted;
+		},
+		viewingProfileBlocked: state => {
+			return state.viewingProfileBlocked;
+		},
+		blockedByViewingProfile: state => {
+			return state.blockedByViewingProfile;
 		},
 		viewingProfileVerified: state => {
 			return state.viewingProfile.verified;

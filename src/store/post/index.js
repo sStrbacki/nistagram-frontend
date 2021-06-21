@@ -1,12 +1,14 @@
-import { comment, getPostById } from '../../services/contentService';
-import { notifyError } from '../../services/notificationService';
+import { comment, getPostById } from '@/services/contentService';
+import { notifyError } from '@/services/notificationService';
 import {
 	postLike,
 	postDislike,
 	deleteDislike,
-	deleteLike
-} from '../../services/contentService';
+	deleteLike,
+	fetchInteractedPosts
+} from '@/services/contentService';
 import router from '../../router';
+
 export default {
 	state: {
 		post: {
@@ -22,10 +24,16 @@ export default {
 			mediaUrls: [],
 			tags: [],
 			time: '',
-			userInteractions: []
+			userInteractions: [],
+		},
+		interactions: {
+			interactedPosts: []
 		}
 	},
 	mutations: {
+		setInteractedPosts: (state, value) => {
+			state.interactions.interactedPosts = value;
+		},
 		setPost: (state, post) => {
 			state.post = post;
 		},
@@ -46,7 +54,7 @@ export default {
 			state.post.userInteractions = state.post.userInteractions.filter(
 				interaction => {
 					return !(
-						interaction.author == user && interaction.sentiment === 'LIKE'
+						interaction.author === user && interaction.sentiment === 'LIKE'
 					);
 				}
 			);
@@ -56,13 +64,21 @@ export default {
 			state.post.userInteractions = state.post.userInteractions.filter(
 				interaction => {
 					return !(
-						interaction.author == user && interaction.sentiment === 'DISLIKE'
+						interaction.author === user && interaction.sentiment === 'DISLIKE'
 					);
 				}
 			);
 		}
 	},
 	actions: {
+		fetchInteractedPosts: async(state) => {
+			fetchInteractedPosts()
+				.then(response => {
+					state.commit('setInteractedPosts', response.data);
+					console.log("Fetched interacted posts:", state.getters.interactedPosts);
+				})
+				.catch(err => notifyError(err.response.data));
+		},
 		getPostById: async (state, id) => {
 			let response = await getPostById(id);
 			if (response.status >= 400) {
@@ -102,6 +118,9 @@ export default {
 		}
 	},
 	getters: {
+		interactedPosts: state => {
+			return state.interactions.interactedPosts;
+		},
 		id: state => {
 			return state.post.id;
 		},

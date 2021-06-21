@@ -4,7 +4,13 @@
 		<unauth-app-bar v-else></unauth-app-bar>
 		<v-container class="content-wrap">
 			<profile-header></profile-header>
-			<div v-if="!profilePrivate || following || username === currentUser">
+			<v-card
+				class="d-flex justify-center my-5 py-5"
+				v-if="viewingProfileBlocked"
+			>
+				You've blocked this user!
+			</v-card>
+			<div v-else-if="!profilePrivate || following || username === currentUser">
 				<profile-highlights-bar></profile-highlights-bar>
 				<v-tabs class="d-flex justify-center">
 					<v-tab @click="goToPosts()">Posts</v-tab>
@@ -14,6 +20,7 @@
 					<router-view></router-view>
 				</v-card>
 			</div>
+
 			<v-card
 				class="d-flex justify-center my-5 py-5"
 				v-else-if="profilePrivate && following === false"
@@ -56,6 +63,9 @@ export default {
 		},
 		isLoggedIn() {
 			return isLogged();
+		},
+		viewingProfileBlocked() {
+			return this.$store.getters.viewingProfileBlocked;
 		}
 	},
 	mounted() {
@@ -85,6 +95,8 @@ export default {
 			this.$store.dispatch('getViewingProfile', this.username);
 			this.$store.dispatch('getViewingProfileStats', this.username);
 			if (this.isLoggedIn) {
+				this.$store.dispatch('getViewingProfileBlocked', this.username);
+				this.$store.dispatch('getBlockedByViewingProfile', this.username);
 				this.$store.dispatch('getViewingProfilePosts', this.username);
 				this.$store.dispatch('getFollowingViewingProfile', this.username);
 				this.$store.dispatch('getPendingViewingProfile', this.username);
@@ -98,6 +110,8 @@ export default {
 			this.$store.dispatch('getViewingProfileStats', this.username);
 			this.$store.dispatch('getViewingProfileHighlightsPublic', this.username);
 			if (this.isLoggedIn) {
+				this.$store.dispatch('getViewingProfileBlocked', this.username);
+				this.$store.dispatch('getBlockedByViewingProfile', this.username);
 				this.$store.dispatch('getPendingViewingProfile', this.username);
 				this.$store.dispatch('getViewingProfileMuted', this.username);
 				this.$store.dispatch('getFollowingViewingProfile', this.username);

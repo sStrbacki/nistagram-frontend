@@ -37,6 +37,7 @@ export const api = {
 		postSearchLocation: apiHost + '/api/content/post/search/location',
 		tagged: apiHost + '/api/content/post/tagged',
 		personalStories: apiHost + '/api/content/story/me/all',
+		interactedPosts: apiHost + '/api/content/post/interactions',
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'
@@ -60,7 +61,10 @@ export const api = {
 		follow: apiHost + '/api/user-graph/followers',
 		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
 		mute: apiHost + '/api/user-graph/mute',
-		muted: apiHost + '/api/user-graph/muted'
+		muted: apiHost + '/api/user-graph/muted',
+		block: apiHost + '/api/user-graph/block',
+		blocked: apiHost + '/api/user-graph/blocked',
+		blockedBy: apiHost + '/api/user-graph/blocked-by'
 	},
 	notification: {
 		base: apiHost + '/api/notification',

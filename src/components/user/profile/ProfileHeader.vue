@@ -11,7 +11,10 @@
 				</h2>
 				<div
 					v-if="
-						username !== currentUser && pending !== null && following !== null
+						username !== currentUser &&
+							pending !== null &&
+							following !== null &&
+							!blocked
 					"
 				>
 					<v-btn
@@ -28,12 +31,21 @@
 						>Follow</v-btn
 					>
 				</div>
-				<div v-if="username !== currentUser && following">
-					<v-btn rounded color="yellowaccent-2" v-if="muted" @click="unmute()"
+				<div
+					v-if="username !== currentUser && following && !blocked"
+					class="ml-2"
+				>
+					<v-btn rounded color="yellow accent-1" v-if="muted" @click="unmute()"
 						>Unmute</v-btn
 					>
-					<v-btn rounded color="yellowaccent-2" v-else @click="mute()"
-						>Mute</v-btn
+					<v-btn rounded color="yellow " v-else @click="mute()">Mute</v-btn>
+				</div>
+				<div v-if="username !== currentUser" class="ml-2">
+					<v-btn rounded color="red accent-1" v-if="blocked" @click="unblock()"
+						>Unblock</v-btn
+					>
+					<v-btn rounded color="red accent-2" v-else @click="block()"
+						>Block</v-btn
 					>
 				</div>
 			</v-col>
@@ -69,6 +81,12 @@ export default {
 		},
 		unmute() {
 			this.$store.dispatch('unmuteViewingProfile');
+		},
+		block() {
+			this.$store.dispatch('blockViewingProfile');
+		},
+		unblock() {
+			this.$store.dispatch('unblockViewingProfile');
 		}
 	},
 	computed: {
@@ -105,6 +123,11 @@ export default {
 		pending: {
 			get() {
 				return this.$store.getters.pendingViewingProfile;
+			}
+		},
+		blocked: {
+			get() {
+				return this.$store.getters.viewingProfileBlocked;
 			}
 		},
 		muted: {
