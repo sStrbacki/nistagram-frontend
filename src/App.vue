@@ -18,6 +18,7 @@ export default {
 			if (isLogged()) {
 				try {
 					this.$store.dispatch('getProfile');
+					this.$store.dispatch('getRoles');
 				} catch (error) {
 					console.log(error);
 				}

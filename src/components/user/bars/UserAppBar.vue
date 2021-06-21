@@ -14,10 +14,12 @@
 
 			<v-spacer></v-spacer>
 
+			<v-btn v-if="isAdmin" icon to="/admin">
+				<v-icon>mdi-account-key</v-icon>
+			</v-btn>
       <v-btn icon to="/home/interactions">
         <v-icon>mdi-thumbs-up-down</v-icon>
       </v-btn>
-
       <v-btn icon to="/home/followers">
         <v-icon>mdi-account-multiple</v-icon>
       </v-btn>
@@ -93,6 +95,9 @@ export default {
 	computed: {
 		username() {
 			return this.$store.getters.username;
+		},
+		isAdmin() {
+			return this.$store.getters.roles.includes('ROLE_ADMIN');
 		}
 	}
 };

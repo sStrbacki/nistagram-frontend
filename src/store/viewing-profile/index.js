@@ -32,7 +32,8 @@ export default {
 			username: '',
 			fullName: '',
 			bio: '',
-			website: ''
+			website: '',
+			verified: null
 		},
 		viewingProfileStats: {
 			following: '',
@@ -270,6 +271,9 @@ export default {
 		},
 		blockedByViewingProfile: state => {
 			return state.blockedByViewingProfile;
+		},
+		viewingProfileVerified: state => {
+			return state.viewingProfile.verified;
 		}
 	}
 };

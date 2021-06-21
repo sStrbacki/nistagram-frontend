@@ -5,8 +5,10 @@
 				id="profile-username-div"
 				class="d-flex flex-wrap justify-space-between"
 			>
-				<h2 class="d-inline mr-10 align-center">{{ username }}</h2>
-
+				<h2 class="d-inline mr-10 align-center">
+					{{ username }}
+					<v-icon v-if="verified" color="primary">mdi-check-decagram</v-icon>
+				</h2>
 				<div
 					v-if="
 						username !== currentUser &&
@@ -146,6 +148,11 @@ export default {
 		followingCount: {
 			get() {
 				return this.$store.getters.viewingProfileStats.following;
+			}
+		},
+		verified: {
+			get() {
+				return this.$store.getters.viewingProfileVerified;
 			}
 		}
 	}

@@ -28,6 +28,14 @@ async function getMyProfile() {
 	}
 }
 
+async function getRoles() {
+	try {
+		return await axios.get(api.auth.base);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 function requestPasswordReset(email) {
 	return axios.post(
 		api.auth.requestPasswordReset,
@@ -73,5 +81,6 @@ export {
 	getMyProfile,
 	requestPasswordReset,
 	resetPassword,
-	activate
+	activate,
+	getRoles
 };

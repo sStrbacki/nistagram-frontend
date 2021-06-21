@@ -123,7 +123,7 @@ export default {
 			});
 		},
 		postFile: async state => {
-			getUploadUrl(uploadFile(state.getters.file)).then(url => {
+			return getUploadUrl(uploadFile(state.getters.file)).then(url => {
 				state.commit('setUploadedUrl', url);
 			});
 		},

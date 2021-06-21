@@ -122,6 +122,7 @@ export default {
 				notifyError(response.data);
 			} else {
 				storeAuthResponse(response);
+				await context.dispatch('getRoles');
 				await router.push('/home');
 			}
 		},

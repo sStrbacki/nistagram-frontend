@@ -8,6 +8,7 @@ import {
 } from '../../services/userService';
 import { notifyError } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
+import { getRoles } from '../../services/authService';
 
 export default {
 	state: {
@@ -19,7 +20,8 @@ export default {
 			phoneNumber: '',
 			email: '',
 			website: '',
-			bio: ''
+			bio: '',
+			verified: null
 		},
 		privacyData: {
 			profilePrivate: '',
@@ -38,7 +40,8 @@ export default {
 			messageRequestNotificationEnabled: '',
 			messageNotificationEnabled: ''
 		},
-		followerRequests: []
+		followerRequests: [],
+		roles: []
 	},
 	mutations: {
 		setFullName: (state, fullName) => {
@@ -127,6 +130,9 @@ export default {
 		},
 		setFollowerRequests: (state, requests) => {
 			state.followerRequests = requests;
+		},
+		setRoles: (state, roles) => {
+			state.roles = roles;
 		}
 	},
 	actions: {
@@ -189,6 +195,14 @@ export default {
 			} else {
 				context.commit('setFollowerRequests', response.data);
 			}
+		},
+		getRoles: async context => {
+			const response = await getRoles();
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setRoles', response.data.roles);
+			}
 		}
 	},
 	getters: {
@@ -215,6 +229,9 @@ export default {
 		},
 		bio: state => {
 			return state.personalData.bio;
+		},
+		verified: state => {
+			return state.personalData.verified;
 		},
 		comment: state => {
 			return state.notificationPreferences.comment;
@@ -258,6 +275,9 @@ export default {
 		},
 		followerRequests: state => {
 			return state.followerRequests;
+		},
+		roles: state => {
+			return state.roles;
 		}
 	}
 };
