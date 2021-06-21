@@ -25,8 +25,26 @@ async function getVerificationRequests() {
 	}
 }
 
+async function acceptVerificationRequest(requestId) {
+	try {
+		return await axios.put(api.verification.admin + '/' + requestId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function declineVerificationRequest(requestId) {
+	try {
+		return await axios.delete(api.verification.admin + '/' + requestId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	getCategories,
 	sendVerificationRequest,
-	getVerificationRequests
+	getVerificationRequests,
+	acceptVerificationRequest,
+	declineVerificationRequest
 }

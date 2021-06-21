@@ -1,5 +1,10 @@
 import { notifyError, notifySuccess } from '../../services/notificationService';
-import { getCategories, getVerificationRequests, sendVerificationRequest } from '../../services/verificationService';
+import {
+	acceptVerificationRequest, declineVerificationRequest,
+	getCategories,
+	getVerificationRequests,
+	sendVerificationRequest
+} from '../../services/verificationService';
 
 export default {
 	state: {
@@ -50,6 +55,22 @@ export default {
 				notifyError(response.data);
 			} else {
 				context.commit('setVerificationRequests', response.data);
+			}
+		},
+		acceptVerificationRequest: async (context, requestId) => {
+			const response = await acceptVerificationRequest(requestId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				notifySuccess('User successfully verified.');
+			}
+		},
+		declineVerificationRequest: async (context, requestId) => {
+			const response = await declineVerificationRequest(requestId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				notifySuccess('Verification request declined.');
 			}
 		}
 	},

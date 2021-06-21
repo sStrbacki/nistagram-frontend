@@ -28,6 +28,10 @@
 						<img :src="request.imageUrl">
 					</v-col>
 				</v-row>
+				<span>
+					<v-btn color="primary" @click="accept(request.id)" class="ma-2">Accept</v-btn>
+					<v-btn color="secondary" @click="decline(request.id)" class="ms-2">Decline</v-btn>
+				</span>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 	</v-expansion-panels>
@@ -44,6 +48,16 @@ export default {
 			get() {
 				return this.$store.getters.verificationRequests;
 			}
+		}
+	},
+	methods: {
+		async accept(requestId) {
+			await this.$store.dispatch('acceptVerificationRequest', requestId)
+			await this.$store.dispatch('getVerificationRequests');
+		},
+		async decline(requestId) {
+			await this.$store.dispatch('declineVerificationRequest', requestId);
+			await this.$store.dispatch('getVerificationRequests');
 		}
 	}
 };
