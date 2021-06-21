@@ -17,7 +17,16 @@ async function sendVerificationRequest(request) {
 	}
 }
 
+async function getVerificationRequests() {
+	try {
+		return await axios.get(api.verification.admin);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	getCategories,
-	sendVerificationRequest
+	sendVerificationRequest,
+	getVerificationRequests
 }

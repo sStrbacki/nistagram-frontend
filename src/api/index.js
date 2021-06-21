@@ -69,6 +69,6 @@ export const api = {
 	verification: {
 		base: apiHost + '/api/users/verification',
 		categories: apiHost + '/api/users/verification/categories',
-		admin: apiHost + 'api/users/verification/admin'
+		admin: apiHost + '/api/users/verification/admin'
 	}
 };

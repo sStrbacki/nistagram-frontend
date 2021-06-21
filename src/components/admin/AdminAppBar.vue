@@ -5,7 +5,7 @@
 				alt="Nistagram Logo"
 				class="shrink mr-2"
 				contain
-				src="../../../assets/nistagram-logo.png"
+				src="../../assets/nistagram-logo.png"
 				transition="scale-transition"
 				width="40"
 			/>
@@ -17,7 +17,7 @@
 			<v-btn icon to="/admin/verification">
 				<v-icon>mdi-check</v-icon>
 			</v-btn>
-			<v-btn icon to="/admin/verification">
+			<v-btn v-if="isUser" icon to="/home/feed">
 				<v-icon>mdi-exit-to-app</v-icon>
 			</v-btn>
 
@@ -42,12 +42,10 @@
 </template>
 
 <script>
-import { logout } from '../../../services/authService';
-import NotificationsDropdown from '../notifications/NotificationsDropdown.vue';
+import { logout } from '../../services/authService';
 
 export default {
-	components: { NotificationsDropdown },
-	name: 'UserAppBar',
+	name: 'AdminAppBar',
 	data() {
 		return {
 			drawer: false
@@ -60,8 +58,10 @@ export default {
 		}
 	},
 	computed: {
-		username() {
-			return this.$store.getters.username;
+		isUser: {
+			get() {
+				return this.$store.getters.roles.includes('ROLE_USER');
+			}
 		}
 	}
 };

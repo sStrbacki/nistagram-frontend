@@ -1,10 +1,11 @@
 import { notifyError, notifySuccess } from '../../services/notificationService';
-import { getCategories, sendVerificationRequest } from '../../services/verificationService';
+import { getCategories, getVerificationRequests, sendVerificationRequest } from '../../services/verificationService';
 
 export default {
 	state: {
 		verificationCategories: [],
-		verificationCategory: ''
+		verificationCategory: '',
+		verificationRequests: [],
 	},
 	mutations: {
 		setVerificationCategories: (state, categories) => {
@@ -12,6 +13,9 @@ export default {
 		},
 		setVerificationCategory: (state, category) => {
 			state.verificationCategory = category;
+		},
+		setVerificationRequests: (state, requests) => {
+			state.verificationRequests = requests;
 		}
 	},
 	actions: {
@@ -36,8 +40,16 @@ export default {
 				if (response.status >= 400) {
 					notifyError(response.data);
 				} else {
-					notifySuccess('Verification request successfully sent!')
+					notifySuccess('Verification request successfully sent!');
 				}
+			}
+		},
+		getVerificationRequests: async (context) => {
+			const response = await getVerificationRequests();
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setVerificationRequests', response.data);
 			}
 		}
 	},
@@ -47,6 +59,9 @@ export default {
 		},
 		verificationCategory: (state) => {
 			return state.verificationCategory;
+		},
+		verificationRequests: (state) => {
+			return state.verificationRequests;
 		}
 	}
 }
