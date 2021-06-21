@@ -1,9 +1,9 @@
 <template>
 	<div class="mt-5">
-		<div v-if="verified">
-			<h2 class="text-h2">You are verified.</h2>
+		<div class="text-large" v-if="verified">
+			You are verified.<v-icon x-large color="green">mdi-check</v-icon>
 		</div>
-		<div v-else>
+		<div v-if="verified === false">
 			<h2>Request verification</h2>
 			<div class="mb-5">
 				<v-select
@@ -71,7 +71,7 @@
 		computed: {
 			verified: {
 				get() {
-					return false;
+					return this.$store.getters.verified;
 				}
 			},
 			categories: {
@@ -100,5 +100,7 @@
 </script>
 
 <style scoped>
-
+	.text-large {
+		font-size: x-large;
+	}
 </style>

@@ -19,7 +19,8 @@ export default {
 			phoneNumber: '',
 			email: '',
 			website: '',
-			bio: ''
+			bio: '',
+			verified: null
 		},
 		privacyData: {
 			profilePrivate: '',
@@ -215,6 +216,9 @@ export default {
 		},
 		bio: state => {
 			return state.personalData.bio;
+		},
+		verified: state => {
+			return state.personalData.verified;
 		},
 		comment: state => {
 			return state.notificationPreferences.comment;
