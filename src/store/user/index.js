@@ -8,6 +8,7 @@ import {
 } from '../../services/userService';
 import { notifyError } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
+import { getRoles } from '../../services/authService';
 
 export default {
 	state: {
@@ -39,7 +40,8 @@ export default {
 			messageRequestNotificationEnabled: '',
 			messageNotificationEnabled: ''
 		},
-		followerRequests: []
+		followerRequests: [],
+		roles: []
 	},
 	mutations: {
 		setFullName: (state, fullName) => {
@@ -128,6 +130,9 @@ export default {
 		},
 		setFollowerRequests: (state, requests) => {
 			state.followerRequests = requests;
+		},
+		setRoles: (state, roles) => {
+			state.roles = roles;
 		}
 	},
 	actions: {
@@ -189,6 +194,14 @@ export default {
 				notifyError(response.data);
 			} else {
 				context.commit('setFollowerRequests', response.data);
+			}
+		},
+		getRoles: async context => {
+			const response = await getRoles();
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setRoles', response.data.roles);
 			}
 		}
 	},
@@ -262,6 +275,9 @@ export default {
 		},
 		followerRequests: state => {
 			return state.followerRequests;
+		},
+		roles: state => {
+			return state.roles;
 		}
 	}
 };

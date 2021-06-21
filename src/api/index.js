@@ -3,6 +3,7 @@ export const notificationHost = 'http://localhost:9005';
 
 export const api = {
 	auth: {
+		base: apiHost + '/api/auth',
 		login: apiHost + '/api/auth',
 		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
 		resetPassword: apiHost + '/api/auth/reset-password',
