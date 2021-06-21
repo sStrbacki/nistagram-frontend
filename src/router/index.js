@@ -70,7 +70,7 @@ const routes = [
 	},
 	{
 		path: '/home',
-		meta: { authorized: true },
+		meta: { user: true },
 		component: () => import('../views/user/UserHome.vue'),
 		children: [
 			{
@@ -177,6 +177,22 @@ const routes = [
 		]
 	},
 	{
+		path: '/admin',
+		meta: { admin: true },
+		component: () => import('../views/admin/AdminHome'),
+		children: [
+			{
+				path: '',
+				redirect: 'verification'
+			},
+			{
+				path: 'verification',
+				name: 'AdminVerification',
+				component: () => import('../views/admin/verification/AdminVerificationView')
+			}
+		]
+	},
+	{
 		path: '/:username',
 		name: 'Profile',
 		component: () => import('../views/user/profile/ProfileView'),
@@ -199,17 +215,29 @@ const router = new VueRouter({
 	routes
 });
 
-router.beforeEach((to, from, next) => {
+
+import { rolePromise } from '../main'
+import store from '../store/index'
+
+
+router.beforeEach(async (to, from, next) => {
 	let logged = isLogged();
+	await rolePromise;
+	const isUser = store.getters.roles.includes('ROLE_USER');
+	const isAdmin = store.getters.roles.includes('ROLE_ADMIN');
 
 	if (to.matched.some(record => record.meta.nonExistingPath)) {
-		if (logged) next({ name: 'Feed' });
+		if (isUser) next({ name: 'Feed' });
+		else if (isAdmin) next({ name: 'AdminVerification' });
 		else next({ name: 'LoginForm' });
 	} else if (to.matched.some(record => record.meta.unauthorized)) {
 		if (logged) next({ name: 'Feed' });
 		else next();
-	} else if (to.matched.some(record => record.meta.authorized)) {
-		if (!logged) next({ name: 'LoginForm' });
+	} else if (to.matched.some(record => record.meta.admin)) {
+		if (!isAdmin) next({ name: 'Feed' });
+		else next();
+	} else if (to.matched.some(record => record.meta.user)) {
+		if (!isUser) next({ name: 'LoginForm' });
 		else next();
 	} else next();
 });
