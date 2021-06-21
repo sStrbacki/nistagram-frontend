@@ -53,7 +53,7 @@
 				>
 					<v-list-item link :active="isActive" :href="href" @click="navigate">
 						<v-list-item-icon>
-							<v-icon>mdi-lock</v-icon>
+							<v-icon>mdi-check</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>Verification</v-list-item-title>
 					</v-list-item>

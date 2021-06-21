@@ -26,7 +26,8 @@ export default {
 			username: '',
 			fullName: '',
 			bio: '',
-			website: ''
+			website: '',
+			verified: null
 		},
 		viewingProfileStats: {
 			following: '',
@@ -220,6 +221,9 @@ export default {
 		},
 		viewingProfileMuted: state => {
 			return state.viewingProfileMuted;
+		},
+		viewingProfileVerified: state => {
+			return state.viewingProfile.verified;
 		}
 	}
 };
