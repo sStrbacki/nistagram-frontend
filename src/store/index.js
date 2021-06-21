@@ -1,0 +1,32 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+import authModule from './auth/index';
+import profileModule from './user/index';
+import searchModule from './search/index';
+import postingModule from './posting/index';
+import feedModule from './feed/index';
+import postModule from './post/index';
+import collectionModule from './collection/index';
+import viewingProfile from './viewing-profile/index';
+import notificationsModule from './notification/index';
+import reportModule from './report/index';
+import verificationModule from './verification/index';
+
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+	modules: {
+		auth: authModule,
+		profile: profileModule,
+		search: searchModule,
+		posting: postingModule,
+		feed: feedModule,
+		post: postModule,
+		collection: collectionModule,
+		viewingProfile: viewingProfile,
+		notifications: notificationsModule,
+		report: reportModule,
+		verification: verificationModule
+	}
+});
+//ZnKa&qL86A*#jt
