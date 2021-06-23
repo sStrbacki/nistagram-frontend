@@ -22,7 +22,7 @@
 <script>
 import StoryView from '@/components/common/story/StoryView';
 export default {
-	name: 'ProfileHighlightsBar.vue',
+	name: 'ProfileHighlightsBar',
 	components: { StoryView },
 	data: () => {
 		return {

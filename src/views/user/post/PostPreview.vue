@@ -33,7 +33,11 @@
 					<v-icon dark>
 						mdi-account-circle
 					</v-icon>
-					<div class="ml-2">
+					<div
+						class="ml-2"
+						style="cursor: pointer;"
+						@click="rerouteToProfile(author)"
+					>
 						{{ author }}
 					</div>
 				</v-row>
@@ -78,6 +82,7 @@
 								class="mr-2 mt-2"
 								v-for="(tag, index) in tags"
 								:key="index"
+								@click="rerouteToProfile(tag)"
 							>
 								{{ tag }}
 							</v-chip>
@@ -122,7 +127,13 @@
 									<v-icon dark>
 										mdi-account-circle
 									</v-icon>
-									<div class="ml-2">{{ comment.author }} :</div>
+									<div
+										class="ml-2"
+										style="cursor: pointer;"
+										@click="rerouteToProfile(comment.author)"
+									>
+										{{ comment.author }} :
+									</div>
 									<div class="ml-2">
 										{{ comment.text }}
 									</div>
@@ -249,6 +260,9 @@ export default {
 	methods: {
 		isVideo(url) {
 			return url.includes('videos');
+		},
+		rerouteToProfile(author) {
+			this.$router.push({ name: 'Profile', params: { username: author } });
 		},
 		async leaveComment() {
 			await this.$store.dispatch('comment', this.comment);

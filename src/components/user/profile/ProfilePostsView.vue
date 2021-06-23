@@ -7,24 +7,24 @@
 </template>
 
 <script>
-	import ProfilePost from './ProfilePost';
+import ProfilePost from './ProfilePost';
 
-  export default {
-    name: 'ProfilePostsView.vue',
-    components: {
-      ProfilePost
-    },
-    computed: {
-      username() {
-        return this.$route.params.username
-      },
-      posts: {
-        get() {
-          return this.$store.getters.viewingProfilePosts;
-        }
-      }
-    }
-  }
+export default {
+	name: 'ProfilePostsView',
+	components: {
+		ProfilePost
+	},
+	computed: {
+		username() {
+			return this.$route.params.username;
+		},
+		posts: {
+			get() {
+				return this.$store.getters.viewingProfilePosts;
+			}
+		}
+	}
+};
 </script>
 
 <style scoped></style>

@@ -79,7 +79,7 @@ const routes = [
 			},
 			{
 				path: 'interactions',
-				name: "InteractedPosts",
+				name: 'InteractedPosts',
 				component: () => import('../views/user/post/InteractedPosts.vue')
 			},
 			{
@@ -193,7 +193,8 @@ const routes = [
 			{
 				path: 'verification',
 				name: 'AdminVerification',
-				component: () => import('../views/admin/verification/AdminVerificationView')
+				component: () =>
+					import('../views/admin/verification/AdminVerificationView')
 			}
 		]
 	},
@@ -220,10 +221,8 @@ const router = new VueRouter({
 	routes
 });
 
-
-import { rolePromise } from '../main'
-import store from '../store/index'
-
+import { rolePromise } from '../main';
+import store from '../store/index';
 
 router.beforeEach(async (to, from, next) => {
 	let logged = isLogged();

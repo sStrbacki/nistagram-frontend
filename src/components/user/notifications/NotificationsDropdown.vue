@@ -85,12 +85,24 @@ export default {
 		reroute(notification) {
 			if (
 				notification.notificationType == 'NEW_LIKE' ||
+				notification.notificationType == 'NEW_DISLIKE' ||
+				notification.notificationType == 'NEW_SHARE' ||
+				notification.notificationType == 'USER_TAGGED' ||
 				notification.notificationType == 'NEW_COMMENT' ||
 				notification.notificationType == 'USER_TAGGED'
 			)
 				this.$router.push({
 					name: 'PostPreview',
 					params: { postId: notification.contentId }
+				});
+			else if (
+				notification.notificationType == 'NEW_FOLLOW_REQUEST' ||
+				notification.notificationType == 'FOLLOW_REQUEST_ACCEPTED' ||
+				notification.notificationType == 'NEW_FOLLOWER'
+			)
+				this.$router.push({
+					name: 'Profile',
+					params: { username: notification.subject }
 				});
 		}
 	}

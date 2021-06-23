@@ -29,7 +29,11 @@
 							mdi-account-circle
 						</v-icon>
 					</v-col>
-					<v-col class="subtitle-2 mt-2">
+					<v-col
+						class="subtitle-2 mt-2"
+						style="cursor: pointer;"
+						@click="rerouteToProfile(post.author)"
+					>
 						<p>{{ post.author }}</p>
 					</v-col>
 					<v-col cols="2">
@@ -99,9 +103,11 @@
 			<v-card-subtitle>
 				<v-row>
 					<v-col cols="1">
-            <span style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;">
-              {{ post.caption }}
-            </span>
+						<span
+							style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;"
+						>
+							{{ post.caption }}
+						</span>
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col cols="2">
@@ -323,6 +329,9 @@ export default {
 					return interaction.author;
 				})
 				.includes(this.$store.getters.username);
+		},
+		rerouteToProfile(author) {
+			this.$router.push({ name: 'Profile', params: { username: author } });
 		}
 	},
 	mounted() {

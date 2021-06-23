@@ -68,7 +68,7 @@
 
 <script>
 export default {
-	name: 'ProfileHeader.vue',
+	name: 'ProfileHeader',
 	methods: {
 		unfollow() {
 			this.$store.dispatch('unfollowViewingProfile');
