@@ -17,12 +17,12 @@
 			<v-btn v-if="isAdmin" icon to="/admin">
 				<v-icon>mdi-account-key</v-icon>
 			</v-btn>
-      <v-btn icon to="/home/interactions">
-        <v-icon>mdi-thumbs-up-down</v-icon>
-      </v-btn>
-      <v-btn icon to="/home/followers">
-        <v-icon>mdi-account-multiple</v-icon>
-      </v-btn>
+			<v-btn icon to="/home/interactions">
+				<v-icon>mdi-thumbs-up-down</v-icon>
+			</v-btn>
+			<v-btn icon to="/home/followers">
+				<v-icon>mdi-account-multiple</v-icon>
+			</v-btn>
 			<v-btn icon :to="'/' + username">
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
@@ -53,6 +53,13 @@
 							<v-icon>mdi-cog</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>Profile settings</v-list-item-title>
+					</v-list-item>
+
+					<v-list-item to="/home/close-friends">
+						<v-list-item-icon>
+							<v-icon>mdi-account-multiple</v-icon>
+						</v-list-item-icon>
+						<v-list-item-title>Manage close friends</v-list-item-title>
 					</v-list-item>
 
 					<v-list-item to="/home/my-collections">

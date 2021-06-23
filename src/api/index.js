@@ -59,12 +59,14 @@ export const api = {
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
 		follow: apiHost + '/api/user-graph/followers',
+		followed: apiHost + '/api/user-graph/following',
 		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
 		mute: apiHost + '/api/user-graph/mute',
 		muted: apiHost + '/api/user-graph/muted',
 		block: apiHost + '/api/user-graph/block',
 		blocked: apiHost + '/api/user-graph/blocked',
-		blockedBy: apiHost + '/api/user-graph/blocked-by'
+		blockedBy: apiHost + '/api/user-graph/blocked-by',
+		closeFriends: apiHost + '/api/user-graph/close-friends'
 	},
 	notification: {
 		base: apiHost + '/api/notification',
