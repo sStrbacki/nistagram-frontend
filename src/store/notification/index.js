@@ -14,7 +14,11 @@ export default {
 			state.notifications = value;
 		},
 		addNotification: (state, notification) => {
-			state.notifications = [...state.notifications, notification];
+			let notificationIds = state.notifications.map(notification => {
+				return notification.id;
+			});
+			if (!notificationIds.includes(notification.id))
+				state.notifications = [...state.notifications, notification];
 		},
 		removeNotification: (state, notificationId) => {
 			state.notifications = state.notifications.filter(notification => {
