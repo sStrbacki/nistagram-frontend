@@ -18,7 +18,8 @@ export const api = {
 		publicData: apiHost + '/api/users/public',
 		taggable: apiHost + '/api/users/taggable',
 		visibility: apiHost + '/api/users/visibility',
-		stats: apiHost + '/api/users/profile/stats'
+		stats: apiHost + '/api/users/profile/stats',
+		agents: apiHost + '/api/users/agents'
 	},
 	content: {
 		base: apiHost + '/api/content',

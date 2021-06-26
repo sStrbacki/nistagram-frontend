@@ -1,4 +1,5 @@
 import {
+	createAgentRegistrationRequest,
 	getNotificationPreferences,
 	getPrivacyData,
 	getProfile,
@@ -6,7 +7,7 @@ import {
 	updatePrivacyData,
 	updateProfile
 } from '../../services/userService';
-import { notifyError } from '../../services/notificationService';
+import { notifyError, notifySuccess } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
 import { getRoles } from '../../services/authService';
 
@@ -41,7 +42,10 @@ export default {
 			messageNotificationEnabled: ''
 		},
 		followerRequests: [],
-		roles: []
+		roles: [],
+		agentRegistration: {
+			website: ''
+		}
 	},
 	mutations: {
 		setFullName: (state, fullName) => {
@@ -133,6 +137,9 @@ export default {
 		},
 		setRoles: (state, roles) => {
 			state.roles = roles;
+		},
+		setAgentRegistrationWebsiteUrl: (state, url) => {
+			state.agentRegistration.website = url;
 		}
 	},
 	actions: {
@@ -202,6 +209,14 @@ export default {
 				notifyError(response.data);
 			} else {
 				context.commit('setRoles', response.data.roles);
+			}
+		},
+		requestAgentRegistration: async context => {
+			const response = await createAgentRegistrationRequest(context.state.agentRegistration);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				notifySuccess('Request successfully registered.');
 			}
 		}
 	},
@@ -278,6 +293,9 @@ export default {
 		},
 		roles: state => {
 			return state.roles;
+		},
+		agentRegistrationWebsiteUrl: state => {
+			return state.agentRegistration.website;
 		}
 	}
 };

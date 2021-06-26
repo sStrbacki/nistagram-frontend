@@ -73,6 +73,14 @@ async function getProfileStats(username) {
     }
 }
 
+async function createAgentRegistrationRequest(request) {
+    try {
+        return await axios.post(api.user.agents, request);
+    } catch (err) {
+        return err.response;
+    }
+}
+
 export {
     getProfile,
     updateProfile,
@@ -82,5 +90,6 @@ export {
     updatePrivacyData,
     getPublicData,
     isPrivate,
-    getProfileStats
+    getProfileStats,
+    createAgentRegistrationRequest
 }

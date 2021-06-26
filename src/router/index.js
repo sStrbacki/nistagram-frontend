@@ -149,6 +149,12 @@ const routes = [
 						name: 'Verification',
 						component: () =>
 							import('../components/user/profile/VerificationSection')
+					},
+					{
+						path: 'agent',
+						name: 'AgentRegistration',
+						component: () =>
+							import('../components/user/profile/AgentRegistration')
 					}
 				]
 			},
