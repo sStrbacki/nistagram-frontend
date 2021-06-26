@@ -1,4 +1,5 @@
 import {
+	banUser,
 	getNotificationPreferences,
 	getPrivacyData,
 	getProfile,
@@ -6,7 +7,7 @@ import {
 	updatePrivacyData,
 	updateProfile
 } from '../../services/userService';
-import { notifyError } from '../../services/notificationService';
+import { notifyError, notifySuccess } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
 import { getRoles } from '../../services/authService';
 
@@ -143,6 +144,11 @@ export default {
 			} else {
 				commit('setPersonalData', response.data);
 			}
+		},
+		banUser: async (context, username) => {
+			const response = await banUser(username);
+			if (response.status >= 400) notifyError(response.data);
+			else notifySuccess(`User ${username} succesfully banned`);
 		},
 		updateProfile: async context => {
 			const response = await updateProfile(context.state.personalData);

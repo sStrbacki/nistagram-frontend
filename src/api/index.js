@@ -18,7 +18,8 @@ export const api = {
 		publicData: apiHost + '/api/users/public',
 		taggable: apiHost + '/api/users/taggable',
 		visibility: apiHost + '/api/users/visibility',
-		stats: apiHost + '/api/users/profile/stats'
+		stats: apiHost + '/api/users/profile/stats',
+		ban: apiHost + '/api/users/ban'
 	},
 	content: {
 		base: apiHost + '/api/content',
@@ -41,6 +42,10 @@ export const api = {
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'
+		},
+		admin: {
+			post: apiHost + '/api/content/post/admin',
+			story: apiHost + '/api/content/story/admin'
 		}
 	},
 	feed: {

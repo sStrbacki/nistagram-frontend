@@ -199,6 +199,21 @@ const routes = [
 				name: 'AdminVerification',
 				component: () =>
 					import('../views/admin/verification/AdminVerificationView')
+			},
+			{
+				path: 'reports',
+				name: 'ReportsView',
+				component: () => import('../views/admin/reports/ReportsView')
+			},
+			{
+				path: 'reported-post/:postId',
+				name: 'ReportedPost',
+				component: () => import('../views/admin/reports/ReportedPost')
+			},
+			{
+				path: 'reported-story/:storyId',
+				name: 'ReportedStory',
+				component: () => import('../views/admin/reports/ReportedStory')
 			}
 		]
 	},
