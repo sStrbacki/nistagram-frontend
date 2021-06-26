@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { isLogged } from '../services/authService';
 
 Vue.use(VueRouter);
 
@@ -230,7 +229,6 @@ import { rolePromise } from '../main';
 import store from '../store/index';
 
 router.beforeEach(async (to, from, next) => {
-	let logged = isLogged();
 	await rolePromise;
 	const isUser = store.getters.roles.includes('ROLE_USER');
 	const isAdmin = store.getters.roles.includes('ROLE_ADMIN');
@@ -240,7 +238,8 @@ router.beforeEach(async (to, from, next) => {
 		else if (isAdmin) next({ name: 'AdminVerification' });
 		else next({ name: 'LoginForm' });
 	} else if (to.matched.some(record => record.meta.unauthorized)) {
-		if (logged) next({ name: 'Feed' });
+		if (isUser) next({ name: 'Feed' });
+		else if (isAdmin) next({ name: 'AdminVerification' });
 		else next();
 	} else if (to.matched.some(record => record.meta.admin)) {
 		if (!isAdmin) next({ name: 'Feed' });
