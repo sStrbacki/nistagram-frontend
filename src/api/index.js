@@ -19,7 +19,14 @@ export const api = {
 		taggable: apiHost + '/api/users/taggable',
 		visibility: apiHost + '/api/users/visibility',
 		stats: apiHost + '/api/users/profile/stats',
-		agents: apiHost + '/api/users/agents'
+		nonPromoted: apiHost + '/api/users/non-promoted',
+		agents: {
+			base: apiHost + '/api/users/agents',
+			pending: apiHost + '/api/users/agents/pending',
+			accept: apiHost + '/api/users/agents/accept',
+			decline: apiHost + '/api/users/agents/decline',
+			promote: apiHost + '/api/users/agents/promote'
+		}
 	},
 	content: {
 		base: apiHost + '/api/content',

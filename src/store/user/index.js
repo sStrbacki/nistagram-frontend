@@ -138,6 +138,9 @@ export default {
 		setRoles: (state, roles) => {
 			state.roles = roles;
 		},
+		clearRoles: state => {
+			state.roles = [];
+		},
 		setAgentRegistrationWebsiteUrl: (state, url) => {
 			state.agentRegistration.website = url;
 		}
@@ -212,12 +215,17 @@ export default {
 			}
 		},
 		requestAgentRegistration: async context => {
-			const response = await createAgentRegistrationRequest(context.state.agentRegistration);
+			const response = await createAgentRegistrationRequest(
+				context.state.agentRegistration
+			);
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
 				notifySuccess('Request successfully registered.');
 			}
+		},
+		clearRoles: async context => {
+			context.commit('clearRoles');
 		}
 	},
 	getters: {

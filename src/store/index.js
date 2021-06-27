@@ -12,6 +12,7 @@ import notificationsModule from './notification/index';
 import reportModule from './report/index';
 import verificationModule from './verification/index';
 import closeFriendsModule from './close-friends/index';
+import agentRegistrationModule from './agent-registration/index';
 
 Vue.use(Vuex);
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
 		notifications: notificationsModule,
 		report: reportModule,
 		verification: verificationModule,
-		closeFriends: closeFriendsModule
+		closeFriends: closeFriendsModule,
+		agentRegistration: agentRegistrationModule
 	}
 });
 //ZnKa&qL86A*#jt
