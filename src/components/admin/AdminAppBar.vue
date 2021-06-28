@@ -19,6 +19,7 @@
 			</v-btn>
 			<v-btn icon to="/admin/agent-registration">
 				<v-icon>mdi-face-agent</v-icon>
+			</v-btn>
 			<v-btn icon to="/admin/reports">
 				<v-icon>mdi-alert-octagon</v-icon>
 			</v-btn>
