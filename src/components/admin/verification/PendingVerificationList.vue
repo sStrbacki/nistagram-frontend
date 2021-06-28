@@ -25,12 +25,16 @@
 				</v-row>
 				<v-row>
 					<v-col>
-						<img :src="request.imageUrl">
+						<img :src="request.imageUrl" />
 					</v-col>
 				</v-row>
 				<span>
-					<v-btn color="primary" @click="accept(request.id)" class="ma-2">Accept</v-btn>
-					<v-btn color="secondary" @click="decline(request.id)" class="ms-2">Decline</v-btn>
+					<v-btn color="primary" @click="accept(request.id)" class="ma-2"
+						>Accept</v-btn
+					>
+					<v-btn color="secondary" @click="decline(request.id)" class="ms-2"
+						>Decline</v-btn
+					>
 				</span>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
@@ -52,7 +56,7 @@ export default {
 	},
 	methods: {
 		async accept(requestId) {
-			await this.$store.dispatch('acceptVerificationRequest', requestId)
+			await this.$store.dispatch('acceptVerificationRequest', requestId);
 			await this.$store.dispatch('getVerificationRequests');
 		},
 		async decline(requestId) {
@@ -63,6 +67,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

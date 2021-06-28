@@ -94,9 +94,10 @@ export default {
 		};
 	},
 	methods: {
-		signOut() {
+		async signOut() {
 			logout();
-			this.$router.push('/');
+			await this.$store.dispatch('clearRoles');
+			this.$router.push({ name: 'LoginForm' });
 		}
 	},
 	computed: {

@@ -149,6 +149,12 @@ const routes = [
 						name: 'Verification',
 						component: () =>
 							import('../components/user/profile/VerificationSection')
+					},
+					{
+						path: 'agent',
+						name: 'AgentRegistration',
+						component: () =>
+							import('../components/user/profile/AgentRegistration')
 					}
 				]
 			},
@@ -199,6 +205,28 @@ const routes = [
 				name: 'AdminVerification',
 				component: () =>
 					import('../views/admin/verification/AdminVerificationView')
+			},
+			{
+				path: 'agent-registration',
+				name: 'AgentRegistration',
+				component: () =>
+					import('../views/admin/agent-registration/AgentRegistration.vue'),
+				children: [
+					{
+						path: '',
+						name: 'RequestManagement',
+						component: () =>
+							import(
+								'../components/admin/agent-registration/RequestManagement.vue'
+							)
+					},
+					{
+						path: 'user-promotion',
+						name: 'UserPromotion',
+						component: () =>
+							import('../components/admin/agent-registration/UserPromotion.vue')
+					}
+				]
 			},
 			{
 				path: 'reports',
