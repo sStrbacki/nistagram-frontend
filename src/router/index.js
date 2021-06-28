@@ -227,6 +227,21 @@ const routes = [
 							import('../components/admin/agent-registration/UserPromotion.vue')
 					}
 				]
+			},
+			{
+				path: 'reports',
+				name: 'ReportsView',
+				component: () => import('../views/admin/reports/ReportsView')
+			},
+			{
+				path: 'reported-post/:postId',
+				name: 'ReportedPost',
+				component: () => import('../views/admin/reports/ReportedPost')
+			},
+			{
+				path: 'reported-story/:storyId',
+				name: 'ReportedStory',
+				component: () => import('../views/admin/reports/ReportedStory')
 			}
 		]
 	},

@@ -20,6 +20,7 @@ export const api = {
 		visibility: apiHost + '/api/users/visibility',
 		stats: apiHost + '/api/users/profile/stats',
 		nonPromoted: apiHost + '/api/users/non-promoted',
+		ban: apiHost + '/api/users/ban',
 		agents: {
 			base: apiHost + '/api/users/agents',
 			pending: apiHost + '/api/users/agents/pending',
@@ -49,6 +50,10 @@ export const api = {
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'
+		},
+		admin: {
+			post: apiHost + '/api/content/post/admin',
+			story: apiHost + '/api/content/story/admin'
 		}
 	},
 	feed: {

@@ -105,6 +105,14 @@ async function acceptAgentRequest(username) {
 	}
 }
 
+async function banUser(username) {
+	try {
+		return await axios.delete(api.user.ban + '/' + username);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function declineAgentRequest(username) {
 	try {
 		return await axios.delete(api.user.agents.decline + `/${username}`);
@@ -136,5 +144,6 @@ export {
 	getNonPromoted,
 	acceptAgentRequest,
 	declineAgentRequest,
-	promote
+	promote,
+	banUser
 };

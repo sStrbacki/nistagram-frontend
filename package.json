@@ -26,6 +26,7 @@
     "eslint": "^7.28.0",
     "firebase": "^8.6.5",
     "install": "^0.13.0",
+    "moment": "^2.29.1",
     "npm": "^7.16.0",
     "sockjs-client": "^1.5.1",
     "uuid": "^8.3.2",

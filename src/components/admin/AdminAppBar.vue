@@ -19,6 +19,8 @@
 			</v-btn>
 			<v-btn icon to="/admin/agent-registration">
 				<v-icon>mdi-face-agent</v-icon>
+			<v-btn icon to="/admin/reports">
+				<v-icon>mdi-alert-octagon</v-icon>
 			</v-btn>
 			<v-btn v-if="isUser" icon to="/home/feed">
 				<v-icon>mdi-exit-to-app</v-icon>
