@@ -3,7 +3,7 @@
 		<v-row justify="center">
 			<h2>Pending agent requests</h2>
 		</v-row>
-		<v-row justify="center" class="mt-6">
+		<v-row justify="center" class="mt-6" v-if="pendingRequests.length !== 0">
 			<v-expansion-panels>
 				<v-expansion-panel
 					v-for="request in pendingRequests"
@@ -55,6 +55,11 @@
 					</v-expansion-panel-content>
 				</v-expansion-panel>
 			</v-expansion-panels>
+		</v-row>
+		<v-row v-else align="center" justify="center" class="alert-empty mt-6">
+			<v-alert border="top" colored-border type="info" elevation="2">
+				There are no pending registration requests at the moment.
+			</v-alert>
 		</v-row>
 	</v-col>
 </template>

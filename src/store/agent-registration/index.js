@@ -2,14 +2,17 @@ import {
 	acceptAgentRequest,
 	declineAgentRequest,
 	getAllPending,
-	getNonPromoted
+	getNonPromoted,
+	promote
 } from '../../services/userService';
 import { notifyError, notifySuccess } from '../../services/notificationService';
 
 export default {
 	state: {
 		pendingRequests: [],
-		nonPromotedUsers: []
+		nonPromotedUsers: [],
+		websiteInput: '',
+		selectedUsername: ''
 	},
 	mutations: {
 		setPendingRequests: (state, value) => {
@@ -22,6 +25,21 @@ export default {
 			state.pendingRequests = state.pendingRequests.filter(request => {
 				return request.username !== username;
 			});
+		},
+		setWebsiteInput: (state, value) => {
+			state.websiteInput = value;
+		},
+		setSelectedUsername: (state, value) => {
+			state.selectedUsername = value;
+		},
+		removeNonPromotedUser: (state, username) => {
+			state.nonPromotedUsers = state.nonPromotedUsers.filter(user => {
+				return user.username !== username;
+			});
+		},
+		clearAgentPromotionData: state => {
+			state.websiteInput = '';
+			state.selectedUsername = '';
 		}
 	},
 	actions: {
@@ -33,7 +51,7 @@ export default {
 		getNonPromoted: async state => {
 			let response = await getNonPromoted();
 			if (response.status >= 400) notifyError(response.data);
-			else state.commit('setPromotedUsers', response.data);
+			else state.commit('setNonPromotedUsers', response.data);
 		},
 		acceptRequest: async (state, username) => {
 			let response = await acceptAgentRequest(username);
@@ -50,6 +68,18 @@ export default {
 				state.commit('removePendingRequest', username);
 				notifySuccess('Agent registration request declined!');
 			}
+		},
+		promoteUser: async state => {
+			let response = await promote({
+				username: state.getters.selectedUsername,
+				website: state.getters.websiteInput
+			});
+			if (response.status >= 400) notifyError(response.data);
+			else {
+				state.commit('removeNonPromotedUser', state.getters.selectedUsername);
+				state.commit('clearAgentPromotionData');
+				notifySuccess('Agent successfully registered');
+			}
 		}
 	},
 	getters: {
@@ -58,6 +88,12 @@ export default {
 		},
 		nonPromotedUsers: state => {
 			return state.nonPromotedUsers;
+		},
+		websiteInput: state => {
+			return state.websiteInput;
+		},
+		selectedUsername: state => {
+			return state.selectedUsername;
 		}
 	}
 };
