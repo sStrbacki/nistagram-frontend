@@ -112,7 +112,6 @@ export default {
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
-				storeAuthResponse(response);
 				await router.push('/home');
 			}
 		},
