@@ -7,7 +7,11 @@ export const api = {
 		login: apiHost + '/api/auth',
 		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
 		resetPassword: apiHost + '/api/auth/reset-password',
-		accountActivation: apiHost + '/api/auth/activate'
+		accountActivation: apiHost + '/api/auth/activate',
+	},
+	apiKey: {
+		root: apiHost + '/api/auth/api-token',
+		generate: apiHost + '/api/auth/api-token/create'
 	},
 	user: {
 		base: apiHost + '/api/users',
@@ -26,7 +30,8 @@ export const api = {
 			pending: apiHost + '/api/users/agents/pending',
 			accept: apiHost + '/api/users/agents/accept',
 			decline: apiHost + '/api/users/agents/decline',
-			promote: apiHost + '/api/users/agents/promote'
+			promote: apiHost + '/api/users/agents/promote',
+			website: apiHost + '/api/users/agents/application'
 		}
 	},
 	content: {

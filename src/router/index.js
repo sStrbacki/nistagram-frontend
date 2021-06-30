@@ -155,6 +155,12 @@ const routes = [
 						name: 'AgentRegistration',
 						component: () =>
 							import('../components/user/profile/AgentRegistration')
+					},
+					{
+						path: 'apiKeyRequest',
+						name: 'ApiKeyRequest',
+						component: () =>
+							import('../components/user/profile/ApiKeyRequest')
 					}
 				]
 			},
