@@ -11,6 +11,7 @@ import {
 import { notifyError, notifySuccess } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
 import { getRoles } from '../../services/authService';
+import {isAgentRequestRejected} from "@/services/userService";
 
 export default {
 	state: {
@@ -45,10 +46,14 @@ export default {
 		followerRequests: [],
 		roles: [],
 		agentRegistration: {
-			website: ''
+			website: '',
+			isAgentRequestRejected: false
 		}
 	},
 	mutations: {
+		setAgentRequestRejected: (state, value) => {
+			state.agentRegistration.isAgentRequestRejected = value;
+		},
 		setFullName: (state, fullName) => {
 			state.personalData.fullName = fullName;
 		},
@@ -230,11 +235,21 @@ export default {
 				notifySuccess('Request successfully registered.');
 			}
 		},
+		checkIsRequestRejected: async context => {
+			isAgentRequestRejected()
+			.then(res => {
+				context.commit('setAgentRequestRejected', res.data);
+			})
+			.catch(err => console.error(err.response.data));
+		},
 		clearRoles: async context => {
 			context.commit('clearRoles');
 		}
 	},
 	getters: {
+		agentRequestRejected: state => {
+			return state.agentRegistration.isAgentRequestRejected;
+		},
 		username: state => {
 			return state.personalData.username;
 		},

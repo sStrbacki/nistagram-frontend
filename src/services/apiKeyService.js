@@ -10,5 +10,5 @@ export async function generateApiKey(packageName) {
 }
 
 export async function getAgentApplication() {
-    return axios.get(api.user.agents.website);
+    return axios.get(api.user.agents.applicationPackageName);
 }

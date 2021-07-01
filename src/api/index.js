@@ -31,7 +31,8 @@ export const api = {
 			accept: apiHost + '/api/users/agents/accept',
 			decline: apiHost + '/api/users/agents/decline',
 			promote: apiHost + '/api/users/agents/promote',
-			website: apiHost + '/api/users/agents/application'
+			applicationPackageName: apiHost + '/api/users/agents/application',
+			isRequestRejected: apiHost + '/api/users/agents/isRejected'
 		}
 	},
 	content: {
