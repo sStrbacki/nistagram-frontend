@@ -15,6 +15,7 @@ import {
 import { getPostById, getStoryById } from '../../services/contentService';
 
 import { notifyError } from '../../services/notificationService';
+import { getCampaignById } from '../../services/campaignService';
 
 export default {
 	state: {
@@ -61,7 +62,13 @@ export default {
 		},
 		fetchPostData: async state => {
 			for (const post of state.getters.posts) {
-				let response = await getPostById(post.contentId);
+				console.log(post);
+				let response;
+				if (!post.ad) {
+					response = await getPostById(post.contentId);
+				} else {
+					response = await getCampaignById(post.contentId);
+				}
 				if (response.status >= 400) notifyError(response.data);
 				else {
 					state.commit('assignPostData', {

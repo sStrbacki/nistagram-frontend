@@ -95,5 +95,8 @@ export const api = {
 		base: apiHost + '/api/users/verification',
 		categories: apiHost + '/api/users/verification/categories',
 		admin: apiHost + '/api/users/verification/admin'
+	},
+	campaign: {
+		base: apiHost + '/api/campaigns'
 	}
 };
