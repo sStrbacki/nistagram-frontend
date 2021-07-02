@@ -14,6 +14,7 @@ import verificationModule from './verification/index';
 import closeFriendsModule from './close-friends/index';
 import agentRegistrationModule from './agent-registration/index';
 import apiKeyModule from './api-key/index';
+import campaignModule from './campaign/index';
 
 Vue.use(Vuex);
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
 		closeFriends: closeFriendsModule,
 		agentRegistration: agentRegistrationModule,
 		apiKey: apiKeyModule,
+		campaign: campaignModule
 	}
 });
 //ZnKa&qL86A*#jt

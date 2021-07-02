@@ -252,6 +252,12 @@ const routes = [
 		]
 	},
 	{
+		path: '/campaigns',
+		// meta: { agent: true },
+		name: 'NewCampaign',
+		component: () => import('../views/agent/NewCampaign')
+	},
+	{
 		path: '/:username',
 		name: 'Profile',
 		component: () => import('../views/user/profile/ProfileView'),

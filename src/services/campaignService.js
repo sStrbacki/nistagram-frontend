@@ -9,6 +9,24 @@ async function getCampaignById(id) {
 	}
 }
 
+async function createLongTermCampaign(campaign) {
+	try {
+		return await axios.post(api.campaign.longTerm, campaign);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function createOneTimeCampaign(campaign) {
+	try {
+		return await axios.post(api.campaign.oneTime, campaign);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
-	getCampaignById
+	getCampaignById,
+	createLongTermCampaign,
+	createOneTimeCampaign
 }

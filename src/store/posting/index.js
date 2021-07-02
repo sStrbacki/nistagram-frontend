@@ -86,6 +86,9 @@ export default {
 		clearFiles: state => {
 			state.files = [];
 		},
+		clearFile: state => {
+			state.file = null;
+		},
 		clearUrls: state => {
 			state.fileUrls = [];
 		},

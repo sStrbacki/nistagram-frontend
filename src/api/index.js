@@ -97,6 +97,8 @@ export const api = {
 		admin: apiHost + '/api/users/verification/admin'
 	},
 	campaign: {
-		base: apiHost + '/api/campaigns'
+		base: apiHost + '/api/campaigns',
+		longTerm: apiHost + '/api/campaigns/long-term',
+		oneTime: apiHost + '/api/campaigns/one-time'
 	}
 };
