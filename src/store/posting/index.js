@@ -1,4 +1,5 @@
 import {
+	createInfluencerPost,
 	createPost,
 	createReshareStory,
 	createStory
@@ -17,6 +18,7 @@ export default {
 		fileUrl: '',
 		files: [],
 		fileUrls: [],
+		influencerUsername: '',
 		caption: '',
 		location: {
 			name: '',
@@ -32,6 +34,7 @@ export default {
 		clearPostData: state => {
 			state.files = [];
 			state.fileUrls = [];
+			state.influencerUsername = '';
 			state.caption = '';
 			state.location = {
 				name: '',
@@ -73,6 +76,9 @@ export default {
 		},
 		setLocation: (state, location) => {
 			state.location = location;
+		},
+		setInfluencerUsername: (state, username) => {
+			state.influencerUsername = username;
 		},
 		setCaption: (state, caption) => {
 			state.caption = caption;
@@ -147,6 +153,20 @@ export default {
 			else notifySuccess('Post successfully created');
 			state.commit('clearPostData');
 		},
+		createInfluencerPost: async state => {
+			const post = {
+				author: state.getters.influencerUsername,
+				caption: state.getters.caption,
+				mediaUrls: state.getters.fileUrls.map(fileUrl => {
+					return { url: fileUrl };
+				}),
+				tags: []
+			}
+			const response = await createInfluencerPost(post);
+			if (response.status >= 400) notifyError(response.data);
+			else notifySuccess('Ad post request for influencer successfully created');
+			state.commit('clearPostData');
+		},
 		createStory: async state => {
 			const story = {
 				mediaUrl: state.getters.fileUrl,
@@ -209,6 +229,9 @@ export default {
 		},
 		fileUrls: state => {
 			return state.fileUrls;
+		},
+		influencerUsername: state => {
+			return state.influencerUsername
 		},
 		caption: state => {
 			return state.caption;

@@ -60,6 +60,9 @@ export const api = {
 		admin: {
 			post: apiHost + '/api/content/post/admin',
 			story: apiHost + '/api/content/story/admin'
+		},
+		agent: {
+			post: apiHost + '/api/content/post/agent'
 		}
 	},
 	feed: {

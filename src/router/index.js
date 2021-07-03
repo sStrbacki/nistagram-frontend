@@ -251,11 +251,17 @@ const routes = [
 			}
 		]
 	},
+	// TODO: arrange into agent routes
 	{
 		path: '/campaigns',
 		// meta: { agent: true },
 		name: 'NewCampaign',
 		component: () => import('../views/agent/NewCampaign')
+	},
+	{
+		path: '/influencer',
+		name: 'NewInfluencerPost',
+		component: () => import('../views/agent/NewInfluencerPost')
 	},
 	{
 		path: '/:username',

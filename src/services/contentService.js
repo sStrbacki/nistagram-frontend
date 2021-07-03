@@ -9,6 +9,13 @@ async function createPost(post) {
 		return err.response;
 	}
 }
+async function createInfluencerPost(post) {
+	try {
+		return await axios.post(api.content.agent.post, post)
+	} catch (err) {
+		return err.response;
+	}
+}
 async function createStory(story) {
 	try {
 		let res = await axios.post(api.content.mediaStory, story);
@@ -259,5 +266,6 @@ export {
 	getPersonalStories,
 	createHighlight,
 	addStoryToHighlight,
-	fetchInteractedPosts
+	fetchInteractedPosts,
+	createInfluencerPost
 };
