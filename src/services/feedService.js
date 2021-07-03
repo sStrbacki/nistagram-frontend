@@ -19,6 +19,14 @@ async function fetchStoryFeed() {
 	}
 }
 
+async function fetchStoryCampaignFeed() {
+	try {
+		return axios.get(api.feed.storyCampaignFeed);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function fetchCloseFriendStoryFeed() {
 	try {
 		let res = axios.get(api.feed.closeFriendStoryFeed);
@@ -28,4 +36,9 @@ async function fetchCloseFriendStoryFeed() {
 	}
 }
 
-export { fetchPostFeed, fetchStoryFeed, fetchCloseFriendStoryFeed };
+export {
+	fetchPostFeed,
+	fetchStoryFeed,
+	fetchCloseFriendStoryFeed,
+	fetchStoryCampaignFeed
+};

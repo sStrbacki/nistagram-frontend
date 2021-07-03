@@ -65,7 +65,8 @@ export const api = {
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
-		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped',
+		storyCampaignFeed: apiHost + '/api/feed/stories/campaign'
 	},
 	collection: {
 		collectionBase: apiHost + '/api/content/post/collection',
