@@ -13,6 +13,7 @@ import reportModule from './report/index';
 import verificationModule from './verification/index';
 import closeFriendsModule from './close-friends/index';
 import agentRegistrationModule from './agent-registration/index';
+import chatModule from './chat/index';
 
 Vue.use(Vuex);
 
@@ -30,7 +31,7 @@ export default new Vuex.Store({
 		report: reportModule,
 		verification: verificationModule,
 		closeFriends: closeFriendsModule,
-		agentRegistration: agentRegistrationModule
+		agentRegistration: agentRegistrationModule,
+		chat: chatModule
 	}
 });
-//ZnKa&qL86A*#jt

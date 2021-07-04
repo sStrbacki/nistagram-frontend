@@ -1,5 +1,6 @@
 export const apiHost = 'http://localhost:9090';
 export const notificationHost = 'http://localhost:9005';
+export const chatHost = 'http://localhost:9007';
 
 export const api = {
 	auth: {
@@ -28,6 +29,11 @@ export const api = {
 			decline: apiHost + '/api/users/agents/decline',
 			promote: apiHost + '/api/users/agents/promote'
 		}
+	},
+	chat: {
+		session: apiHost + '/api/chat/session',
+		textMessage: apiHost + '/api/chat/text-message',
+		ws: notificationHost + '/api/notification/ws'
 	},
 	content: {
 		base: apiHost + '/api/content',
@@ -83,7 +89,7 @@ export const api = {
 	},
 	notification: {
 		base: apiHost + '/api/notification',
-		ws: notificationHost + '/api/notification/ws'
+		ws: chatHost + '/api/chat/ws'
 	},
 	verification: {
 		base: apiHost + '/api/users/verification',
