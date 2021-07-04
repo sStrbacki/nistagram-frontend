@@ -53,6 +53,7 @@ export const api = {
 		tagged: apiHost + '/api/content/post/tagged',
 		personalStories: apiHost + '/api/content/story/me/all',
 		interactedPosts: apiHost + '/api/content/post/interactions',
+		nonApproved: apiHost + '/api/content/post/non-approved',
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'

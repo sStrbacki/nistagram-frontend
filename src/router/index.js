@@ -125,6 +125,10 @@ const routes = [
 					import('../views/user/post-collection/MyCollections.vue')
 			},
 			{
+				path: 'influencer',
+				component: () => import('../views/user/influencer/PostApprovalView')
+			},
+			{
 				path: 'settings',
 				component: () => import('../views/user/profile/UserProfile'),
 				children: [

@@ -239,6 +239,22 @@ async function addStoryToHighlight(storyId, highlightId) {
 	}
 }
 
+async function fetchNonApprovedPosts() {
+	try {
+		return await axios.get(api.content.nonApproved);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function approvePost(postId) {
+	try {
+		return await axios.put(api.content.nonApproved + '/' + postId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	createPost,
 	createStory,
@@ -267,5 +283,7 @@ export {
 	createHighlight,
 	addStoryToHighlight,
 	fetchInteractedPosts,
-	createInfluencerPost
+	createInfluencerPost,
+	fetchNonApprovedPosts,
+	approvePost
 };
