@@ -25,8 +25,17 @@ async function createOneTimeCampaign(campaign) {
 	}
 }
 
+async function getCampaigns() {
+	try {
+		return await axios.get(api.campaign.base);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	getCampaignById,
 	createLongTermCampaign,
-	createOneTimeCampaign
+	createOneTimeCampaign,
+	getCampaigns
 }

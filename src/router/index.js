@@ -255,17 +255,32 @@ const routes = [
 			}
 		]
 	},
-	// TODO: arrange into agent routes
 	{
-		path: '/campaigns',
+		path: '/agent',
 		// meta: { agent: true },
-		name: 'NewCampaign',
-		component: () => import('../views/agent/NewCampaign')
-	},
-	{
-		path: '/influencer',
-		name: 'NewInfluencerPost',
-		component: () => import('../views/agent/NewInfluencerPost')
+		component: () => import('../views/agent/AgentHome'),
+		children: [
+			{
+				path: 'new-campaign',
+				name: 'NewCampaign',
+				component: () => import('../views/agent/NewCampaign')
+			},
+			{
+				path: 'influencer',
+				name: 'NewInfluencerPost',
+				component: () => import('../views/agent/NewInfluencerPost')
+			},
+			{
+				path: 'campaigns',
+				name: 'Campaigns',
+				component: () => import('../views/agent/CampaignListView')
+			},
+			{
+				path: 'campaigns/:id',
+				name: 'CampaignReport',
+				component: () => import('../views/agent/CampaignListView')
+			}
+		]
 	},
 	{
 		path: '/:username',

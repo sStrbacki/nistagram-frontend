@@ -1,5 +1,5 @@
 import { notifyError, notifySuccess } from '../../services/notificationService';
-import { createLongTermCampaign, createOneTimeCampaign } from '../../services/campaignService';
+import { createLongTermCampaign, createOneTimeCampaign, getCampaigns } from '../../services/campaignService';
 
 export default {
 	state: {
@@ -17,7 +17,8 @@ export default {
 			exposureMoments: [],
 			exposureMoment: null,
 			longTerm: false
-		}
+		},
+		personalCampaigns: []
 	},
 	mutations: {
 		setNewCampaignName: (state, name) => {
@@ -62,6 +63,9 @@ export default {
 		},
 		setNewCampaignLongTerm: (state, longTerm) => {
 			state.newCampaign.longTerm = longTerm;
+		},
+		setPersonalCampaigns: (state, campaigns) => {
+			state.personalCampaigns = campaigns;
 		}
 	},
 	getters: {
@@ -97,6 +101,9 @@ export default {
 		},
 		newCampaignLongTerm: state => {
 			return state.newCampaign.longTerm;
+		},
+		personalCampaigns: state => {
+			return state.personalCampaigns;
 		}
 	},
 	actions: {
@@ -111,6 +118,14 @@ export default {
 				notifyError(response.data);
 			} else {
 				notifySuccess("Campaign created successfully!");
+			}
+		},
+		fetchPersonalCampaigns: async context => {
+			const response = await getCampaigns();
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setPersonalCampaigns', response.data);
 			}
 		}
 	}
