@@ -75,6 +75,10 @@ export default {
 					return 'mdi-account-check';
 				case 'NEW_FOLLOWER':
 					return 'mdi-account-plus';
+				case 'NEW_MESSAGE':
+					return 'mdi-chat';
+				case 'NEW_MESSAGE_REQUEST':
+					return 'mdi-chat-plus';
 				default:
 					return 'mdi-help-circle';
 			}
@@ -104,6 +108,7 @@ export default {
 					name: 'Profile',
 					params: { username: notification.subject }
 				});
+			else this.$router.push({ name: 'Chat' });
 		}
 	}
 };
