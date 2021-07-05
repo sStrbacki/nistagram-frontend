@@ -35,7 +35,7 @@ export const api = {
 		textMessage: apiHost + '/api/chat/text-message',
 		temporaryMessage: apiHost + '/api/chat/temporary-message',
 		shareMessage: apiHost + '/api/chat/share-message',
-		ws: notificationHost + '/api/notification/ws'
+		ws: chatHost + '/api/chat/ws'
 	},
 	content: {
 		base: apiHost + '/api/content',
@@ -91,7 +91,7 @@ export const api = {
 	},
 	notification: {
 		base: apiHost + '/api/notification',
-		ws: chatHost + '/api/chat/ws'
+		ws: notificationHost + '/api/notification/ws'
 	},
 	verification: {
 		base: apiHost + '/api/users/verification',

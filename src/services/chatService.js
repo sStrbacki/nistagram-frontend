@@ -87,7 +87,7 @@ async function deleteSession(sessionId) {
 }
 
 function listenToNewMessages(state, session) {
-	let socket = new SockJS(api.notification.ws);
+	let socket = new SockJS(api.chat.ws);
 	let stompClient = Stomp.over(socket);
 
 	if (session)
