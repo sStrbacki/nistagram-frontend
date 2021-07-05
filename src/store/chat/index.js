@@ -7,7 +7,8 @@ import {
 	declineSession,
 	deleteSession,
 	pushTemporaryMessage,
-	markAsOpened
+	markAsOpened,
+	pushShareMessage
 } from '../../services/chatService';
 import { notifyError } from '../../services/notificationService';
 
@@ -17,9 +18,21 @@ export default {
 		partner: '',
 		textMessageContent: '',
 		selectedSession: null,
-		messages: []
+		messages: [],
+		chatReshareDialog: false,
+		chatResharePost: null,
+		chatReshareStory: null
 	},
 	mutations: {
+		setChatReshareDialog: (state, value) => {
+			state.chatReshareDialog = value;
+		},
+		setChatResharePost: (state, value) => {
+			state.chatResharePost = value;
+		},
+		setChatReshareStory: (state, value) => {
+			state.chatReshareStory = value;
+		},
 		setMessageSessions: (state, value) => {
 			state.messageSessions = value;
 		},
@@ -28,6 +41,10 @@ export default {
 		},
 		clearTextMessageContent: state => {
 			state.textMessageContent = '';
+		},
+		clearSelectedChatContent: state => {
+			state.chatResharePost = null;
+			state.chatReshareStory = null;
 		},
 		markAsOpened: (state, messageId) => {
 			let message = state.messages.filter(message => {
@@ -94,6 +111,25 @@ export default {
 			if (res.status >= 400) notifyError(res.data);
 			else state.commit('clearTextMessageContent');
 		},
+		pushShareMessage: async state => {
+			let type = state.getters.chatResharePost ? 'POST' : 'STORY';
+			let id = state.getters.chatResharePost
+				? state.getters.chatResharePost.id
+				: state.getters.chatReshareStory.id;
+			console.log(id);
+			let messageRequest = {
+				sender: state.rootGetters.username,
+				receiver: state.rootGetters.userQuery,
+				contentId: id,
+				contentType: type
+			};
+			let res = await pushShareMessage(messageRequest);
+			if (res.status >= 400) notifyError(res.data);
+			else {
+				state.commit('clearTextMessageContent');
+				state.commit('clearSelectedChatContent');
+			}
+		},
 		markAsOpened: async (state, message) => {
 			let res = await markAsOpened(message.id);
 			if (res.status >= 400) notifyError(res.data);
@@ -146,6 +182,9 @@ export default {
 		setSelectedSession: (state, sessionId) => {
 			state.commit('setSelectedSession', sessionId);
 		},
+		clearSelectedChatContent: state => {
+			state.commit('clearSelectedChatContent');
+		},
 		listenToSessionMessages: state => {
 			listenToNewMessages(state, state.getters.selectedSession);
 		}
@@ -165,6 +204,15 @@ export default {
 		},
 		selectedSession: state => {
 			return state.selectedSession;
+		},
+		chatReshareDialog: state => {
+			return state.chatReshareDialog;
+		},
+		chatResharePost: state => {
+			return state.chatResharePost;
+		},
+		chatReshareStory: state => {
+			return state.chatReshareStory;
 		}
 	}
 };

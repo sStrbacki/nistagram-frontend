@@ -21,6 +21,15 @@ async function pushTemporaryMessage(messageRequest) {
 	}
 }
 
+async function pushShareMessage(messageRequest) {
+	try {
+		let res = await axios.post(api.chat.shareMessage, messageRequest);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function markAsOpened(messageId) {
 	try {
 		let res = await axios.put(
@@ -92,6 +101,7 @@ function listenToNewMessages(state, session) {
 export {
 	pushTextMessage,
 	pushTemporaryMessage,
+	pushShareMessage,
 	markAsOpened,
 	fetchSessions,
 	getMessagesBySessionId,

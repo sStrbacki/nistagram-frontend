@@ -26,7 +26,26 @@
 							<v-list-item-subtitle class="ml-8" v-if="message.text">
 								{{ message.text }}
 							</v-list-item-subtitle>
-							<v-list-item-subtitle v-else>
+							<v-list-item-subtitle
+								class="mt-2"
+								v-if="message.contentType === 'POST'"
+							>
+								<post-card-small
+									:fetchPost="true"
+									:postId="message.contentId"
+								/>
+							</v-list-item-subtitle>
+
+							<v-list-item-subtitle
+								class="mt-2"
+								v-else-if="message.contentType === 'STORY'"
+							>
+								<story-card-small
+									:fetchStory="true"
+									:storyId="message.contentId"
+								/>
+							</v-list-item-subtitle>
+							<v-list-item-subtitle v-else-if="message.mediaUrl">
 								<v-btn
 									color="teal"
 									rounded
@@ -103,9 +122,11 @@
 <script>
 import { videoPlayer } from 'vue-md-player';
 import 'vue-md-player/dist/vue-md-player.css';
+import PostCardSmall from '../feed/PostCardSmall.vue';
+import StoryCardSmall from '../feed/StoryCardSmall.vue';
 export default {
 	name: 'Session',
-	components: { videoPlayer },
+	components: { videoPlayer, PostCardSmall, StoryCardSmall },
 	data() {
 		return {
 			mediaDialog: false,
@@ -212,7 +233,7 @@ export default {
 		},
 		scrollToBottom() {
 			let container = document.getElementById('scrolled-target');
-			if (container) container.scrollTop = this.messages.length * 200;
+			if (container) container.scrollTop = this.messages.length * 700;
 		},
 		mediaOpeningEnabled(message) {
 			if (this.loggedUser === message.sender) return true;
