@@ -13,7 +13,16 @@
 				</v-list-item-icon>
 
 				<v-list-item-content>
-					<v-list-item-title>Compose a new message</v-list-item-title>
+					<v-list-item-title>Text message</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
+			<v-list-item link to="/home/chat/temp-message">
+				<v-list-item-icon>
+					<v-icon>mdi-clock-time-five</v-icon>
+				</v-list-item-icon>
+
+				<v-list-item-content>
+					<v-list-item-title>Media message</v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
 			<v-list-item

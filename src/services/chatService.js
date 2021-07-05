@@ -12,6 +12,26 @@ async function pushTextMessage(messageRequest) {
 	}
 }
 
+async function pushTemporaryMessage(messageRequest) {
+	try {
+		let res = await axios.post(api.chat.temporaryMessage, messageRequest);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function markAsOpened(messageId) {
+	try {
+		let res = await axios.put(
+			api.chat.temporaryMessage + `/${messageId}/opened`
+		);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function fetchSessions() {
 	try {
 		let res = await axios.get(api.chat.session);
@@ -30,20 +50,53 @@ async function getMessagesBySessionId(sessionId) {
 	}
 }
 
-function listenToNewMessages(state, sessionId) {
+async function acceptSession(sessionId) {
+	try {
+		let res = await axios.put(api.chat.session + `/${sessionId}/accept`);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function declineSession(sessionId) {
+	try {
+		let res = await axios.put(api.chat.session + `/${sessionId}/decline`);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function deleteSession(sessionId) {
+	try {
+		let res = await axios.delete(api.chat.session + `/${sessionId}`);
+		return res.data;
+	} catch (err) {
+		return err.response;
+	}
+}
+
+function listenToNewMessages(state, session) {
 	let socket = new SockJS(api.notification.ws);
 	let stompClient = Stomp.over(socket);
 
-	stompClient.connect({}, () => {
-		stompClient.subscribe(`/topic/${sessionId}`, message => {
-			state.commit('addMessage', JSON.parse(message.body));
+	if (session)
+		stompClient.connect({}, () => {
+			stompClient.subscribe(`/topic/${session.id}`, message => {
+				state.commit('addMessage', JSON.parse(message.body));
+			});
 		});
-	});
 }
 
 export {
 	pushTextMessage,
+	pushTemporaryMessage,
+	markAsOpened,
 	fetchSessions,
 	getMessagesBySessionId,
-	listenToNewMessages
+	listenToNewMessages,
+	acceptSession,
+	declineSession,
+	deleteSession
 };

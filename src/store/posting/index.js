@@ -51,6 +51,10 @@ export default {
 			};
 			state.resharePost = null;
 		},
+		clearFileData: state => {
+			state.file = null;
+			state.fileUrl = '';
+		},
 		clearReshareStoryData: state => {
 			state.caption = '';
 			state.location = {
@@ -168,6 +172,9 @@ export default {
 			if (response.status >= 400) notifyError(response.data);
 			else notifySuccess('Story successfully created');
 			state.commit('clearReshareStoryData');
+		},
+		clearFileData: state => {
+			state.commit('clearFileData');
 		},
 		removeTag: (state, tag) => {
 			state.commit('removeTag', tag);

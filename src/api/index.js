@@ -33,6 +33,8 @@ export const api = {
 	chat: {
 		session: apiHost + '/api/chat/session',
 		textMessage: apiHost + '/api/chat/text-message',
+		temporaryMessage: apiHost + '/api/chat/temporary-message',
+		shareMessage: apiHost + '/api/chat/share-message',
 		ws: notificationHost + '/api/notification/ws'
 	},
 	content: {

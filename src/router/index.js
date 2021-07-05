@@ -91,6 +91,12 @@ const routes = [
 						component: () => import('../components/user/chat/NewMessage.vue')
 					},
 					{
+						path: 'temp-message',
+						name: 'TemporaryMessage',
+						component: () =>
+							import('../components/user/chat/TemporaryMessage.vue')
+					},
+					{
 						path: 'session/:sessionId',
 						name: 'Session',
 						component: () => import('../components/user/chat/Session.vue')

@@ -2,7 +2,12 @@ import {
 	pushTextMessage,
 	fetchSessions,
 	getMessagesBySessionId,
-	listenToNewMessages
+	listenToNewMessages,
+	acceptSession,
+	declineSession,
+	deleteSession,
+	pushTemporaryMessage,
+	markAsOpened
 } from '../../services/chatService';
 import { notifyError } from '../../services/notificationService';
 
@@ -11,7 +16,7 @@ export default {
 		messageSessions: [],
 		partner: '',
 		textMessageContent: '',
-		selectedSession: undefined,
+		selectedSession: null,
 		messages: []
 	},
 	mutations: {
@@ -24,14 +29,34 @@ export default {
 		clearTextMessageContent: state => {
 			state.textMessageContent = '';
 		},
+		markAsOpened: (state, messageId) => {
+			let message = state.messages.filter(message => {
+				return message.id === messageId;
+			})[0];
+			message.opened = true;
+		},
 		setPartner: (state, value) => {
 			state.partner = value;
 		},
-		setSelectedSession: (state, value) => {
-			state.selectedSession = value;
+		setSelectedSession: (state, sessionId) => {
+			state.selectedSession = state.messageSessions.filter(session => {
+				return session.id === sessionId;
+			})[0];
 		},
 		setSessionMessages: (state, value) => {
 			state.messages = value;
+		},
+		setSessionAccepted: (state, sessionId) => {
+			let session = state.messageSessions.filter(session => {
+				return session.id === sessionId;
+			})[0];
+			session.sessionStatus = 'ACCEPTED';
+		},
+		setSessionDeclined: (state, sessionId) => {
+			let session = state.messageSessions.filter(session => {
+				return session.id === sessionId;
+			})[0];
+			session.sessionStatus = 'DECLINED';
 		},
 		addMessage: (state, value) => {
 			let messageIds = state.messages.map(message => {
@@ -39,6 +64,11 @@ export default {
 			});
 			if (!messageIds.includes(value.id))
 				state.messages = [...state.messages, value];
+		},
+		deleteSession: (state, sessionId) => {
+			state.messageSessions = state.messageSessions.filter(session => {
+				return session.id !== sessionId;
+			});
 		}
 	},
 	actions: {
@@ -53,6 +83,36 @@ export default {
 			else {
 				state.commit('clearTextMessageContent');
 			}
+		},
+		pushTemporaryMessage: async state => {
+			let messageRequest = {
+				sender: state.rootGetters.username,
+				receiver: state.rootGetters.userQuery,
+				mediaUrl: state.rootGetters.fileUrl
+			};
+			let res = await pushTemporaryMessage(messageRequest);
+			if (res.status >= 400) notifyError(res.data);
+			else state.commit('clearTextMessageContent');
+		},
+		markAsOpened: async (state, message) => {
+			let res = await markAsOpened(message.id);
+			if (res.status >= 400) notifyError(res.data);
+			else state.commit('markAsOpened', message.id);
+		},
+		acceptSession: async state => {
+			let res = await acceptSession(state.getters.selectedSession.id);
+			if (res.status >= 400) notifyError(res.data);
+			else state.commit('setSessionAccepted', state.getters.selectedSession.id);
+		},
+		declineSession: async state => {
+			let res = await declineSession(state.getters.selectedSession.id);
+			if (res.status >= 400) notifyError(res.data);
+			else state.commit('setSessionDeclined', state.getters.selectedSession.id);
+		},
+		removeSession: async state => {
+			let res = await deleteSession(state.getters.selectedSession.id);
+			if (res.status >= 400) notifyError(res.data);
+			else state.commit('deleteSession', state.getters.selectedSession.id);
 		},
 		sendMessageToPartner: async state => {
 			let messageRequest = {
@@ -74,7 +134,6 @@ export default {
 			else state.commit('setMessageSessions', res);
 		},
 		fetchMessages: async (state, sessionId) => {
-			state.commit('setSelectedSession', sessionId);
 			let res = await getMessagesBySessionId(sessionId);
 			if (res.status >= 400) notifyError(res.data);
 			else {
@@ -83,6 +142,9 @@ export default {
 		},
 		setPartner: (state, partner) => {
 			state.commit('setPartner', partner);
+		},
+		setSelectedSession: (state, sessionId) => {
+			state.commit('setSelectedSession', sessionId);
 		},
 		listenToSessionMessages: state => {
 			listenToNewMessages(state, state.getters.selectedSession);
