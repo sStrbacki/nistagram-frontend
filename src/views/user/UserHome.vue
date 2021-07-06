@@ -14,7 +14,6 @@ export default {
 	async mounted() {
 		await this.$store.dispatch('getProfile');
 		await this.$store.dispatch('getNotifications');
-		await this.$store.dispatch('listenToNotifications');
 	}
 };
 </script>

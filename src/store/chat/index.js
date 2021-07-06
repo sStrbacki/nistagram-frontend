@@ -82,6 +82,14 @@ export default {
 			if (!messageIds.includes(value.id))
 				state.messages = [...state.messages, value];
 		},
+		addSession: (state, value) => {
+			let sessionIds = state.messageSessions.map(session => {
+				return session.id;
+			});
+
+			if (!sessionIds.includes(value.id))
+				state.messageSessions = [...state.messageSessions, value];
+		},
 		deleteSession: (state, sessionId) => {
 			state.messageSessions = state.messageSessions.filter(session => {
 				return session.id !== sessionId;

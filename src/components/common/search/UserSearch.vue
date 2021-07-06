@@ -9,7 +9,7 @@
 		</v-row>
 		<v-row v-if="!selected && users.length !== 0">
 			<v-col>
-				<v-list flat>
+				<v-list flat style="max-height: 200px" class="overflow-y-auto ">
 					<v-list-item
 						v-for="user in users"
 						:key="user.username"
@@ -67,18 +67,17 @@ export default {
 	},
 	watch: {
 		users() {
-			let loggedUserUsername = this.$store.getters.username;
-			let foundUsernames = this.$store.getters.foundUsers.map(user => {
-				return user.username;
-			});
-
-			if (
-				this.mode === 'recepientSearch' &&
-				foundUsernames.includes(loggedUserUsername)
-			)
-				this.users = this.users.filter(user => {
-					return user.username !== loggedUserUsername;
+			if (this.mode === 'recepientSearch') {
+				let loggedUserUsername = this.$store.getters.username;
+				let foundUsernames = this.$store.getters.foundUsers.map(user => {
+					return user.username;
 				});
+
+				if (foundUsernames.includes(loggedUserUsername))
+					this.users = this.users.filter(user => {
+						return user.username !== loggedUserUsername;
+					});
+			}
 		}
 	},
 	methods: {

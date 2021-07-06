@@ -110,6 +110,9 @@ export default {
 				});
 			else this.$router.push({ name: 'Chat' });
 		}
+	},
+	mounted() {
+		this.$store.dispatch('listenToNotifications');
 	}
 };
 </script>
