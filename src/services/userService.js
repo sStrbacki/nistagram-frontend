@@ -129,6 +129,10 @@ async function promote(promotionRequest) {
 	}
 }
 
+export async function isAgentRequestRejected() {
+	return axios.get(api.user.agents.isRequestRejected);
+}
+
 export {
 	getProfile,
 	updateProfile,

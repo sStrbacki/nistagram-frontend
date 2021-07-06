@@ -152,6 +152,10 @@ const routes = [
 					import('../views/user/post-collection/MyCollections.vue')
 			},
 			{
+				path: 'influencer',
+				component: () => import('../views/user/influencer/PostApprovalView')
+			},
+			{
 				path: 'settings',
 				component: () => import('../views/user/profile/UserProfile'),
 				children: [
@@ -182,6 +186,12 @@ const routes = [
 						name: 'AgentRegistration',
 						component: () =>
 							import('../components/user/profile/AgentRegistration')
+					},
+					{
+						path: 'apiKeyRequest',
+						name: 'ApiKeyRequest',
+						component: () =>
+							import('../components/user/profile/ApiKeyRequest')
 					}
 				]
 			},
@@ -269,6 +279,33 @@ const routes = [
 				path: 'reported-story/:storyId',
 				name: 'ReportedStory',
 				component: () => import('../views/admin/reports/ReportedStory')
+			}
+		]
+	},
+	{
+		path: '/agent',
+		// meta: { agent: true },
+		component: () => import('../views/agent/AgentHome'),
+		children: [
+			{
+				path: 'new-campaign',
+				name: 'NewCampaign',
+				component: () => import('../views/agent/NewCampaign')
+			},
+			{
+				path: 'influencer',
+				name: 'NewInfluencerPost',
+				component: () => import('../views/agent/NewInfluencerPost')
+			},
+			{
+				path: 'campaigns',
+				name: 'Campaigns',
+				component: () => import('../views/agent/CampaignListView')
+			},
+			{
+				path: 'campaigns/:id',
+				name: 'CampaignReport',
+				component: () => import('../views/agent/CampaignListView')
 			}
 		]
 	},

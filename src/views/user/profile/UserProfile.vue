@@ -70,6 +70,20 @@
 						<v-list-item-title>Agent Registration</v-list-item-title>
 					</v-list-item>
 				</router-link>
+
+        <router-link
+            to="/home/settings/apiKeyRequest"
+            v-slot="{ href, navigate, isActive }"
+            v-if="isAgent"
+        >
+          <v-list-item link :active="isActive" :href="href" @click="navigate">
+            <v-list-item-icon>
+              <v-icon>mdi-key</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Request API key</v-list-item-title>
+          </v-list-item>
+        </router-link>
+
 			</v-list>
 		</v-navigation-drawer>
 		<v-spacer></v-spacer>

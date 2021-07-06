@@ -8,7 +8,11 @@ export const api = {
 		login: apiHost + '/api/auth',
 		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
 		resetPassword: apiHost + '/api/auth/reset-password',
-		accountActivation: apiHost + '/api/auth/activate'
+		accountActivation: apiHost + '/api/auth/activate',
+	},
+	apiKey: {
+		root: apiHost + '/api/auth/api-token',
+		generate: apiHost + '/api/auth/api-token/create'
 	},
 	user: {
 		base: apiHost + '/api/users',
@@ -27,7 +31,9 @@ export const api = {
 			pending: apiHost + '/api/users/agents/pending',
 			accept: apiHost + '/api/users/agents/accept',
 			decline: apiHost + '/api/users/agents/decline',
-			promote: apiHost + '/api/users/agents/promote'
+			promote: apiHost + '/api/users/agents/promote',
+			applicationPackageName: apiHost + '/api/users/agents/application',
+			isRequestRejected: apiHost + '/api/users/agents/isRejected'
 		}
 	},
 	chat: {
@@ -55,6 +61,7 @@ export const api = {
 		tagged: apiHost + '/api/content/post/tagged',
 		personalStories: apiHost + '/api/content/story/me/all',
 		interactedPosts: apiHost + '/api/content/post/interactions',
+		nonApproved: apiHost + '/api/content/post/non-approved',
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'
@@ -62,12 +69,16 @@ export const api = {
 		admin: {
 			post: apiHost + '/api/content/post/admin',
 			story: apiHost + '/api/content/story/admin'
+		},
+		agent: {
+			post: apiHost + '/api/content/post/agent'
 		}
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
-		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped',
+		storyCampaignFeed: apiHost + '/api/feed/stories/campaign'
 	},
 	collection: {
 		collectionBase: apiHost + '/api/content/post/collection',
@@ -97,5 +108,10 @@ export const api = {
 		base: apiHost + '/api/users/verification',
 		categories: apiHost + '/api/users/verification/categories',
 		admin: apiHost + '/api/users/verification/admin'
+	},
+	campaign: {
+		base: apiHost + '/api/campaigns',
+		longTerm: apiHost + '/api/campaigns/long-term',
+		oneTime: apiHost + '/api/campaigns/one-time'
 	}
 };
