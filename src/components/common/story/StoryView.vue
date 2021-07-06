@@ -25,19 +25,6 @@
 							<v-col class="subtitle-2 mt-2">
 								<p>{{ story.author }}</p>
 							</v-col>
-							<v-col v-if="feed && story.author !== currentUser" cols="3">
-								<v-btn
-									color="blue-grey"
-									small
-									@click="openStoryReportDialog(story)"
-								>
-									Report
-
-									<v-icon dark>
-										mdi-alert
-									</v-icon>
-								</v-btn>
-							</v-col>
 						</v-row>
 					</v-card-title>
 					<v-card-subtitle>
@@ -62,40 +49,72 @@
 							</v-col>
 						</v-row>
 					</v-card-subtitle>
-					<v-card-actions v-if="story.author === currentUser">
-						<v-btn
-							small
-							color="info"
-							v-if="!editStoryId"
-							@click="selectStory(story.id)"
-							>Add as highlight</v-btn
-						>
-						<div class="d-flex align-center" v-if="editStoryId === story.id">
-							<v-select
-								placeholder="Select existing highlight"
-								:items="highlights"
-								:item-text="highlightName"
-								:item-value="highlightId"
-								v-model="selectedHighlight"
-								@change="highlightInput = ''"
-							></v-select>
-							<span class="mx-2"> or </span>
-							<v-text-field
-								placeholder="Add new highlight"
-								v-model="highlightInput"
-								@keydown="selectedHighlight = null"
-							></v-text-field>
-							<v-btn color="primary" icon @click="addHighlight()"
-								><v-icon>mdi-check</v-icon></v-btn
+					<v-card-actions>
+						<v-row v-if="story.author === currentUser" no-gutters>
+							<v-btn
+								small
+								color="info"
+								v-if="!editStoryId"
+								@click="selectStory(story.id)"
+								>Add as highlight</v-btn
 							>
-							<v-btn color="warning" icon @click="cancelHighlight()"
-								><v-icon>mdi-close</v-icon></v-btn
-							>
-						</div>
+							<div class="d-flex align-center" v-if="editStoryId === story.id">
+								<v-select
+									placeholder="Select existing highlight"
+									:items="highlights"
+									:item-text="highlightName"
+									:item-value="highlightId"
+									v-model="selectedHighlight"
+									@change="highlightInput = ''"
+								></v-select>
+								<span class="mx-2"> or </span>
+								<v-text-field
+									placeholder="Add new highlight"
+									v-model="highlightInput"
+									@keydown="selectedHighlight = null"
+								></v-text-field>
+								<v-btn color="primary" icon @click="addHighlight()"
+									><v-icon>mdi-check</v-icon></v-btn
+								>
+								<v-btn color="warning" icon @click="cancelHighlight()"
+									><v-icon>mdi-close</v-icon></v-btn
+								>
+							</div>
+						</v-row>
+						<v-row v-else-if="feed && story.author !== currentUser" no-gutters>
+							<v-col v-if="feed && story.author !== currentUser" cols="3">
+								<v-btn
+									color="blue-grey"
+									small
+									@click="openStoryReportDialog(story)"
+								>
+									Report
+
+									<v-icon dark>
+										mdi-alert
+									</v-icon>
+								</v-btn>
+							</v-col>
+							<v-col v-if="feed && story.author !== currentUser" cols="5">
+								<v-btn
+									color="blue-grey"
+									small
+									@click="openChatReshareDialog(story)"
+								>
+									Send as message
+
+									<v-icon dark>
+										mdi-chat
+									</v-icon>
+								</v-btn>
+							</v-col>
+						</v-row>
 					</v-card-actions>
 				</div>
 				<v-card-actions v-else>
-					<a class="v-btn mx-auto mt-10" :href="story.websiteUrl">Visit advertiser site</a>
+					<a class="v-btn mx-auto mt-10" :href="story.websiteUrl"
+						>Visit advertiser site</a
+					>
 				</v-card-actions>
 			</v-card>
 		</v-slide-item>
@@ -135,6 +154,22 @@ export default {
 				this.$store.commit('setStoryReportDialog', value);
 			}
 		},
+		chatReshareDialog: {
+			get() {
+				return this.$store.getters.chatReshareDialog;
+			},
+			set(value) {
+				this.$store.commit('setChatReshareDialog', value);
+			}
+		},
+		chatReshareStory: {
+			get() {
+				return this.$store.getters.chatReshareStory;
+			},
+			set(value) {
+				this.$store.commit('setChatReshareStory', value);
+			}
+		},
 		reportedStory: {
 			get() {
 				return this.$store.getters.reportedStory;
@@ -161,6 +196,10 @@ export default {
 		openStoryReportDialog(story) {
 			this.storyReportDialog = !this.storyReportDialog;
 			this.reportedStory = story;
+		},
+		openChatReshareDialog(story) {
+			this.chatReshareStory = story;
+			this.chatReshareDialog = !this.chatReshareDialog;
 		},
 		selectStory(id) {
 			this.editStoryId = id;

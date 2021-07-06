@@ -55,6 +55,16 @@
 									</v-list-item-content>
 								</v-list-item>
 
+								<v-list-item class="list-item" @click="openChatReshareDialog()">
+									<v-list-item-icon>
+										<v-icon>mdi-chat</v-icon>
+									</v-list-item-icon>
+
+									<v-list-item-content>
+										<v-list-item-title>Send as a message</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+
 								<v-list-item
 									class="list-item"
 									@click="openCollectionsDialog()"
@@ -102,6 +112,11 @@
 
 			<v-card-subtitle>
 				<v-row>
+					<v-col cols="1">
+						<v-icon dark>
+							mdi-closed-caption
+						</v-icon>
+					</v-col>
 					<v-col cols="1">
 						<span
 							style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;"
@@ -218,6 +233,23 @@ export default {
 				this.$store.commit('setReshareDialog', value);
 			}
 		},
+		chatReshareDialog: {
+			get() {
+				return this.$store.getters.chatReshareDialog;
+			},
+			set(value) {
+				this.$store.commit('setChatReshareDialog', value);
+			}
+		},
+		chatResharePost: {
+			get() {
+				return this.$store.getters.chatResharePost;
+			},
+			set(value) {
+				this.$store.commit('setChatResharePost', value);
+			}
+		},
+
 		postReportDialog: {
 			get() {
 				return this.$store.getters.postReportDialog;
@@ -246,6 +278,10 @@ export default {
 		openCollectionsDialog() {
 			this.selectedPostId = this.post.id;
 			this.collectionDialog = !this.collectionDialog;
+		},
+		openChatReshareDialog() {
+			this.chatResharePost = this.post;
+			this.chatReshareDialog = !this.chatReshareDialog;
 		},
 		openReshareDialog() {
 			this.resharePost = this.post;

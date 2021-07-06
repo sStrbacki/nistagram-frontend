@@ -13,6 +13,7 @@ import reportModule from './report/index';
 import verificationModule from './verification/index';
 import closeFriendsModule from './close-friends/index';
 import agentRegistrationModule from './agent-registration/index';
+import chatModule from './chat/index';
 import apiKeyModule from './api-key/index';
 import campaignModule from './campaign/index';
 
@@ -33,8 +34,8 @@ export default new Vuex.Store({
 		verification: verificationModule,
 		closeFriends: closeFriendsModule,
 		agentRegistration: agentRegistrationModule,
+		chat: chatModule,
 		apiKey: apiKeyModule,
 		campaign: campaignModule
 	}
 });
-//ZnKa&qL86A*#jt

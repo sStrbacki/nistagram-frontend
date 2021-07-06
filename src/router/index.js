@@ -77,6 +77,33 @@ const routes = [
 				redirect: 'feed'
 			},
 			{
+				path: 'chat',
+				name: 'Chat',
+				component: () => import('../views/user/chat/Chat.vue'),
+				children: [
+					{
+						path: '',
+						redirect: 'new-message'
+					},
+					{
+						path: 'new-message',
+						name: 'NewMessage',
+						component: () => import('../components/user/chat/NewMessage.vue')
+					},
+					{
+						path: 'temp-message',
+						name: 'TemporaryMessage',
+						component: () =>
+							import('../components/user/chat/TemporaryMessage.vue')
+					},
+					{
+						path: 'session/:sessionId',
+						name: 'Session',
+						component: () => import('../components/user/chat/Session.vue')
+					}
+				]
+			},
+			{
 				path: 'close-friends',
 				name: 'CloseFriends',
 				component: () => import('../views/user/close-friends/CloseFriends.vue')
