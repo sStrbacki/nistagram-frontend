@@ -1,5 +1,10 @@
 import { notifyError, notifySuccess } from '../../services/notificationService';
-import { createLongTermCampaign, createOneTimeCampaign, getCampaigns } from '../../services/campaignService';
+import {
+	createLongTermCampaign,
+	createOneTimeCampaign, getAdvertisementClickStats,
+	getCampaignById,
+	getCampaigns, getCampaignStatsPost
+} from '../../services/campaignService';
 
 export default {
 	state: {
@@ -18,7 +23,11 @@ export default {
 			exposureMoment: null,
 			longTerm: false
 		},
-		personalCampaigns: []
+		personalCampaigns: [],
+		campaignStats: {
+			campaign: null,
+			post: null
+		}
 	},
 	mutations: {
 		setNewCampaignName: (state, name) => {
@@ -66,6 +75,17 @@ export default {
 		},
 		setPersonalCampaigns: (state, campaigns) => {
 			state.personalCampaigns = campaigns;
+		},
+		setCampaignStatsCampaign: (state, campaign) => {
+			state.campaignStats.campaign = campaign;
+		},
+		setCampaignStatsPost: (state, post) => {
+			state.campaignStats.post = post;
+		},
+		addAdvertisementClickStats: (state, clickStats) => {
+			const ad = state.campaignStats.campaign.advertisements
+				.find(ad => ad.id === clickStats.id);
+			ad.clickStats = clickStats;
 		}
 	},
 	getters: {
@@ -104,6 +124,9 @@ export default {
 		},
 		personalCampaigns: state => {
 			return state.personalCampaigns;
+		},
+		campaignStats: state => {
+			return state.campaignStats;
 		}
 	},
 	actions: {
@@ -126,6 +149,39 @@ export default {
 				notifyError(response.data);
 			} else {
 				context.commit('setPersonalCampaigns', response.data);
+			}
+		},
+		fetchCampaignStats: async (context, campaignId) => {
+			await context.dispatch('fetchCampaignStatsCampaign', campaignId);
+			await context.dispatch('fetchCampaignClickStats', campaignId);
+			await context.dispatch('fetchCampaignStatsPost', campaignId);
+		},
+		fetchCampaignStatsCampaign: async (context, campaignId) => {
+			const response = await getCampaignById(campaignId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setCampaignStatsCampaign', response.data);
+			}
+		},
+		fetchCampaignClickStats: async (context) => {
+			const advertisements = context.state.campaignStats.campaign.advertisements;
+			let response;
+			for await (let ad of advertisements) {
+				response = await getAdvertisementClickStats(ad.id);
+				if (response.status >= 400) {
+					notifyError(response.data);
+				} else {
+					context.commit('addAdvertisementClickStats', response.data);
+				}
+			}
+		},
+		fetchCampaignStatsPost: async (context, campaignId) => {
+			const response = await getCampaignStatsPost(campaignId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('setCampaignStatsPost', response.data);
 			}
 		}
 	}

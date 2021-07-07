@@ -304,8 +304,8 @@ const routes = [
 			},
 			{
 				path: 'campaigns/:id',
-				name: 'CampaignReport',
-				component: () => import('../views/agent/CampaignListView')
+				name: 'CampaignStats',
+				component: () => import('../components/agent/CampaignStats')
 			}
 		]
 	},

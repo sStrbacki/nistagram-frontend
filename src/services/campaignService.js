@@ -33,9 +33,27 @@ async function getCampaigns() {
 	}
 }
 
+async function getAdvertisementClickStats(advertisementId) {
+	try {
+		return await axios.get(api.campaign.clickStats + '/' + advertisementId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function getCampaignStatsPost(campaignId) {
+	try {
+		return axios.get(api.content.postBase + '/' + campaignId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	getCampaignById,
 	createLongTermCampaign,
 	createOneTimeCampaign,
-	getCampaigns
+	getCampaigns,
+	getAdvertisementClickStats,
+	getCampaignStatsPost
 }
