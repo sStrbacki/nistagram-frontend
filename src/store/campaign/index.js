@@ -3,8 +3,9 @@ import {
 	createLongTermCampaign,
 	createOneTimeCampaign, getAdvertisementClickStats,
 	getCampaignById,
-	getCampaigns, getCampaignStatsPost
+	getCampaigns, registerClick
 } from '../../services/campaignService';
+import { getPostById } from '../../services/contentService';
 
 export default {
 	state: {
@@ -177,11 +178,17 @@ export default {
 			}
 		},
 		fetchCampaignStatsPost: async (context, campaignId) => {
-			const response = await getCampaignStatsPost(campaignId);
+			const response = await getPostById(campaignId);
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
 				context.commit('setCampaignStatsPost', response.data);
+			}
+		},
+		registerClick: async (context, advertisementId) => {
+			const response = await registerClick(advertisementId);
+			if (response.status >= 400) {
+				notifyError(response.data);
 			}
 		}
 	}

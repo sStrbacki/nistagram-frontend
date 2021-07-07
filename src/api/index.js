@@ -113,6 +113,6 @@ export const api = {
 		base: apiHost + '/api/campaigns',
 		longTerm: apiHost + '/api/campaigns/long-term',
 		oneTime: apiHost + '/api/campaigns/one-time',
-		clickStats: apiHost + '/api/campaigns/clicks'
+		clicks: apiHost + '/api/campaigns/clicks'
 	}
 };

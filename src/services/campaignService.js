@@ -35,15 +35,15 @@ async function getCampaigns() {
 
 async function getAdvertisementClickStats(advertisementId) {
 	try {
-		return await axios.get(api.campaign.clickStats + '/' + advertisementId);
+		return await axios.get(api.campaign.clicks + '/' + advertisementId);
 	} catch (err) {
 		return err.response;
 	}
 }
 
-async function getCampaignStatsPost(campaignId) {
+async function registerClick(advertisementId) {
 	try {
-		return axios.get(api.content.postBase + '/' + campaignId);
+		return axios.post(api.campaign.clicks + '/' + advertisementId);
 	} catch (err) {
 		return err.response;
 	}
@@ -55,5 +55,5 @@ export {
 	createOneTimeCampaign,
 	getCampaigns,
 	getAdvertisementClickStats,
-	getCampaignStatsPost
+	registerClick
 }

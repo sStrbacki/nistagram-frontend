@@ -6,17 +6,15 @@
 				cycle
 				hide-delimiters
 			>
-				<v-carousel-item v-for="ad in campaign.advertisements" :key="ad.id">
-					<a :href="ad.websiteUrl">
-						<v-img
-							v-if="!isVideo(ad.mediaUrl)"
-							:src="ad.mediaUrl"
-							height="200px"
-						><div class=" caption ms-1">ad</div></v-img>
-						<video-player v-else>
-							<source :src="ad.mediaUrl"/>
-						</video-player>
-					</a>
+				<v-carousel-item class="clickable" v-for="ad in campaign.advertisements" :key="ad.id" @click="visit($event, ad)">
+					<v-img
+						v-if="!isVideo(ad.mediaUrl)"
+						:src="ad.mediaUrl"
+						height="200px"
+					><div class=" caption ms-1">ad</div></v-img>
+					<video-player v-else>
+						<source :src="ad.mediaUrl"/>
+					</video-player>
 				</v-carousel-item>
 			</v-carousel>
 			<p class="caption mt-1">{{ campaign.name }}</p>
@@ -36,11 +34,18 @@
 		methods: {
 			isVideo(url) {
 				return url.includes('videos');
+			},
+			async visit(e, ad) {
+				e.stopPropagation();
+				await this.$store.dispatch("registerClick", ad.id);
+				window.location.href = ad.websiteUrl;
 			}
 		}
 	};
 </script>
 
 <style scoped>
-
+	.clickable:hover {
+		cursor: pointer;
+	}
 </style>
