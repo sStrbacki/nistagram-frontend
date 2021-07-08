@@ -17,6 +17,9 @@
 			<v-btn v-if="isAdmin" icon to="/admin">
 				<v-icon>mdi-account-key</v-icon>
 			</v-btn>
+			<v-btn v-if="isAgent" icon to="/agent">
+				<v-icon>mdi-face-agent</v-icon>
+			</v-btn>
 			<v-btn icon to="/home/chat">
 				<v-icon>mdi-chat</v-icon>
 			</v-btn>
@@ -109,6 +112,9 @@ export default {
 		},
 		isAdmin() {
 			return this.$store.getters.roles.includes('ROLE_ADMIN');
+		},
+		isAgent() {
+			return this.$store.getters.roles.includes('ROLE_AGENT');
 		}
 	}
 };

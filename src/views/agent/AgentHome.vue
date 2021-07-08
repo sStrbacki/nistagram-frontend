@@ -1,10 +1,17 @@
 <template>
-	<router-view></router-view>
+	<div>
+		<agent-app-bar></agent-app-bar>
+		<div class="content-wrap">
+			<router-view></router-view>
+		</div>
+	</div>
 </template>
 
 <script>
+import AgentAppBar from '../../components/agent/AgentAppBar';
 export default {
-	name: 'AgentHome'
+	name: 'AgentHome',
+	components: { AgentAppBar }
 };
 </script>
 

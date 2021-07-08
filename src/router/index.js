@@ -288,6 +288,10 @@ const routes = [
 		component: () => import('../views/agent/AgentHome'),
 		children: [
 			{
+				path: '',
+				redirect: 'campaigns'
+			},
+			{
 				path: 'new-campaign',
 				name: 'NewCampaign',
 				component: () => import('../views/agent/CampaignForm')

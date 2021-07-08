@@ -1,6 +1,7 @@
 <template>
 	<v-container>
 		<v-row v-if="fileUrls" align-content="center" justify="center">
+			<h1>Request influencer</h1>
 			<v-col
 				v-for="(url, index) in fileUrls"
 				:key="index"
