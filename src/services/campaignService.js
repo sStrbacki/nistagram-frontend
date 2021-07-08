@@ -25,6 +25,22 @@ async function createOneTimeCampaign(campaign) {
 	}
 }
 
+async function updateLongTermCampaign(id, campaign) {
+	try {
+		return await axios.put(api.campaign.longTerm + '/' + id, campaign);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function updateOneTimeCampaign(id, campaign) {
+	try {
+		return await axios.put(api.campaign.oneTime + '/' + id, campaign);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function getCampaigns() {
 	try {
 		return await axios.get(api.campaign.base);
@@ -55,5 +71,7 @@ export {
 	createOneTimeCampaign,
 	getCampaigns,
 	getAdvertisementClickStats,
-	registerClick
+	registerClick,
+	updateLongTermCampaign,
+	updateOneTimeCampaign
 }
