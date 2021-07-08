@@ -378,7 +378,7 @@
 				this.$store.commit('removeNewCampaignExposureMoment', moment);
 			},
 			submit() {
-				this.$store.dispatch('createCampaign');
+				this.$store.dispatch('saveCampaign');
 			}
 		},
 		watch: {
@@ -392,6 +392,11 @@
 				}
 			}
 		},
+		mounted() {
+			const campaignId = this.$route.params['id'];
+			this.$store.commit("setEditCampaignId", campaignId);
+			this.$store.dispatch("fetchCampaignForEdit");
+		},
 		computed: {
 			advertisementValid() {
 				return this.mediaUrl && this.caption && this.websiteUrl;
@@ -401,7 +406,7 @@
 					return this.$store.getters.newCampaignLongTerm;
 				},
 				set(value) {
-					return this.$store.commit('setNewCampaignLongTerm', value);
+					this.$store.commit('setNewCampaignLongTerm', value);
 				}
 			},
 			file: {

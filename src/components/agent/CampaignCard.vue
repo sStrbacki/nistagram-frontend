@@ -7,7 +7,7 @@
 		</video-player>
 		<v-card-title>{{ campaign.name }}</v-card-title>
 		<v-card-actions>
-			<v-btn icon color="warning">
+			<v-btn @click="edit(campaign.id)" icon color="warning">
 				<v-icon>mdi-pencil</v-icon>
 			</v-btn>
 			<v-btn icon color="primary">
@@ -34,6 +34,9 @@ export default {
 		},
 		route() {
 			this.$router.push('/agent/campaigns/' + this.campaign.id);
+		},
+		edit() {
+			this.$router.push('/agent/campaigns/' + this.campaign.id + '/edit');
 		}
 	}
 };

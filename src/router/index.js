@@ -290,7 +290,7 @@ const routes = [
 			{
 				path: 'new-campaign',
 				name: 'NewCampaign',
-				component: () => import('../views/agent/NewCampaign')
+				component: () => import('../views/agent/CampaignForm')
 			},
 			{
 				path: 'influencer',
@@ -306,6 +306,11 @@ const routes = [
 				path: 'campaigns/:id',
 				name: 'CampaignStats',
 				component: () => import('../components/agent/CampaignStats')
+			},
+			{
+				path: 'campaigns/:id/edit',
+				name: 'CampaignStats',
+				component: () => import('../views/agent/CampaignForm')
 			}
 		]
 	},
