@@ -16,6 +16,7 @@ import agentRegistrationModule from './agent-registration/index';
 import chatModule from './chat/index';
 import apiKeyModule from './api-key/index';
 import campaignModule from './campaign/index';
+import recommendationModule from './recommendation/index';
 
 Vue.use(Vuex);
 
@@ -36,6 +37,7 @@ export default new Vuex.Store({
 		agentRegistration: agentRegistrationModule,
 		chat: chatModule,
 		apiKey: apiKeyModule,
-		campaign: campaignModule
+		campaign: campaignModule,
+		recommendation: recommendationModule
 	}
 });

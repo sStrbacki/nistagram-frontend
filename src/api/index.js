@@ -8,7 +8,7 @@ export const api = {
 		login: apiHost + '/api/auth',
 		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
 		resetPassword: apiHost + '/api/auth/reset-password',
-		accountActivation: apiHost + '/api/auth/activate',
+		accountActivation: apiHost + '/api/auth/activate'
 	},
 	apiKey: {
 		root: apiHost + '/api/auth/api-token',
@@ -98,7 +98,8 @@ export const api = {
 		block: apiHost + '/api/user-graph/block',
 		blocked: apiHost + '/api/user-graph/blocked',
 		blockedBy: apiHost + '/api/user-graph/blocked-by',
-		closeFriends: apiHost + '/api/user-graph/close-friends'
+		closeFriends: apiHost + '/api/user-graph/close-friends',
+		recommend: apiHost + '/api/user-graph/recommend'
 	},
 	notification: {
 		base: apiHost + '/api/notification',

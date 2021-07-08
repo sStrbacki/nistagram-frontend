@@ -20,6 +20,9 @@
 			<v-btn icon to="/home/chat">
 				<v-icon>mdi-chat</v-icon>
 			</v-btn>
+			<v-btn icon to="/home/recommend">
+				<v-icon>mdi-account-search</v-icon>
+			</v-btn>
 			<v-btn icon to="/home/interactions">
 				<v-icon>mdi-thumbs-up-down</v-icon>
 			</v-btn>

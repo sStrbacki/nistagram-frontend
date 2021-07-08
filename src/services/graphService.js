@@ -146,6 +146,14 @@ async function removeCloseFriend(username) {
 	}
 }
 
+async function recommend() {
+	try {
+		return await axios.get(api.graph.recommend);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	block,
 	unblock,
@@ -154,6 +162,7 @@ export {
 	hasMuted,
 	mute,
 	unmute,
+	recommend,
 	getCloseFriends,
 	addCloseFriend,
 	removeCloseFriend,
