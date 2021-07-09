@@ -57,6 +57,14 @@ async function unmute(username) {
 	}
 }
 
+async function getFollowed() {
+	try {
+		return await axios.get(api.graph.followed);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 async function isFollowingProfile(username) {
 	try {
 		return await axios.get(api.graph.following + '/' + username);
@@ -114,6 +122,38 @@ async function declineFollowerRequest(username) {
 	}
 }
 
+async function getCloseFriends() {
+	try {
+		return await axios.get(api.graph.closeFriends);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function addCloseFriend(username) {
+	try {
+		return await axios.post(api.graph.closeFriends + `/${username}`);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function removeCloseFriend(username) {
+	try {
+		return await axios.delete(api.graph.closeFriends + `/${username}`);
+	} catch (err) {
+		return err.response;
+	}
+}
+
+async function recommend() {
+	try {
+		return await axios.get(api.graph.recommend);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	block,
 	unblock,
@@ -122,6 +162,11 @@ export {
 	hasMuted,
 	mute,
 	unmute,
+	recommend,
+	getCloseFriends,
+	addCloseFriend,
+	removeCloseFriend,
+	getFollowed,
 	isFollowingProfile,
 	isPendingProfile,
 	followProfile,

@@ -11,6 +11,12 @@ import viewingProfile from './viewing-profile/index';
 import notificationsModule from './notification/index';
 import reportModule from './report/index';
 import verificationModule from './verification/index';
+import closeFriendsModule from './close-friends/index';
+import agentRegistrationModule from './agent-registration/index';
+import chatModule from './chat/index';
+import apiKeyModule from './api-key/index';
+import campaignModule from './campaign/index';
+import recommendationModule from './recommendation/index';
 
 Vue.use(Vuex);
 
@@ -26,7 +32,12 @@ export default new Vuex.Store({
 		viewingProfile: viewingProfile,
 		notifications: notificationsModule,
 		report: reportModule,
-		verification: verificationModule
+		verification: verificationModule,
+		closeFriends: closeFriendsModule,
+		agentRegistration: agentRegistrationModule,
+		chat: chatModule,
+		apiKey: apiKeyModule,
+		campaign: campaignModule,
+		recommendation: recommendationModule
 	}
 });
-//ZnKa&qL86A*#jt

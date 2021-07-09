@@ -8,6 +8,8 @@ import {
 	fetchInteractedPosts
 } from '@/services/contentService';
 import router from '../../router';
+import { notifySuccess } from '../../services/notificationService';
+import { approvePost, fetchNonApprovedPosts } from '../../services/contentService';
 
 export default {
 	state: {
@@ -28,7 +30,8 @@ export default {
 		},
 		interactions: {
 			interactedPosts: []
-		}
+		},
+		nonApprovedPosts: []
 	},
 	mutations: {
 		setInteractedPosts: (state, value) => {
@@ -68,6 +71,9 @@ export default {
 					);
 				}
 			);
+		},
+		setNonApprovedPosts: (state, posts) => {
+			state.nonApprovedPosts = posts;
 		}
 	},
 	actions: {
@@ -115,6 +121,22 @@ export default {
 			let response = await deleteDislike(postId);
 			if (response.status >= 400) notifyError(response.data);
 			else state.commit('removePostDislike', state.rootGetters.username);
+		},
+		fetchInfluencerPostsForApproval: async (state) => {
+			const response = await fetchNonApprovedPosts();
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				state.commit('setNonApprovedPosts', response.data);
+			}
+		},
+		approveInfluencerPost: async (state, postId) => {
+			const response = await approvePost(postId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				notifySuccess("Ad successfully approved.");
+			}
 		}
 	},
 	getters: {
@@ -147,6 +169,9 @@ export default {
 		},
 		postTags: state => {
 			return state.post.tags;
+		},
+		nonApprovedPosts: state => {
+			return state.nonApprovedPosts;
 		}
 	}
 };

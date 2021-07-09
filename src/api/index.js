@@ -1,5 +1,6 @@
 export const apiHost = 'http://localhost:9090';
 export const notificationHost = 'http://localhost:9005';
+export const chatHost = 'http://localhost:9007';
 
 export const api = {
 	auth: {
@@ -8,6 +9,10 @@ export const api = {
 		requestPasswordReset: apiHost + '/api/auth/request-password-reset',
 		resetPassword: apiHost + '/api/auth/reset-password',
 		accountActivation: apiHost + '/api/auth/activate'
+	},
+	apiKey: {
+		root: apiHost + '/api/auth/api-token',
+		generate: apiHost + '/api/auth/api-token/create'
 	},
 	user: {
 		base: apiHost + '/api/users',
@@ -18,7 +23,25 @@ export const api = {
 		publicData: apiHost + '/api/users/public',
 		taggable: apiHost + '/api/users/taggable',
 		visibility: apiHost + '/api/users/visibility',
-		stats: apiHost + '/api/users/profile/stats'
+		stats: apiHost + '/api/users/profile/stats',
+		nonPromoted: apiHost + '/api/users/non-promoted',
+		ban: apiHost + '/api/users/ban',
+		agents: {
+			base: apiHost + '/api/users/agents',
+			pending: apiHost + '/api/users/agents/pending',
+			accept: apiHost + '/api/users/agents/accept',
+			decline: apiHost + '/api/users/agents/decline',
+			promote: apiHost + '/api/users/agents/promote',
+			applicationPackageName: apiHost + '/api/users/agents/application',
+			isRequestRejected: apiHost + '/api/users/agents/isRejected'
+		}
+	},
+	chat: {
+		session: apiHost + '/api/chat/session',
+		textMessage: apiHost + '/api/chat/text-message',
+		temporaryMessage: apiHost + '/api/chat/temporary-message',
+		shareMessage: apiHost + '/api/chat/share-message',
+		ws: chatHost + '/api/chat/ws'
 	},
 	content: {
 		base: apiHost + '/api/content',
@@ -38,15 +61,24 @@ export const api = {
 		tagged: apiHost + '/api/content/post/tagged',
 		personalStories: apiHost + '/api/content/story/me/all',
 		interactedPosts: apiHost + '/api/content/post/interactions',
+		nonApproved: apiHost + '/api/content/post/non-approved',
 		report: {
 			post: apiHost + '/api/content/report/post',
 			story: apiHost + '/api/content/report/story'
+		},
+		admin: {
+			post: apiHost + '/api/content/post/admin',
+			story: apiHost + '/api/content/story/admin'
+		},
+		agent: {
+			post: apiHost + '/api/content/post/agent'
 		}
 	},
 	feed: {
 		postFeed: apiHost + '/api/feed/posts',
 		storyFeed: apiHost + '/api/feed/stories/grouped',
-		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped'
+		closeFriendStoryFeed: apiHost + '/api/feed/stories/close/grouped',
+		storyCampaignFeed: apiHost + '/api/feed/stories/campaign'
 	},
 	collection: {
 		collectionBase: apiHost + '/api/content/post/collection',
@@ -59,12 +91,15 @@ export const api = {
 		following: apiHost + '/api/user-graph/follows',
 		pending: apiHost + '/api/user-graph/pending',
 		follow: apiHost + '/api/user-graph/followers',
+		followed: apiHost + '/api/user-graph/following',
 		pendingFollowers: apiHost + '/api/user-graph/followers/pending',
 		mute: apiHost + '/api/user-graph/mute',
 		muted: apiHost + '/api/user-graph/muted',
 		block: apiHost + '/api/user-graph/block',
 		blocked: apiHost + '/api/user-graph/blocked',
-		blockedBy: apiHost + '/api/user-graph/blocked-by'
+		blockedBy: apiHost + '/api/user-graph/blocked-by',
+		closeFriends: apiHost + '/api/user-graph/close-friends',
+		recommend: apiHost + '/api/user-graph/recommend'
 	},
 	notification: {
 		base: apiHost + '/api/notification',
@@ -74,5 +109,11 @@ export const api = {
 		base: apiHost + '/api/users/verification',
 		categories: apiHost + '/api/users/verification/categories',
 		admin: apiHost + '/api/users/verification/admin'
+	},
+	campaign: {
+		base: apiHost + '/api/campaigns',
+		longTerm: apiHost + '/api/campaigns/long-term',
+		oneTime: apiHost + '/api/campaigns/one-time',
+		clicks: apiHost + '/api/campaigns/clicks'
 	}
 };

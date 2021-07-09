@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { isLogged } from '../services/authService';
 
 Vue.use(VueRouter);
 
@@ -78,8 +77,46 @@ const routes = [
 				redirect: 'feed'
 			},
 			{
+				path: 'chat',
+				name: 'Chat',
+				component: () => import('../views/user/chat/Chat.vue'),
+				children: [
+					{
+						path: '',
+						redirect: 'new-message'
+					},
+					{
+						path: 'new-message',
+						name: 'NewMessage',
+						component: () => import('../components/user/chat/NewMessage.vue')
+					},
+					{
+						path: 'temp-message',
+						name: 'TemporaryMessage',
+						component: () =>
+							import('../components/user/chat/TemporaryMessage.vue')
+					},
+					{
+						path: 'session/:sessionId',
+						name: 'Session',
+						component: () => import('../components/user/chat/Session.vue')
+					}
+				]
+			},
+			{
+				path: 'recommend',
+				name: 'FollowRecommendations',
+				component: () =>
+					import('../views/user/recommendation/FollowRecommendations.vue')
+			},
+			{
+				path: 'close-friends',
+				name: 'CloseFriends',
+				component: () => import('../views/user/close-friends/CloseFriends.vue')
+			},
+			{
 				path: 'interactions',
-				name: "InteractedPosts",
+				name: 'InteractedPosts',
 				component: () => import('../views/user/post/InteractedPosts.vue')
 			},
 			{
@@ -121,6 +158,10 @@ const routes = [
 					import('../views/user/post-collection/MyCollections.vue')
 			},
 			{
+				path: 'influencer',
+				component: () => import('../views/user/influencer/PostApprovalView')
+			},
+			{
 				path: 'settings',
 				component: () => import('../views/user/profile/UserProfile'),
 				children: [
@@ -145,6 +186,17 @@ const routes = [
 						name: 'Verification',
 						component: () =>
 							import('../components/user/profile/VerificationSection')
+					},
+					{
+						path: 'agent',
+						name: 'AgentRegistration',
+						component: () =>
+							import('../components/user/profile/AgentRegistration')
+					},
+					{
+						path: 'apiKeyRequest',
+						name: 'ApiKeyRequest',
+						component: () => import('../components/user/profile/ApiKeyRequest')
 					}
 				]
 			},
@@ -193,7 +245,81 @@ const routes = [
 			{
 				path: 'verification',
 				name: 'AdminVerification',
-				component: () => import('../views/admin/verification/AdminVerificationView')
+				component: () =>
+					import('../views/admin/verification/AdminVerificationView')
+			},
+			{
+				path: 'agent-registration',
+				name: 'AgentRegistration',
+				component: () =>
+					import('../views/admin/agent-registration/AgentRegistration.vue'),
+				children: [
+					{
+						path: '',
+						name: 'RequestManagement',
+						component: () =>
+							import(
+								'../components/admin/agent-registration/RequestManagement.vue'
+							)
+					},
+					{
+						path: 'user-promotion',
+						name: 'UserPromotion',
+						component: () =>
+							import('../components/admin/agent-registration/UserPromotion.vue')
+					}
+				]
+			},
+			{
+				path: 'reports',
+				name: 'ReportsView',
+				component: () => import('../views/admin/reports/ReportsView')
+			},
+			{
+				path: 'reported-post/:postId',
+				name: 'ReportedPost',
+				component: () => import('../views/admin/reports/ReportedPost')
+			},
+			{
+				path: 'reported-story/:storyId',
+				name: 'ReportedStory',
+				component: () => import('../views/admin/reports/ReportedStory')
+			}
+		]
+	},
+	{
+		path: '/agent',
+		// meta: { agent: true },
+		component: () => import('../views/agent/AgentHome'),
+		children: [
+			{
+				path: '',
+				redirect: 'campaigns'
+			},
+			{
+				path: 'new-campaign',
+				name: 'NewCampaign',
+				component: () => import('../views/agent/CampaignForm')
+			},
+			{
+				path: 'influencer',
+				name: 'NewInfluencerPost',
+				component: () => import('../views/agent/NewInfluencerPost')
+			},
+			{
+				path: 'campaigns',
+				name: 'Campaigns',
+				component: () => import('../views/agent/CampaignListView')
+			},
+			{
+				path: 'campaigns/:id',
+				name: 'CampaignStats',
+				component: () => import('../components/agent/CampaignStats')
+			},
+			{
+				path: 'campaigns/:id/edit',
+				name: 'CampaignStats',
+				component: () => import('../views/agent/CampaignForm')
 			}
 		]
 	},
@@ -220,13 +346,10 @@ const router = new VueRouter({
 	routes
 });
 
-
-import { rolePromise } from '../main'
-import store from '../store/index'
-
+import { rolePromise } from '../main';
+import store from '../store/index';
 
 router.beforeEach(async (to, from, next) => {
-	let logged = isLogged();
 	await rolePromise;
 	const isUser = store.getters.roles.includes('ROLE_USER');
 	const isAdmin = store.getters.roles.includes('ROLE_ADMIN');
@@ -236,7 +359,8 @@ router.beforeEach(async (to, from, next) => {
 		else if (isAdmin) next({ name: 'AdminVerification' });
 		else next({ name: 'LoginForm' });
 	} else if (to.matched.some(record => record.meta.unauthorized)) {
-		if (logged) next({ name: 'Feed' });
+		if (isUser) next({ name: 'Feed' });
+		else if (isAdmin) next({ name: 'AdminVerification' });
 		else next();
 	} else if (to.matched.some(record => record.meta.admin)) {
 		if (!isAdmin) next({ name: 'Feed' });

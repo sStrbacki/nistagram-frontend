@@ -1,4 +1,6 @@
 import {
+	createAgentRegistrationRequest,
+	banUser,
 	getNotificationPreferences,
 	getPrivacyData,
 	getProfile,
@@ -6,9 +8,10 @@ import {
 	updatePrivacyData,
 	updateProfile
 } from '../../services/userService';
-import { notifyError } from '../../services/notificationService';
+import { notifyError, notifySuccess } from '../../services/notificationService';
 import { getFollowerRequests } from '../../services/graphService';
 import { getRoles } from '../../services/authService';
+import {isAgentRequestRejected} from "@/services/userService";
 
 export default {
 	state: {
@@ -41,9 +44,16 @@ export default {
 			messageNotificationEnabled: ''
 		},
 		followerRequests: [],
-		roles: []
+		roles: [],
+		agentRegistration: {
+			website: '',
+			isAgentRequestRejected: false
+		}
 	},
 	mutations: {
+		setAgentRequestRejected: (state, value) => {
+			state.agentRegistration.isAgentRequestRejected = value;
+		},
 		setFullName: (state, fullName) => {
 			state.personalData.fullName = fullName;
 		},
@@ -133,6 +143,12 @@ export default {
 		},
 		setRoles: (state, roles) => {
 			state.roles = roles;
+		},
+		clearRoles: state => {
+			state.roles = [];
+		},
+		setAgentRegistrationWebsiteUrl: (state, url) => {
+			state.agentRegistration.website = url;
 		}
 	},
 	actions: {
@@ -143,6 +159,11 @@ export default {
 			} else {
 				commit('setPersonalData', response.data);
 			}
+		},
+		banUser: async (context, username) => {
+			const response = await banUser(username);
+			if (response.status >= 400) notifyError(response.data);
+			else notifySuccess(`User ${username} succesfully banned`);
 		},
 		updateProfile: async context => {
 			const response = await updateProfile(context.state.personalData);
@@ -203,9 +224,32 @@ export default {
 			} else {
 				context.commit('setRoles', response.data.roles);
 			}
+		},
+		requestAgentRegistration: async context => {
+			const response = await createAgentRegistrationRequest(
+				context.state.agentRegistration
+			);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				notifySuccess('Request successfully registered.');
+			}
+		},
+		checkIsRequestRejected: async context => {
+			isAgentRequestRejected()
+			.then(res => {
+				context.commit('setAgentRequestRejected', res.data);
+			})
+			.catch(err => console.error(err.response.data));
+		},
+		clearRoles: async context => {
+			context.commit('clearRoles');
 		}
 	},
 	getters: {
+		agentRequestRejected: state => {
+			return state.agentRegistration.isAgentRequestRejected;
+		},
 		username: state => {
 			return state.personalData.username;
 		},
@@ -278,6 +322,9 @@ export default {
 		},
 		roles: state => {
 			return state.roles;
+		},
+		agentRegistrationWebsiteUrl: state => {
+			return state.agentRegistration.website;
 		}
 	}
 };

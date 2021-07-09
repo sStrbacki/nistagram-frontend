@@ -7,13 +7,13 @@
 				</v-icon>
 			</v-text-field>
 		</v-row>
-		<v-row>
+		<v-row v-if="!selected && users.length !== 0">
 			<v-col>
-				<v-list flat>
+				<v-list flat style="max-height: 200px" class="overflow-y-auto ">
 					<v-list-item
 						v-for="user in users"
 						:key="user.username"
-						@click="openProfile(user.username)"
+						@click="selectProfile(user.username)"
 					>
 						<v-list-item-avatar>
 							<v-icon dark>
@@ -39,9 +39,14 @@
 <script>
 export default {
 	name: 'UserSearch',
-	data: () => ({
-		location: ''
-	}),
+	data() {
+		return {
+			selected: false
+		};
+	},
+	props: {
+		mode: String
+	},
 	computed: {
 		searchQuery: {
 			get() {
@@ -60,18 +65,33 @@ export default {
 			}
 		}
 	},
+	watch: {
+		users() {
+			if (this.mode === 'recepientSearch') {
+				let loggedUserUsername = this.$store.getters.username;
+				let foundUsernames = this.$store.getters.foundUsers.map(user => {
+					return user.username;
+				});
+
+				if (foundUsernames.includes(loggedUserUsername))
+					this.users = this.users.filter(user => {
+						return user.username !== loggedUserUsername;
+					});
+			}
+		}
+	},
 	methods: {
 		fetchUsers() {
 			if (this.searchQuery !== '') this.$store.dispatch('findUsersByUsername');
 			else this.users = [];
+			this.selected = false;
 		},
-		openProfile(username) {
-			this.$router.push({ name: 'Profile', params: { username: username } });
-		}
-	},
-	watch: {
-		users() {
-			console.log(this.users);
+		selectProfile(username) {
+			if (this.mode === 'recepientSearch') {
+				this.selected = true;
+				this.searchQuery = username;
+			} else
+				this.$router.push({ name: 'Profile', params: { username: username } });
 		}
 	}
 };

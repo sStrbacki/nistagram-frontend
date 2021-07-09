@@ -2,7 +2,7 @@
 import {
 	fetchPostFeed,
 	fetchStoryFeed,
-	fetchCloseFriendStoryFeed
+	fetchCloseFriendStoryFeed, fetchStoryCampaignFeed
 } from '../../services/feedService';
 
 import {
@@ -15,6 +15,7 @@ import {
 import { getPostById, getStoryById } from '../../services/contentService';
 
 import { notifyError } from '../../services/notificationService';
+import { getCampaignById } from '../../services/campaignService';
 
 export default {
 	state: {
@@ -22,7 +23,8 @@ export default {
 		postsLoaded: false,
 		storyGroups: [],
 		closeFriendStoryGroups: [],
-		personalStories: []
+		personalStories: [],
+		storyCampaigns: []
 	},
 	mutations: {
 		setPosts: (state, posts) => {
@@ -47,6 +49,9 @@ export default {
 		},
 		setPersonalStories: (state, personalStories) => {
 			state.personalStories = personalStories;
+		},
+		setStoryCampaigns: (state, campaigns) => {
+			state.storyCampaigns = campaigns;
 		}
 	},
 	actions: {
@@ -61,7 +66,12 @@ export default {
 		},
 		fetchPostData: async state => {
 			for (const post of state.getters.posts) {
-				let response = await getPostById(post.contentId);
+				let response;
+				if (!post.ad) {
+					response = await getPostById(post.contentId);
+				} else {
+					response = await getCampaignById(post.contentId);
+				}
 				if (response.status >= 400) notifyError(response.data);
 				else {
 					state.commit('assignPostData', {
@@ -84,11 +94,28 @@ export default {
 		fetchStoryData: async state => {
 			state.getters.storyGroups.forEach(async storyGroup => {
 				storyGroup.entries.forEach(async entry => {
-					let response = await getStoryById(entry.contentId);
+					const response = await getStoryById(entry.contentId);
 					if (response.status >= 400) notifyError(response.data);
 					else entry.storyData = response.data;
 				});
 			});
+		},
+		fetchStoryCampaigns: async state => {
+			const response = await fetchStoryCampaignFeed();
+			if (response.status >= 400) {
+				notifyError(response.data);
+				return;
+			}
+			state.commit('setStoryCampaigns', response.data);
+			await state.dispatch('fetchStoryCampaignData');
+		},
+		fetchStoryCampaignData: async state => {
+			let response;
+			for await (const campaign of state.getters.storyCampaigns) {
+				response = await getCampaignById(campaign.contentId);
+				if (response.status >= 400) notifyError(response.data);
+				else campaign.storyData = response.data;
+			}
 		},
 		fetchCloseFriendStories: async state => {
 			let response = await fetchCloseFriendStoryFeed();
@@ -146,6 +173,9 @@ export default {
 		},
 		personalStories: state => {
 			return state.personalStories;
+		},
+		storyCampaigns: state => {
+			return state.storyCampaigns;
 		}
 	}
 };

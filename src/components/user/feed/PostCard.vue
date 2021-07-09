@@ -29,7 +29,11 @@
 							mdi-account-circle
 						</v-icon>
 					</v-col>
-					<v-col class="subtitle-2 mt-2">
+					<v-col
+						class="subtitle-2 mt-2"
+						style="cursor: pointer;"
+						@click="rerouteToProfile(post.author)"
+					>
 						<p>{{ post.author }}</p>
 					</v-col>
 					<v-col cols="2">
@@ -48,6 +52,16 @@
 
 									<v-list-item-content>
 										<v-list-item-title>Share as a story</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+
+								<v-list-item class="list-item" @click="openChatReshareDialog()">
+									<v-list-item-icon>
+										<v-icon>mdi-chat</v-icon>
+									</v-list-item-icon>
+
+									<v-list-item-content>
+										<v-list-item-title>Send as a message</v-list-item-title>
 									</v-list-item-content>
 								</v-list-item>
 
@@ -99,9 +113,16 @@
 			<v-card-subtitle>
 				<v-row>
 					<v-col cols="1">
-            <span style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;">
-              {{ post.caption }}
-            </span>
+						<v-icon dark>
+							mdi-closed-caption
+						</v-icon>
+					</v-col>
+					<v-col cols="1">
+						<span
+							style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px; display: inline-block;"
+						>
+							{{ post.caption }}
+						</span>
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col cols="2">
@@ -212,6 +233,23 @@ export default {
 				this.$store.commit('setReshareDialog', value);
 			}
 		},
+		chatReshareDialog: {
+			get() {
+				return this.$store.getters.chatReshareDialog;
+			},
+			set(value) {
+				this.$store.commit('setChatReshareDialog', value);
+			}
+		},
+		chatResharePost: {
+			get() {
+				return this.$store.getters.chatResharePost;
+			},
+			set(value) {
+				this.$store.commit('setChatResharePost', value);
+			}
+		},
+
 		postReportDialog: {
 			get() {
 				return this.$store.getters.postReportDialog;
@@ -240,6 +278,10 @@ export default {
 		openCollectionsDialog() {
 			this.selectedPostId = this.post.id;
 			this.collectionDialog = !this.collectionDialog;
+		},
+		openChatReshareDialog() {
+			this.chatResharePost = this.post;
+			this.chatReshareDialog = !this.chatReshareDialog;
 		},
 		openReshareDialog() {
 			this.resharePost = this.post;
@@ -323,6 +365,9 @@ export default {
 					return interaction.author;
 				})
 				.includes(this.$store.getters.username);
+		},
+		rerouteToProfile(author) {
+			this.$router.push({ name: 'Profile', params: { username: author } });
 		}
 	},
 	mounted() {

@@ -68,7 +68,7 @@
 
 <script>
 export default {
-	name: 'ProfileHeader.vue',
+	name: 'ProfileHeader',
 	methods: {
 		unfollow() {
 			this.$store.dispatch('unfollowViewingProfile');
@@ -94,6 +94,9 @@ export default {
 			get() {
 				return this.$route.params.username;
 			}
+		},
+		profilePrivate() {
+			return this.$store.getters.viewingProfilePrivate;
 		},
 		currentUser: {
 			get() {

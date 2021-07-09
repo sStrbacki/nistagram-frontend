@@ -13,8 +13,18 @@ export default {
 		setNotifications: (state, value) => {
 			state.notifications = value;
 		},
-		addNotification: (state, notification) => {
-			state.notifications = [...state.notifications, notification];
+		addNotification: (state, notificationDto) => {
+			if (notificationDto.notification.target !== notificationDto.loggedUser)
+				return;
+			let notificationIds = state.notifications.map(notification => {
+				return notification.id;
+			});
+			if (!notificationIds.includes(notificationDto.notification.id)) {
+				state.notifications = [
+					...state.notifications,
+					notificationDto.notification
+				];
+			}
 		},
 		removeNotification: (state, notificationId) => {
 			state.notifications = state.notifications.filter(notification => {

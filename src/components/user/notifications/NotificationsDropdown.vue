@@ -75,6 +75,10 @@ export default {
 					return 'mdi-account-check';
 				case 'NEW_FOLLOWER':
 					return 'mdi-account-plus';
+				case 'NEW_MESSAGE':
+					return 'mdi-chat';
+				case 'NEW_MESSAGE_REQUEST':
+					return 'mdi-chat-plus';
 				default:
 					return 'mdi-help-circle';
 			}
@@ -85,6 +89,9 @@ export default {
 		reroute(notification) {
 			if (
 				notification.notificationType == 'NEW_LIKE' ||
+				notification.notificationType == 'NEW_DISLIKE' ||
+				notification.notificationType == 'NEW_SHARE' ||
+				notification.notificationType == 'USER_TAGGED' ||
 				notification.notificationType == 'NEW_COMMENT' ||
 				notification.notificationType == 'USER_TAGGED'
 			)
@@ -92,7 +99,20 @@ export default {
 					name: 'PostPreview',
 					params: { postId: notification.contentId }
 				});
+			else if (
+				notification.notificationType == 'NEW_FOLLOW_REQUEST' ||
+				notification.notificationType == 'FOLLOW_REQUEST_ACCEPTED' ||
+				notification.notificationType == 'NEW_FOLLOWER'
+			)
+				this.$router.push({
+					name: 'Profile',
+					params: { username: notification.subject }
+				});
+			else this.$router.push({ name: 'Chat' });
 		}
+	},
+	mounted() {
+		this.$store.dispatch('listenToNotifications');
 	}
 };
 </script>

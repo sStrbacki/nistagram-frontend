@@ -17,12 +17,21 @@
 			<v-btn v-if="isAdmin" icon to="/admin">
 				<v-icon>mdi-account-key</v-icon>
 			</v-btn>
-      <v-btn icon to="/home/interactions">
-        <v-icon>mdi-thumbs-up-down</v-icon>
-      </v-btn>
-      <v-btn icon to="/home/followers">
-        <v-icon>mdi-account-multiple</v-icon>
-      </v-btn>
+			<v-btn v-if="isAgent" icon to="/agent">
+				<v-icon>mdi-face-agent</v-icon>
+			</v-btn>
+			<v-btn icon to="/home/chat">
+				<v-icon>mdi-chat</v-icon>
+			</v-btn>
+			<v-btn icon to="/home/recommend">
+				<v-icon>mdi-account-search</v-icon>
+			</v-btn>
+			<v-btn icon to="/home/interactions">
+				<v-icon>mdi-thumbs-up-down</v-icon>
+			</v-btn>
+			<v-btn icon to="/home/followers">
+				<v-icon>mdi-account-multiple</v-icon>
+			</v-btn>
 			<v-btn icon :to="'/' + username">
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
@@ -53,6 +62,13 @@
 							<v-icon>mdi-cog</v-icon>
 						</v-list-item-icon>
 						<v-list-item-title>Profile settings</v-list-item-title>
+					</v-list-item>
+
+					<v-list-item to="/home/close-friends">
+						<v-list-item-icon>
+							<v-icon>mdi-account-multiple</v-icon>
+						</v-list-item-icon>
+						<v-list-item-title>Manage close friends</v-list-item-title>
 					</v-list-item>
 
 					<v-list-item to="/home/my-collections">
@@ -87,9 +103,10 @@ export default {
 		};
 	},
 	methods: {
-		signOut() {
+		async signOut() {
 			logout();
-			this.$router.push('/');
+			await this.$store.dispatch('clearRoles');
+			this.$router.push({ name: 'LoginForm' });
 		}
 	},
 	computed: {
@@ -98,6 +115,9 @@ export default {
 		},
 		isAdmin() {
 			return this.$store.getters.roles.includes('ROLE_ADMIN');
+		},
+		isAgent() {
+			return this.$store.getters.roles.includes('ROLE_AGENT');
 		}
 	}
 };

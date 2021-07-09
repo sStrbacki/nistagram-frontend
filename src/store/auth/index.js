@@ -5,9 +5,9 @@ import {
 	requestPasswordReset,
 	resetPassword,
 	activate
-} from "@/services/authService";
-import router from "@/router";
-import {notifyError, notifySuccess} from "@/services/notificationService";
+} from '@/services/authService';
+import router from '@/router';
+import { notifyError, notifySuccess } from '@/services/notificationService';
 
 export default {
 	state: {
@@ -22,7 +22,7 @@ export default {
 		},
 		login: {
 			username: '',
-			password: '',
+			password: ''
 		},
 		requestPasswordReset: {
 			email: ''
@@ -37,17 +37,12 @@ export default {
 	},
 	mutations: {
 		setAccountActivationUUID: (state, uuid) =>
-			state.accountActivation.uuid = uuid
-		,
+			(state.accountActivation.uuid = uuid),
 		setPasswordResetPassword: (state, password) =>
-			state.passwordReset.password = password
-		,
-		setPasswordResetUUID: (state, uuid) =>
-			state.passwordReset.uuid = uuid
-		,
+			(state.passwordReset.password = password),
+		setPasswordResetUUID: (state, uuid) => (state.passwordReset.uuid = uuid),
 		setRequestPasswordResetEmail: (state, email) =>
-			state.requestPasswordReset.email = email
-		,
+			(state.requestPasswordReset.email = email),
 		setRegistrationFullName: (state, fullName) => {
 			state.registration.fullName = fullName;
 		},
@@ -77,9 +72,8 @@ export default {
 		}
 	},
 	actions: {
-		setRequestPasswordResetEmail: ({commit}, email) =>
-			commit('setRequestPasswordResetEmail', email)
-		,
+		setRequestPasswordResetEmail: ({ commit }, email) =>
+			commit('setRequestPasswordResetEmail', email),
 		setRegistrationFullName: ({ commit }, fullName) => {
 			commit('setRegistrationFullName', fullName);
 		},
@@ -104,7 +98,7 @@ export default {
 		setLoginUsername: ({ commit }, username) => {
 			commit('setLoginUsername', username);
 		},
-		setLoginPassword: ({commit}, password) => {
+		setLoginPassword: ({ commit }, password) => {
 			commit('setLoginPassword', password);
 		},
 		register: async context => {
@@ -112,8 +106,7 @@ export default {
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
-				storeAuthResponse(response);
-				await router.push('/home');
+				await router.push({ name: 'LoginForm' });
 			}
 		},
 		login: async context => {
@@ -126,43 +119,45 @@ export default {
 				await router.push('/home');
 			}
 		},
-		requestPasswordReset: async (context) => {
+		requestPasswordReset: async context => {
 			requestPasswordReset(context.getters.requestPasswordResetEmail)
 				.then(() =>
-					notifySuccess("Reset for " + context.getters.requestPasswordResetEmail + " requested.")
+					notifySuccess(
+						'Reset for ' +
+							context.getters.requestPasswordResetEmail +
+							' requested.'
+					)
 				)
-				.catch(err => notifyError(err.response.data))
+				.catch(err => notifyError(err.response.data));
 		},
-		resetPassword: async(context) => {
+		resetPassword: async context => {
 			resetPassword({
 				password: context.getters.passwordResetPassword,
 				uuid: context.getters.passwordResetUUID
 			})
-			.then(() =>
-				notifySuccess("Password successfully changed!")
-			)
-			.catch(err => notifyError(err.response.data))
+				.then(() => notifySuccess('Password successfully changed!'))
+				.catch(err => notifyError(err.response.data));
 		},
-		activateAccount: async(context) => {
+		activateAccount: async context => {
 			activate(context.getters.accountActivationUUID)
-				.then(() => notifySuccess("Account activated. You may now log in."))
+				.then(() => notifySuccess('Account activated. You may now log in.'))
 				.catch(err => notifyError(err.response.data));
 		}
 	},
 	getters: {
-		accountActivationUUID: (state) => {
+		accountActivationUUID: state => {
 			return state.accountActivation.uuid;
 		},
-		passwordResetPassword: (state) => {
+		passwordResetPassword: state => {
 			return state.passwordReset.password;
 		},
-		passwordResetUUID: (state) => {
+		passwordResetUUID: state => {
 			return state.passwordReset.uuid;
 		},
-		requestPasswordResetEmail: (state) => {
-			return state.requestPasswordReset.email
+		requestPasswordResetEmail: state => {
+			return state.requestPasswordReset.email;
 		},
-		registrationFullName: (state) => {
+		registrationFullName: state => {
 			return state.registration.fullName;
 		},
 		registrationDateOfBirth: state => {

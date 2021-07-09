@@ -46,7 +46,7 @@ import UserAppBar from '@/components/user/bars/UserAppBar';
 import UnauthAppBar from '@/components/unauth/UnauthAppBar';
 
 export default {
-	name: 'ProfileView.vue',
+	name: 'ProfileView',
 	components: { UnauthAppBar, UserAppBar, ProfileHighlightsBar, ProfileHeader },
 	computed: {
 		username() {

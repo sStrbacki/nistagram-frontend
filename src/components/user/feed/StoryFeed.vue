@@ -92,8 +92,31 @@
 				</v-card>
 			</v-slide-item>
 		</v-slide-group>
+		<v-slide-group class="pa-4" show-arrows>
+			<v-slide-item
+				v-for="(storyCampaign, index) in storyCampaigns"
+				:key="index"
+				v-slot="{ toggle }"
+			>
+				<v-card
+					shaped
+					color="grey darken-1"
+					class="ma-4"
+					height="150"
+					width="100"
+					outlined
+					@click="toggle && selectStoryCampaign(storyCampaign)"
+					v-if="storiesLoaded"
+				>
+					<v-img :src="storyCampaign.storyData.advertisements[0].mediaUrl"></v-img>
+					<v-row align="center" justify="center" class="mt-4">
+						<v-chip small>ad</v-chip>
+					</v-row>
+				</v-card>
+			</v-slide-item>
+		</v-slide-group>
 		<v-dialog v-model="storyDialog" width="1000" v-if="selectedStories">
-			<story-view :stories="selectedStories" :feed="true"></story-view>
+			<story-view :stories="selectedStories" :ad="adSelected" :feed="true"></story-view>
 		</v-dialog>
 	</v-row>
 	<v-row align="center" justify="center" class="content-wrap" v-else>
@@ -111,15 +134,23 @@ export default {
 		return {
 			selectedStories: null,
 			storyDialog: false,
-			storiesLoaded: false
+			storiesLoaded: false,
+			adSelected: false
 		};
 	},
 	methods: {
 		selectStoryGroup(storyGroup) {
+			this.adSelected = false;
 			this.selectedStories = storyGroup.entries.map(entry => entry.storyData);
 			this.storyDialog = true;
 		},
+		selectStoryCampaign(storyCampaign) {
+			this.adSelected = true;
+			this.selectedStories = storyCampaign.storyData.advertisements;
+			this.storyDialog = true;
+		},
 		selectPersonalStories() {
+			this.adSelected = false;
 			if (!this.personalStories.length) {
 				this.$router.push('/home/publish/story');
 				return;
@@ -146,12 +177,18 @@ export default {
 			get() {
 				return this.$store.getters.closeFriendStoryGroups;
 			}
+		},
+		storyCampaigns: {
+			get() {
+				return this.$store.getters.storyCampaigns
+			}
 		}
 	},
 	async mounted() {
 		await this.$store.dispatch('fetchCloseFriendStories');
 		await this.$store.dispatch('fetchStories');
 		await this.$store.dispatch('fetchPersonalStories');
+		await this.$store.dispatch('fetchStoryCampaigns');
 		this.storiesLoaded = true;
 	}
 };
