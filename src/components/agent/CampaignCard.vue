@@ -10,7 +10,7 @@
 			<v-btn @click="edit(campaign.id)" icon color="warning">
 				<v-icon>mdi-pencil</v-icon>
 			</v-btn>
-			<v-btn icon color="primary">
+			<v-btn @click="remove($event, campaign.id)" icon color="primary">
 				<v-icon>mdi-delete</v-icon>
 			</v-btn>
 		</v-card-actions>
@@ -37,6 +37,10 @@ export default {
 		},
 		edit() {
 			this.$router.push('/agent/campaigns/' + this.campaign.id + '/edit');
+		},
+		remove(e, campaignId) {
+			e.stopPropagation();
+			this.$store.dispatch('deletePersonalCampaign', campaignId);
 		}
 	}
 };

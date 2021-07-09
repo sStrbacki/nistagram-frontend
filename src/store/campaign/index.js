@@ -1,7 +1,7 @@
 import { notifyError, notifySuccess } from '../../services/notificationService';
 import {
 	createLongTermCampaign,
-	createOneTimeCampaign, getAdvertisementClickStats,
+	createOneTimeCampaign, deleteCampaign, getAdvertisementClickStats,
 	getCampaignById,
 	getCampaigns, registerClick, updateLongTermCampaign, updateOneTimeCampaign
 } from '../../services/campaignService';
@@ -97,6 +97,11 @@ export default {
 		},
 		setNewCampaignTargetedGroup: (state, targetedGroup) => {
 			state.newCampaign.targetedGroup = targetedGroup;
+		},
+		removePersonalCampaign: (state, campaignId) => {
+			const index = state.personalCampaigns
+				.findIndex(campaign => campaign.id === campaignId);
+			state.personalCampaigns.splice(index, 1);
 		}
 	},
 	getters: {
@@ -178,6 +183,15 @@ export default {
 				notifyError(response.data);
 			} else {
 				notifySuccess("Campaign updated successfully!");
+			}
+		},
+		deletePersonalCampaign: async (context, campaignId) => {
+			const response = await deleteCampaign(campaignId);
+			if (response.status >= 400) {
+				notifyError(response.data);
+			} else {
+				context.commit('removePersonalCampaign', campaignId);
+				notifySuccess("Campaign deleted successfully!");
 			}
 		},
 		fetchPersonalCampaigns: async context => {

@@ -65,6 +65,14 @@ async function registerClick(advertisementId) {
 	}
 }
 
+async function deleteCampaign(campaignId) {
+	try {
+		return axios.delete(api.campaign.base + '/' + campaignId);
+	} catch (err) {
+		return err.response;
+	}
+}
+
 export {
 	getCampaignById,
 	createLongTermCampaign,
@@ -73,5 +81,6 @@ export {
 	getAdvertisementClickStats,
 	registerClick,
 	updateLongTermCampaign,
-	updateOneTimeCampaign
+	updateOneTimeCampaign,
+	deleteCampaign
 }
