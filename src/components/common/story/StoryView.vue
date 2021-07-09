@@ -112,8 +112,8 @@
 					</v-card-actions>
 				</div>
 				<v-card-actions v-else>
-					<a class="v-btn mx-auto mt-10" :href="story.websiteUrl"
-						>Visit advertiser site</a
+					<v-btn class="mx-auto mt-10" @click="visit($event, story)"
+						>Visit advertiser site</v-btn
 					>
 				</v-card-actions>
 			</v-card>
@@ -192,6 +192,11 @@ export default {
 	methods: {
 		isVideo(url) {
 			return url.includes('videos');
+		},
+		async visit(e, story) {
+			e.stopPropagation();
+			await this.$store.dispatch("registerClick", story.id);
+			window.location.href = story.websiteUrl;
 		},
 		openStoryReportDialog(story) {
 			this.storyReportDialog = !this.storyReportDialog;
