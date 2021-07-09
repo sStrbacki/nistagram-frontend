@@ -95,6 +95,9 @@ export default {
 				return this.$route.params.username;
 			}
 		},
+		profilePrivate() {
+			return this.$store.getters.viewingProfilePrivate;
+		},
 		currentUser: {
 			get() {
 				return this.$store.getters.username;

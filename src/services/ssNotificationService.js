@@ -27,7 +27,10 @@ function listenToNotifications(state) {
 		stompClient.subscribe(
 			`/user/${state.rootGetters.username}/queue/notify`,
 			notification => {
-				state.commit('addNotification', JSON.parse(notification.body));
+				state.commit('addNotification', {
+					notification: JSON.parse(notification.body),
+					loggedUser: state.rootGetters.username
+				});
 			}
 		);
 	});

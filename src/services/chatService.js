@@ -98,6 +98,13 @@ function listenToNewMessages(state, session) {
 		});
 }
 
+function stopListeningToMessages() {
+	let socket = new SockJS(api.notification.ws);
+	let stompClient = Stomp.over(socket);
+
+	stompClient.disconnect();
+}
+
 export {
 	pushTextMessage,
 	pushTemporaryMessage,
@@ -106,6 +113,7 @@ export {
 	fetchSessions,
 	getMessagesBySessionId,
 	listenToNewMessages,
+	stopListeningToMessages,
 	acceptSession,
 	declineSession,
 	deleteSession
