@@ -13,7 +13,8 @@ export default {
 		setNotifications: (state, value) => {
 			state.notifications = value;
 		},
-		addNotification: (state, notification) => {
+		addNotification: (state, notification, loggedUserUsername) => {
+			if (notification.target !== loggedUserUsername) return;
 			let notificationIds = state.notifications.map(notification => {
 				return notification.id;
 			});
