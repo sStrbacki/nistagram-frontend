@@ -104,6 +104,12 @@ const routes = [
 				]
 			},
 			{
+				path: 'recommend',
+				name: 'FollowRecommendations',
+				component: () =>
+					import('../views/user/recommendation/FollowRecommendations.vue')
+			},
+			{
 				path: 'close-friends',
 				name: 'CloseFriends',
 				component: () => import('../views/user/close-friends/CloseFriends.vue')
@@ -190,8 +196,7 @@ const routes = [
 					{
 						path: 'apiKeyRequest',
 						name: 'ApiKeyRequest',
-						component: () =>
-							import('../components/user/profile/ApiKeyRequest')
+						component: () => import('../components/user/profile/ApiKeyRequest')
 					}
 				]
 			},
