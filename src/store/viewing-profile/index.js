@@ -183,7 +183,9 @@ export default {
 			if (response.status >= 400) {
 				notifyError(response.data);
 			} else {
-				context.commit('setPendingViewingProfile', true);
+				if (!context.getters.viewingProfilePrivate)
+					context.commit('setFollowingViewingProfile', true);
+				else context.commit('setPendingViewingProfile', true);
 			}
 		},
 		unfollowViewingProfile: async context => {
